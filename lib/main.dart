@@ -1,13 +1,18 @@
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
-
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'signin.dart';
 import 'signup.dart';
 import 'welcome.dart';
 
-void main() => runApp(MyApp());
+
+Future<void> main() async {
+  //Allowing precaching method to be called before runApp()
+  WidgetsFlutterBinding.ensureInitialized();
+  //Precaching svg to reduce delay
+  await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoder, 'assets/images/illust.svg'), null);
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -19,7 +24,7 @@ class _MyAppState extends State<MyApp> {
 
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Color(0xFF6892FF),),
+      theme: ThemeData(primaryColor: Color(0xFF6892FF),scaffoldBackgroundColor: Colors.white,),
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),
       routes: <String, WidgetBuilder>{
@@ -30,4 +35,5 @@ class _MyAppState extends State<MyApp> {
       },
     );
   }
+
 }

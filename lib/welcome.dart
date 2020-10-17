@@ -59,9 +59,10 @@ class WelcomePage extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(left: 24,right: 24, bottom: 24),
-                child: SvgPicture.asset(
+                child:
+                SvgPicture.asset(
                     'assets/images/illust.svg',
-                    semanticsLabel: 'Acme Logo'
+
                 )
 
               ),
@@ -108,4 +109,5 @@ class WelcomePage extends StatelessWidget {
       ),
     );
   }
+
 }

@@ -1,4 +1,5 @@
 import 'package:Invicta/home_screen.dart';
+import 'package:Invicta/navigation_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -216,7 +217,7 @@ class _SignInState extends State<SignIn> {
                       onTap: () {
                         // Navigator.pushNamed(context, '/navigation_screen');
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => HomeScreen()));
+                            MaterialPageRoute(builder: (_) => NavigationScreen()));
                       },
                       child: Container(
                         height: 50,
