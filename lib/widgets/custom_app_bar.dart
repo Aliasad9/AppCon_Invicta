@@ -1,3 +1,4 @@
+import 'package:Invicta/profile_screen.dart';
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:flutter/material.dart';
 
@@ -40,11 +41,20 @@ class CustomAppBar extends StatelessWidget {
                 ],
               ),
             ),
-            ProfileImage(profileImgUrl: profileImgUrl,imgDiameter: 40.0,borderDiameter: 48.0,)
+            InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => ProfileScreen()));
+              },
+              child: ProfileImage(
+                profileImgUrl: profileImgUrl,
+                imgDiameter: 40.0,
+                borderDiameter: 48.0,
+              ),
+            )
           ],
         ),
       ),
     );
   }
 }
-

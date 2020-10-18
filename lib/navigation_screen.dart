@@ -21,13 +21,18 @@ class _NavigationScreenState extends State<NavigationScreen> {
       child: Scaffold(
         body: Stack(
           children: [
+
+
             IndexedStack(
               index: _currentIndex,
               children: navigationPages,
             ),
             _currentIndex != 2
                 ? CustomAppBar('assets/images/profile.jpg')
-                : Container(height: 0,width: 0,),
+                : Container(
+                    height: 0,
+                    width: 0,
+                  ),
           ],
         ),
         extendBody: true,

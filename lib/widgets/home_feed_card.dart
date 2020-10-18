@@ -9,9 +9,9 @@ class HomeFeedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0, left: 16, right: 16),
+      padding: const EdgeInsets.only(bottom: 32.0, left: 16, right: 16),
       child: Container(
-        height: 190,
+        height: 224,
         child: Column(
           children: [
             Column(
@@ -65,8 +65,8 @@ class HomeFeedCard extends StatelessWidget {
             ),
             Container(
               width: double.infinity,
-              height: 125,
-              margin: EdgeInsets.symmetric(vertical: 8),
+              height: 138,
+              margin: EdgeInsets.symmetric(vertical: 22),
               decoration: BoxDecoration(
                   color: Colors.deepPurple.withOpacity(0.32),
                   border: Border.all(color: Colors.deepPurple),
@@ -98,7 +98,7 @@ class HomeFeedCard extends StatelessWidget {
                           width: 200,
                           child: Text(
                             'Collaboration with peers has never been more fun. Fostering a culture of incread productivity & employee satisfaction.',
-                            maxLines: 3,
+                            maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: 'OpenSans',

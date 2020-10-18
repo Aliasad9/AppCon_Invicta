@@ -21,7 +21,7 @@ class LeaderboardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return position != '1st'
         ? Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16, top: 32),
+            padding: const EdgeInsets.only(left: 16.0, right: 16,bottom: 32),
             child: Container(
               height: 72,
               width: MediaQuery.of(context).size.width - 32,
