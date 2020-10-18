@@ -9,6 +9,7 @@ class ProfileScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
           child: Stack(
             children: [
               Container(
