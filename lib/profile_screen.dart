@@ -1,11 +1,30 @@
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  var initialFriendlinessWidth = 0.05;
+  var initialTeamworkWidth = 0.05;
+  var initialDedicationWidth = 0.05;
+  var initialHardworkWidth = 0.05;
+  var initialProductivityWidth = 0.05;
+
+  @override
+  void initState() {
+    super.initState();
+    //Method Called on build complete
+    WidgetsBinding.instance
+        .addPostFrameCallback((timeStamp) => updateWidth(context));
+  }
+
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -309,14 +328,16 @@ class ProfileScreen extends StatelessWidget {
                           ],
                         ),
                         getLabelName('Your Stats'),
-                        getStatsProgressBar('Friendliness', 0.85,
+                        getProgressBar('Friendliness', initialFriendlinessWidth,
                             Theme.of(context).primaryColor, context),
-                        getStatsProgressBar(
-                            'Hardwork', 0.67, Colors.yellow, context),
-                        getStatsProgressBar(
-                            'Dedication', 0.99, Colors.green, context),
-                        getStatsProgressBar('Team Work', 0.53,
+                        getProgressBar('Hardwork', initialHardworkWidth,
+                            Colors.green, context),
+                        getProgressBar('Dedication', initialDedicationWidth,
+                            Colors.yellow, context),
+                        getProgressBar('Team Work', initialTeamworkWidth,
                             Colors.deepPurpleAccent, context),
+                        getProgressBar('Productivity', initialProductivityWidth,
+                            Colors.red, context),
                         SizedBox(
                           height: 50,
                         )
@@ -332,7 +353,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget getStatsProgressBar(labelName, value, color, context) {
+  Widget getProgressBar(labelName, value, color, context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -341,23 +362,32 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             children: [
-              SizedBox(
-                height: 36,
-                width: MediaQuery.of(context).size.width - 100,
-                child: LiquidLinearProgressIndicator(
-                  value: value,
-                  valueColor: AlwaysStoppedAnimation(color),
-                  backgroundColor: Colors.grey.withOpacity(0.32),
-                  borderColor: Colors.white,
-                  borderWidth: 1,
-                  borderRadius: 20,
-                  direction: Axis.horizontal,
-                ),
+              Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width - 102,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.32),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  AnimatedContainer(
+                    height: 36,
+                    width: (MediaQuery.of(context).size.width - 100) * value,
+                    duration: Duration(seconds: 5),
+                    curve: Curves.easeInOut,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ],
               ),
-              getLabelName('${(value * 100).round()}%')
+              getLabelName('${(value * 100).round()}%'),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -388,5 +418,15 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  updateWidth(BuildContext context) {
+    setState(() {
+      initialFriendlinessWidth = 0.85;
+      initialTeamworkWidth = 0.65;
+      initialDedicationWidth = 0.35;
+      initialHardworkWidth = 0.95;
+      initialProductivityWidth = 0.15;
+    });
   }
 }
