@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Stack(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: screenWidth,
                 height: 400,
                 color: Theme.of(context).primaryColor,
                 child: Stack(
@@ -52,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 16, right: 16, top: 64),
                       child: Container(
-                        width: MediaQuery.of(context).size.width - 32,
+                        width: screenWidth - 32,
                         height: 308,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -190,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Padding(
                   padding: EdgeInsets.only(top: 400),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: screenWidth,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

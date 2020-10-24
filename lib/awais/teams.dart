@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'name_number.dart';
-import 'heading.dart';
+import '../widgets/name_number.dart';
+import '../widgets/heading.dart';
 
 class Teams extends StatefulWidget {
 

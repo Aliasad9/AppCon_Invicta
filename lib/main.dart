@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'signin.dart';
-import 'signup.dart';
-import 'welcome.dart';
+import 'screens/signin.dart';
+import 'screens/signup.dart';
+import 'screens/welcome.dart';
 
 
 Future<void> main() async {

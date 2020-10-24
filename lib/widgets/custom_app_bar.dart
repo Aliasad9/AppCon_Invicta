@@ -1,4 +1,4 @@
-import 'package:Invicta/profile_screen.dart';
+import 'package:Invicta/screens/profile_screen.dart';
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:flutter/material.dart';
 

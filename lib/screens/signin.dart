@@ -1,5 +1,4 @@
-import 'package:Invicta/home_screen.dart';
-import 'package:Invicta/navigation_screen.dart';
+import 'package:Invicta/screens/navigation_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

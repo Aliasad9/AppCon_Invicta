@@ -2,7 +2,7 @@ import 'package:Invicta/widgets/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'heading.dart';
+import '../widgets/heading.dart';
 
 class CreateCheerScreen extends StatefulWidget {
 

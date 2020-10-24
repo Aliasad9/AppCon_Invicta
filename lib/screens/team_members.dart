@@ -3,9 +3,6 @@ import 'package:Invicta/widgets/team_member_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'heading.dart';
-import 'name_number.dart';
-
 class TeamMembers extends StatefulWidget {
   @override
   _TeamMembersState createState() => _TeamMembersState();
