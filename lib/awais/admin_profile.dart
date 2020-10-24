@@ -1,6 +1,7 @@
+import 'package:Invicta/awais/activity.dart';
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:Invicta/widgets/teams_grid_admin.dart';
-
+import 'activity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -109,9 +110,7 @@ class _AdminProfileState extends State<AdminProfile>
                       // Container(
                       //   child: Text("yo boy"),
                       // ),
-                      Container(
-                        child: Text("yo boy"),
-                      )
+                      Activity(),
                     ],
                   ),
                 ),
