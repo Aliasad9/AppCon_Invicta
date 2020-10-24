@@ -1,3 +1,4 @@
+import 'package:Invicta/awais/admin_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -234,7 +235,7 @@ class _LoginState extends State<SignupPage> {
                         right: 0,
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, '/teams');
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=>AdminProfile()));
                           },
                           child: Container(
                             height: 50,
