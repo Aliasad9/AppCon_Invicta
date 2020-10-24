@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:uiauth/heading.dart';
+
+import 'heading.dart';
 import 'name_number.dart';
 
 class TeamMembers extends StatefulWidget {

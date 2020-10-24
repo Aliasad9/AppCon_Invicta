@@ -1,7 +1,9 @@
-import 'package:Invicta/create_cheer.dart';
+import 'package:Invicta/awais/create_cheer_screen.dart';
+
 import 'package:Invicta/home_screen.dart';
 import 'package:Invicta/leaderboard_screen.dart';
 import 'package:Invicta/team_screen.dart';
+
 import 'package:Invicta/widgets/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-
-
             IndexedStack(
               index: _currentIndex,
               children: navigationPages,

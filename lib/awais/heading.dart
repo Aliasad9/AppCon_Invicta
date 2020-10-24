@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:uiauth/teams.dart';
+
 class Heading extends StatelessWidget {
   final String text;
   Heading(this.text);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Text(text,
+    return Text(text,
+      textAlign: TextAlign.start,
       style: TextStyle(
-          fontSize: 45,
-          fontWeight: FontWeight.bold,
-          fontFamily: "Arvo-Bold",
-        ),
+        color: Colors.black,
+        fontFamily: 'Arvo',
+        fontWeight: FontWeight.w700,
+        fontSize: 45,
       ),
     );
   }
