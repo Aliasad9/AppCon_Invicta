@@ -1,4 +1,5 @@
 import 'package:Invicta/awais/create_cheer_screen.dart';
+import 'package:Invicta/awais/team_members.dart';
 
 import 'package:Invicta/home_screen.dart';
 import 'package:Invicta/leaderboard_screen.dart';
@@ -15,7 +16,7 @@ class NavigationScreen extends StatefulWidget {
 
 class _NavigationScreenState extends State<NavigationScreen> {
   int _currentIndex = 0;
-  var navigationPages = [HomeScreen(), TeamScreen(), LeaderboardScreen()];
+  var navigationPages = [HomeScreen(), TeamMembers(), LeaderboardScreen()];
 
   @override
   Widget build(BuildContext context) {

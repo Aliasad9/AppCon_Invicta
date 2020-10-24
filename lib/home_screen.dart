@@ -1,3 +1,4 @@
+import 'package:Invicta/widgets/custom_sliver_app_bar.dart';
 import 'package:Invicta/widgets/home_feed_card.dart';
 import 'package:flutter/material.dart';
 
@@ -14,31 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return CustomScrollView(
       physics: BouncingScrollPhysics(),
       slivers: [
-        SliverAppBar(
-          pinned: true,
-          backgroundColor: Colors.white,
-          expandedHeight: 308,
-          collapsedHeight: 80,
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-          primary: true,
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            background: Padding(
-              padding: const EdgeInsets.only(top: 80, left: 16.0),
-              child: Text(
-                'Good Morning, ${name}',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Arvo',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 45,
-                ),
-              ),
-            ),
-          ),
-        ),
+        CustomSliverAppBar(title: 'Good Day, John'),
         SliverList(
           delegate: new SliverChildListDelegate(_buildListItems(10)),
         )
@@ -52,3 +29,5 @@ class _HomeScreenState extends State<HomeScreen> {
     return listItems;
   }
 }
+
+
