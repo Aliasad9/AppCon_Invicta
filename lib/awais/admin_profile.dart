@@ -1,3 +1,6 @@
+import 'package:Invicta/widgets/profile_image.dart';
+import 'package:Invicta/widgets/teams_grid_admin.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,127 +27,98 @@ class _AdminProfileState extends State<AdminProfile>
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          title: Text(
-            'Invicta',
-            style: TextStyle(color: Colors.black),
-          ),
-          leading: Icon(
-            Icons.favorite,
-            color: Colors.red,
-          ),
-          actions: [
-            Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Colors.redAccent,
-              ),
-              child: RaisedButton(
-                onPressed: null,
-                child: Center(
-                  child: Text(
-                    "Logout",
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Stack(children: [
+            Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24.0),
+                    child: ProfileImage(
+                      borderDiameter: 84.0,
+                      imgDiameter: 78,
+                      profileImgUrl: 'assets/images/profile.jpg',
+                    ),
+                  ),
+                  Text(
+                    "Awais Qamar",
                     style: TextStyle(
-                      color: Colors.white,
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
                     ),
                   ),
-                ),
+                  Text(
+                    "System Admin",
+                    style: TextStyle(
+                      color: Colors.black45,
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+
+                ],
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top:250.0),
+              child: Column(children: <Widget>[
+                Container(
+
+
+                  child: TabBar(
+                    tabs: [
+                      Container(
+                        // width: 60.0,
+                        child: new Text(
+                          'Teams',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        padding: EdgeInsets.all(8),
+                      ),
+                      Container(
+                        // width: 60.0,
+                        child: new Text(
+                          'All Activity',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        padding: EdgeInsets.all(8),
+                      )
+                    ],
+                    unselectedLabelColor: const Color(0xffacb3bf),
+                    indicatorColor: Colors.blue,
+                    labelColor: Colors.black,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorWeight: 3.0,
+                    isScrollable: false,
+                    controller: _tabController,
+                  ),
+                ),
+                Container(
+                  height:screenWidth-320,
+
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      TeamGridAdmin(),
+                      // Container(
+                      //   child: Text("yo boy"),
+                      // ),
+                      Container(
+                        child: Text("yo boy"),
+                      )
+                    ],
+                  ),
+                ),
+              ]),
             )
-          ],
+          ]),
         ),
-        body: Column(children: [
-          Container(
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                padding: EdgeInsets.all(2),
-                margin: EdgeInsets.only(left: 50, right: 50, top: 40),
-                width: 80,
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 35,
-                  backgroundImage: ExactAssetImage('images/a.jpg'),
-                ),
-                decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: new Border.all(
-                    color: Colors.blueAccent,
-                    width: 4.0,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 6)),
-          Text(
-            "Awais Qamar",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            ),
-          ),
-          Text(
-            "System Admin",
-            style: TextStyle(color: Colors.black45),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 8)),
-          Container(
-            child: Column(children: <Widget>[
-              Container(
-                height: 60,
-                margin: EdgeInsets.only(left: 20),
-                child: TabBar(
-                  tabs: [
-                    Container(
-                      // width: 60.0,
-                      child: new Text(
-                        'Teams',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      padding: EdgeInsets.all(8),
-                    ),
-                    Container(
-                      // width: 60.0,
-                      child: new Text(
-                        'All Activity',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      padding: EdgeInsets.all(8),
-                    )
-                  ],
-                  unselectedLabelColor: const Color(0xffacb3bf),
-                  indicatorColor: Colors.blue,
-                  labelColor: Colors.black,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorWeight: 3.0,
-                  indicatorPadding: EdgeInsets.all(10),
-                  isScrollable: false,
-                  controller: _tabController,
-                ),
-              ),
-              Container(
-                height: 100,
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    Container(
-                      child: Text("hello"),
-                    ),
-                    Container(
-                      child: Text("yo boy"),
-                    )
-                  ],
-                ),
-              ),
-            ]),
-          )
-        ]),
       ),
     );
   }
