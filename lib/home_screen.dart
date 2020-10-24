@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return CustomScrollView(
       physics: BouncingScrollPhysics(),
       slivers: [
-        CustomSliverAppBar(title: 'Good Day, John'),
+        CustomSliverAppBar(title: 'Good Day, John',height: 220,),
         SliverList(
           delegate: new SliverChildListDelegate(_buildListItems(10)),
         )

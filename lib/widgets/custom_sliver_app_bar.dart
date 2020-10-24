@@ -3,16 +3,18 @@ class CustomSliverAppBar extends StatelessWidget {
   const CustomSliverAppBar({
     Key key,
     @required this.title,
+    @required this.height
   }) : super(key: key);
 
   final String title;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
       backgroundColor: Colors.white,
-      expandedHeight: 308,
+      expandedHeight: height,
       collapsedHeight: 80,
       automaticallyImplyLeading: false,
       centerTitle: false,

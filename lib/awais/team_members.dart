@@ -108,7 +108,7 @@ class _TeamMembersState extends State<TeamMembers> {
     return CustomScrollView(
       physics: BouncingScrollPhysics(),
       slivers: [
-        CustomSliverAppBar(title: 'Your Amazing Team'),
+        CustomSliverAppBar(title: 'Your Amazing Team',height: 285,),
         SliverList(
           delegate: new SliverChildListDelegate(_buildListItems(10)),
         )
