@@ -16,12 +16,12 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
-  bool _isBlueChecked = false;
+  bool _isBlueChecked = true;
   bool _isRedChecked = false;
   bool _isTealChecked = false;
   bool _isOrangeChecked = false;
   bool _isPurpleChecked = false;
-  Color textFieldColor=Colors.purple;
+  Color textFieldColor=Colors.blue;
   int cheerType = 1;
 
   @override

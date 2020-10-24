@@ -102,7 +102,7 @@ class TeamMemberCard extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/chat_screen');
+
                     },
                     child: Container(
                       child: Flexible(

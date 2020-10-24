@@ -1,7 +1,8 @@
-import 'file:///C:/Users/Ali%20Asad/StudioProjects/AppCon-project-master/lib/screens/create_cheer_screen.dart';
-import 'file:///C:/Users/Ali%20Asad/StudioProjects/AppCon-project-master/lib/screens/team_members.dart';
+
+import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/home_screen.dart';
 import 'package:Invicta/screens/leaderboard_screen.dart';
+import 'package:Invicta/screens/team_members.dart';
 import 'package:Invicta/widgets/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
