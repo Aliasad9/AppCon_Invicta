@@ -11,9 +11,6 @@ class Teams extends StatefulWidget {
 
 class _TeamsState extends State<Teams> {
 
-
-
-
   Widget _buildCard(
       String title,
       IconData icon,

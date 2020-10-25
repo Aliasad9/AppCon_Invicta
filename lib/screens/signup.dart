@@ -1,4 +1,4 @@
-import 'package:Invicta/awais/admin_profile.dart';
+import 'file:///C:/Users/Ali%20Asad/StudioProjects/AppCon-project-master/lib/screens/admin_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

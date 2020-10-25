@@ -1,7 +1,6 @@
-import 'package:Invicta/awais/activity.dart';
+import 'package:Invicta/screens/all_activity_tab_view.dart';
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:Invicta/widgets/teams_grid_admin.dart';
-import 'activity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +33,66 @@ class _AdminProfileState extends State<AdminProfile>
         body: Container(
           width: MediaQuery.of(context).size.width,
           child: Stack(children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        right: 8,
+                      ),
+                      child: Icon(
+                        Icons.favorite,
+                        color: Colors.pink,
+                        size: 30,
+                      ),
+                    ),
+                    Text(
+                      "Invicta",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Arvo',
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  width: 76,
+                  height: 28,
+                  decoration: BoxDecoration(
+                      color: Color(0xFFFF3535),
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black45.withOpacity(0.4),
+                            blurRadius: 2,
+                            offset: Offset(0, 2))
+                      ]),
+                  child: Center(
+                    child: FlatButton(
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'OpenSans',
+                          fontSize: 11,
+                        ),
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Center(
               child: Column(
                 children: [
@@ -62,16 +121,13 @@ class _AdminProfileState extends State<AdminProfile>
                       fontSize: 14,
                     ),
                   ),
-
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top:250.0),
+              padding: const EdgeInsets.only(top: 250.0),
               child: Column(children: <Widget>[
                 Container(
-
-
                   child: TabBar(
                     tabs: [
                       Container(
@@ -101,16 +157,12 @@ class _AdminProfileState extends State<AdminProfile>
                   ),
                 ),
                 Container(
-                  height:screenWidth-320,
-
+                  height: screenWidth - 320,
                   child: TabBarView(
                     controller: _tabController,
                     children: [
                       TeamGridAdmin(),
-                      // Container(
-                      //   child: Text("yo boy"),
-                      // ),
-                      Activity(),
+                      AllActivity(),
                     ],
                   ),
                 ),
