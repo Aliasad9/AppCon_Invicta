@@ -1,6 +1,8 @@
-import 'file:///C:/Users/Ali%20Asad/StudioProjects/AppCon-project-master/lib/screens/admin_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class SignupPage extends StatefulWidget {
   SignupPage();
@@ -16,20 +18,24 @@ class _LoginState extends State<SignupPage> {
     "acceptTerms": false,
   };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   bool acceptTerms = true;
   String email = '';
   String password = '';
+  bool _success;
+
   bool _obscure = true;
 
   //bool _acceptTerms = false;
   Widget _buildEmailTextField() {
     return TextFormField(
+      controller: _emailController,
       validator: (value) {
-        if (value.isEmpty || !value.trimRight().contains("@")) {
-          return ("Please provide a valid email accout!");
-        }
-        return null;
+        Pattern pattern =
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+        RegExp regex = new RegExp(pattern);
+        return (!regex.hasMatch(value)) ? 'Invalid email address' : null;
       },
       decoration: InputDecoration(
           labelText: "Email",
@@ -46,7 +52,7 @@ class _LoginState extends State<SignupPage> {
   Widget _buildConfirmPasswordField() {
     return TextFormField(
       validator: (value) {
-        if (_passwordcontroller.text != value) {
+        if (_passwordController.text != value) {
           return "Passwords donot match ";
         }
         return null;
@@ -62,7 +68,7 @@ class _LoginState extends State<SignupPage> {
 
   Widget _buildPasswordField() {
     return TextFormField(
-      controller: _passwordcontroller,
+      controller: _passwordController,
       validator: (value) {
         if (value.isEmpty || value.length < 8) {
           return "Please provide a valid password ";
@@ -175,13 +181,14 @@ class _LoginState extends State<SignupPage> {
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height*0.5,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   child: Stack(
                     children: [
                       Container(
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor.withOpacity(0.35),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.35),
                           border: Border.fromBorderSide(
                             BorderSide(color: Theme.of(context).primaryColor),
                           ),
@@ -205,7 +212,6 @@ class _LoginState extends State<SignupPage> {
                                 padding: const EdgeInsets.all(10.0),
                                 child: _buildConfirmPasswordField(),
                               ),
-
                             ],
                           ),
                         ),
@@ -235,7 +241,11 @@ class _LoginState extends State<SignupPage> {
                         right: 0,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (_)=>AdminProfile()));
+                            // Navigator.push(context, MaterialPageRoute(builder: (_)=>AdminProfile()));
+                            if (_formKey.currentState.validate()) {
+                              _register();
+                              print('Form Validated');
+                            }
                           },
                           child: Container(
                             height: 50,
@@ -252,10 +262,16 @@ class _LoginState extends State<SignupPage> {
                                       color: Colors.white),
                                 ),
                                 Container(
-                                  width: 20,height: 20,
-                                  decoration:
-                                  BoxDecoration(color: Color(0xFF2D67FF), shape: BoxShape.circle),
-                                  child: Icon(Icons.arrow_forward, color:Colors.white,size: 18,),
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFF2D67FF),
+                                      shape: BoxShape.circle),
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 )
                               ],
                             ),
@@ -277,5 +293,23 @@ class _LoginState extends State<SignupPage> {
         ),
       ),
     );
+  }
+
+  void _register() async {
+    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    ))
+        .user;
+    if (user != null) {
+      setState(() {
+        _success = true;
+        email = user.email;
+      });
+    } else {
+      setState(() {
+        _success = true;
+      });
+    }
   }
 }

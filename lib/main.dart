@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,12 +7,15 @@ import 'screens/signin.dart';
 import 'screens/signup.dart';
 import 'screens/welcome.dart';
 
-
 Future<void> main() async {
   //Allowing precaching method to be called before runApp()
   WidgetsFlutterBinding.ensureInitialized();
   //Precaching svg to reduce delay
-  await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoder, 'assets/images/illust.svg'), null);
+  await precachePicture(
+      ExactAssetPicture(
+          SvgPicture.svgStringDecoder, 'assets/images/illust.svg'),
+      null);
+  //Fixing Screen Orientation
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(new MyApp());
@@ -25,11 +29,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Invicta',
-      theme: ThemeData(primaryColor: Color(0xFF6892FF),scaffoldBackgroundColor: Colors.white,),
+      theme: ThemeData(
+        primaryColor: Color(0xFF6892FF),
+        scaffoldBackgroundColor: Colors.white,
+      ),
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),
       routes: <String, WidgetBuilder>{
@@ -40,5 +46,4 @@ class _MyAppState extends State<MyApp> {
       },
     );
   }
-
 }

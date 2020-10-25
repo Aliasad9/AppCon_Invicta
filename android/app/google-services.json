@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "258144293572",
+    "firebase_url": "https://invicta-c7073.firebaseio.com",
+    "project_id": "invicta-c7073",
+    "storage_bucket": "invicta-c7073.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258144293572:android:86c0e0d62cc08a13bcef91",
+        "android_client_info": {
+          "package_name": "com.example.uiauth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258144293572-47off0ee447vqtflnsithpqv062d6nfb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.uiauth",
+            "certificate_hash": "8a52fde7b2574e4e2c33f7f0089f24166d92b2d2"
+          }
+        },
+        {
+          "client_id": "258144293572-mloec80l346u5qa20mbvcr96vo7eqeet.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIQANVp7QUvInJNaoedcGFs7x7Jnj2dOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "258144293572-mloec80l346u5qa20mbvcr96vo7eqeet.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
