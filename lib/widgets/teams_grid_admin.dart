@@ -4,21 +4,24 @@ class TeamGridAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical:8.0),
-        child: Wrap(
-          children: [
-            TeamContainer(),
-            TeamContainer(),
-            TeamContainer(),
-            TeamContainer(),
-            TeamContainer(),
-            TeamContainer(),
-            TeamContainer(),
-            TeamContainer()
-          ],
+
+
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical:8.0),
+          child: Wrap(
+            children: [
+              TeamContainer(),
+              TeamContainer(),
+              TeamContainer(),
+              TeamContainer(),
+              TeamContainer(),
+              TeamContainer(),
+              TeamContainer(),
+              TeamContainer()
+            ],
+          ),
         ),
-      ),
+
     );
   }
 }

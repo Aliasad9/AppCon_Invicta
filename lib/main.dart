@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'screens/signin.dart';
 import 'screens/signup.dart';
@@ -11,7 +12,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //Precaching svg to reduce delay
   await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoder, 'assets/images/illust.svg'), null);
-  runApp(MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new MyApp());
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -24,6 +28,7 @@ class _MyAppState extends State<MyApp> {
 
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Invicta',
       theme: ThemeData(primaryColor: Color(0xFF6892FF),scaffoldBackgroundColor: Colors.white,),
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),

@@ -167,9 +167,41 @@ class _AdminProfileState extends State<AdminProfile>
                   ),
                 ),
               ]),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: FloatingActionButton(
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.redAccent.withOpacity(0.7), Colors.red],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Theme.of(context).primaryColor.withOpacity(0.32),
+                              blurRadius: 6)
+                        ]),
+                    child: Icon(
+                      CupertinoIcons.add,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                  ),
+
+                  onPressed: (){},
+                ),
+              ),
             )
           ]),
         ),
+
       ),
     );
   }
