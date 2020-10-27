@@ -1,7 +1,10 @@
-import 'package:Invicta/screens/profile_page.dart';
+import 'package:Invicta/data/user.dart';
+import 'package:Invicta/screens/extra_info_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -13,11 +16,14 @@ class SignupPage extends StatefulWidget {
 }
 
 class _LoginState extends State<SignupPage> {
+  final databaseReference = FirebaseFirestore.instance;
+
   final Map<String, dynamic> _formData = {
     "email": null,
     "password": null,
     "acceptTerms": false,
   };
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -106,6 +112,7 @@ class _LoginState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height - 24,
@@ -206,8 +213,9 @@ class _LoginState extends State<SignupPage> {
                             BorderSide(color: Theme.of(context).primaryColor),
                           ),
                           borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(40),
-                              topLeft: Radius.circular(40)),
+                            topRight: Radius.circular(40),
+                            topLeft: Radius.circular(40),
+                          ),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 4.0),
@@ -260,11 +268,18 @@ class _LoginState extends State<SignupPage> {
                         bottom: 0,
                         right: 0,
                         child: InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (_)=>ProfilePage()));
+                          onTap: () async {
                             // if (_formKey.currentState.validate()) {
-                            //   _register();
-                            //   print('Form Validated');
+                            // _register(context);
+
+                            // user.email = _emailController.text;
+                            var companiesList = await _getCompanies();
+                            var rolesList = await _getRoles();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ExtraInfoScreen(
+                                        email, companiesList, rolesList)));
                             // }
                           },
                           child: Container(
@@ -315,6 +330,37 @@ class _LoginState extends State<SignupPage> {
     );
   }
 
+  _getCompanies() async {
+    var list = [];
+    var count=0;
+    await databaseReference
+        .collection('Companies')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((f) {
+        list.add(Company(count, f.data()['companyName']));
+        count+=1;
+
+      });
+    });
+    return list;
+  }
+
+  _getRoles() async {
+    var list = [];
+    var count = 0;
+    await databaseReference
+        .collection('Roles')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((f) {
+        list.add(Role.name(count,f.data()['roleName'], f.data()['companyName']));
+        count+=1;
+      });
+    });
+    return list;
+  }
+
   Padding getLabel(label) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
@@ -329,12 +375,19 @@ class _LoginState extends State<SignupPage> {
     );
   }
 
-  void _register() async {
-    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    ))
-        .user;
+  void _register(context) async {
+    User user;
+    try {
+      user = (await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ))
+          .user;
+    } on FirebaseAuthException catch (e) {
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: new Text('${e.message}'),
+      ));
+    }
     if (user != null) {
       setState(() {
         _success = true;

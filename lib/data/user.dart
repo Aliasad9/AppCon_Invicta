@@ -1,4 +1,4 @@
-class User {
+class CustomUser {
   String name;
   String email;
   String imgUrl;
@@ -11,8 +11,8 @@ class User {
   double category3;
   double category4;
   double category5;
-
-  User.name(
+  CustomUser();
+  CustomUser.name(
       this.email,
       this.name,
       this.imgUrl,
