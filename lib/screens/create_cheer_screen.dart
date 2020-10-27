@@ -293,7 +293,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
   _buildDropDown() {
     return Card(
-      elevation: 2,
+      elevation: 3,
       shadowColor: Colors.black45,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       child: DropdownButtonHideUnderline(

@@ -1,3 +1,4 @@
+import 'package:Invicta/screens/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +39,16 @@ class _LoginState extends State<SignupPage> {
         return (!regex.hasMatch(value)) ? 'Invalid email address' : null;
       },
       decoration: InputDecoration(
-          labelText: "Email",
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(9))),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: EdgeInsets.only(left: 16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
       //keyboardType: TextInputType.emailAddress,
       onSaved: (String value) {
         _formData['email'] = value;
@@ -58,10 +65,13 @@ class _LoginState extends State<SignupPage> {
         return null;
       },
       decoration: InputDecoration(
-          labelText: "Confirm Password",
           fillColor: Colors.white,
           filled: true,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(9))),
+          contentPadding: EdgeInsets.only(left: 16),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
       obscureText: _obscure,
     );
   }
@@ -76,10 +86,13 @@ class _LoginState extends State<SignupPage> {
         return null;
       },
       decoration: InputDecoration(
-          labelText: "Password",
           fillColor: Colors.white,
           filled: true,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(9))),
+          contentPadding: EdgeInsets.only(left: 16),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
       obscureText: _obscure,
       onSaved: (String value) {
         setState(() {
@@ -196,23 +209,30 @@ class _LoginState extends State<SignupPage> {
                               topRight: Radius.circular(40),
                               topLeft: Radius.circular(40)),
                         ),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: _buildEmailTextField(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: _buildPasswordField(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: _buildConfirmPasswordField(),
-                              ),
-                            ],
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                getLabel('Email'),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: _buildEmailTextField(),
+                                ),
+                                getLabel('Password'),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: _buildPasswordField(),
+                                ),
+                                getLabel('Confirm Password'),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: _buildConfirmPasswordField(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -241,11 +261,11 @@ class _LoginState extends State<SignupPage> {
                         right: 0,
                         child: InkWell(
                           onTap: () {
-                            // Navigator.push(context, MaterialPageRoute(builder: (_)=>AdminProfile()));
-                            if (_formKey.currentState.validate()) {
-                              _register();
-                              print('Form Validated');
-                            }
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=>ProfilePage()));
+                            // if (_formKey.currentState.validate()) {
+                            //   _register();
+                            //   print('Form Validated');
+                            // }
                           },
                           child: Container(
                             height: 50,
@@ -290,6 +310,20 @@ class _LoginState extends State<SignupPage> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Padding getLabel(label) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: Text(
+        '$label',
+        style: TextStyle(
+          fontSize: 16,
+          fontFamily: 'OpenSans',
+          fontWeight: FontWeight.w400,
         ),
       ),
     );
