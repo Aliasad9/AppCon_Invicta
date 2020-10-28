@@ -25,4 +25,19 @@ class CustomUser {
       this.category3,
       this.category4,
       this.category5);
+  Map<String, dynamic> toJson() =>
+      {
+        'name':this.name,
+        'email':this.email,
+        'imgUrl':this.imgUrl,
+        'role':this.role,
+        'companyName':this.companyName,
+        'points':0,
+        'level':1,
+        'category1':0.0,
+        'category2':0.0,
+        'category3':0.0,
+        'category4':0.0,
+        'category5':0.0,
+      };
 }

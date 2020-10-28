@@ -269,10 +269,10 @@ class _LoginState extends State<SignupPage> {
                         right: 0,
                         child: InkWell(
                           onTap: () async {
-                            // if (_formKey.currentState.validate()) {
-                            // _register(context);
+                            if (_formKey.currentState.validate()) {
+                            _register(context);
 
-                            // user.email = _emailController.text;
+                            var email = _emailController.text;
                             var companiesList = await _getCompanies();
                             var rolesList = await _getRoles();
                             Navigator.push(
@@ -280,7 +280,7 @@ class _LoginState extends State<SignupPage> {
                                 MaterialPageRoute(
                                     builder: (_) => ExtraInfoScreen(
                                         email, companiesList, rolesList)));
-                            // }
+                            }
                           },
                           child: Container(
                             height: 50,

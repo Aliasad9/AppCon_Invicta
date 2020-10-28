@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:Invicta/data/user.dart';
 import 'package:Invicta/widgets/heading.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,6 +21,8 @@ class ExtraInfoScreen extends StatefulWidget {
 }
 
 class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
+  final databaseReference = FirebaseFirestore.instance;
+
   CustomUser user = new CustomUser();
   TextEditingController _textEditingController = new TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -42,17 +46,8 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
     _roles = this.widget.rolesList;
     _dropdownMenuItemscompanies = buildDropdownMenuItemscompany(_companies);
     _selectedCompany = _dropdownMenuItemscompanies[0].value;
-
     _dropdownMenuItemsroles = buildDropdownMenuItemsrole(_roles);
     _selectedRole = _dropdownMenuItemsroles[0].value;
-
-    // for (var i in _roles) {
-    //   if (_selectedCompany.name == i.companyName) {
-    //     _selectedRole.name = i.name;
-    //     break;
-    //   }
-    // }
-
     super.initState();
   }
 
@@ -332,7 +327,7 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           color: Theme.of(context).primaryColor,
-          onPressed: () {
+          onPressed: () async {
             if (_formKey.currentState.validate()) {
               if (_image != null) {
                 _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -344,10 +339,12 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                     ],
                   ),
                 ));
-                _uploadImage();
+                this.user.imgUrl = await _uploadImage();
+                this.user.email = this.widget.email;
                 this.user.name = _textEditingController.text;
                 this.user.companyName = _selectedCompany.name;
                 this.user.role = _selectedRole.name;
+                await databaseReference.collection("users").add(user.toJson());
               } else {
                 _scaffoldKey.currentState.showSnackBar(new SnackBar(
                   content: Text('Select your profile photo'),
@@ -368,7 +365,8 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
     );
   }
 
-  Future _uploadImage() async {
+  Future<String> _uploadImage() async {
+    String link;
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
         .child('profile_images/${Path.basename(_image.path)}');
@@ -376,11 +374,9 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
     await uploadTask.onComplete;
 
     storageReference.getDownloadURL().then((fileURL) {
-      setState(() {
-        this.user.imgUrl = fileURL;
-      });
-      print(fileURL);
+      link = fileURL;
     });
+    return link;
   }
 
   @override
