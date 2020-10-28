@@ -382,7 +382,6 @@ class _LoginState extends State<SignupPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      //TODO: store email address and info in shared preferences
 
       Navigator.pop(context);
       Navigator.push(
@@ -415,7 +414,14 @@ class _LoginState extends State<SignupPage> {
           CircularProgressIndicator(),
           Container(
               margin: EdgeInsets.only(left: 8),
-              child: Text("Registering your account")),
+              child: Text(
+                "Loading...",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              )),
         ],
       ),
     );

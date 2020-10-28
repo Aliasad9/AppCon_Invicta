@@ -345,7 +345,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
           body: Stack(
             children: [
               _buildScreenUI(context),
-              CustomAppBar('assets/images/profile.jpg'),
+              CustomAppBar(AssetImage('assets/images/profile.jpg')),
             ],
           )),
     );

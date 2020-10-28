@@ -27,8 +27,6 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
   final databaseReference = FirebaseFirestore.instance;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-
-
   CustomUser user = new CustomUser();
   TextEditingController _textEditingController = new TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -345,23 +343,25 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                 await databaseReference.collection("users").add(user.toJson());
                 final appDir = await syspath.getApplicationDocumentsDirectory();
                 final fileName = Path.basename(_image.path);
-                final savedImage = await _image.copy('${appDir.path}/$fileName');
+                final savedImage =
+                    await _image.copy('${appDir.path}/$fileName');
                 final SharedPreferences prefs = await _prefs;
                 prefs.setString('email', user.email);
                 prefs.setString('name', user.name);
-                prefs.setString('imgUrl',savedImage.path);
+                prefs.setString('imgUrl', savedImage.path);
                 prefs.setString('role', user.role);
                 prefs.setString('companyName', user.companyName);
                 prefs.setInt('points', 0);
-                prefs.setInt('level',1);
-                prefs.setInt('category1',0);
-                prefs.setInt('category2',0);
-                prefs.setInt('category3',0);
-                prefs.setInt('category4',0);
-                prefs.setInt('category5',0);
+                prefs.setInt('level', 1);
+                prefs.setInt('category1', 0);
+                prefs.setInt('category2', 0);
+                prefs.setInt('category3', 0);
+                prefs.setInt('category4', 0);
+                prefs.setInt('category5', 0);
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => NavigationScreen(savedImage.path)),
+                    MaterialPageRoute(
+                        builder: (_) => NavigationScreen(savedImage.path)),
                     (route) => false);
               } else {
                 _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -390,7 +390,6 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
         .child('profile_images/${Path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
-
 
     storageReference.getDownloadURL().then((fileURL) {
       link = fileURL;
@@ -441,7 +440,14 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
           CircularProgressIndicator(),
           Container(
               margin: EdgeInsets.only(left: 8),
-              child: Text("Getting your account ready...")),
+              child: Text(
+                "Getting things ready...",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              )),
         ],
       ),
     );

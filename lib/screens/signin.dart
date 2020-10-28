@@ -309,7 +309,11 @@ class _SignInState extends State<SignIn> {
       content: new Row(
         children: [
           CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: 32), child: Text("Loading")),
+          Container(margin: EdgeInsets.only(left: 32), child: Text("Loading", style: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+          ),)),
         ],
       ),
     );
