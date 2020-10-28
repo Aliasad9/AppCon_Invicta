@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 class ProfileImage extends StatelessWidget {
   const ProfileImage(
       {Key key,
-        @required this.profileImgUrl,
+        @required this.imageData,
         @required this.imgDiameter,
         @required this.borderDiameter})
       : super(key: key);
-
-  final String profileImgUrl;
+  final imageData;
   final double imgDiameter;
   final double borderDiameter;
 
@@ -29,7 +28,7 @@ class ProfileImage extends StatelessWidget {
             width: imgDiameter,
             height: imgDiameter,
             child: CircleAvatar(
-              backgroundImage: AssetImage(profileImgUrl),
+              backgroundImage: imageData,
             ),
           ),
         ),

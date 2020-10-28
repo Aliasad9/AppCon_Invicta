@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/home_screen.dart';
 import 'package:Invicta/screens/leaderboard_screen.dart';
@@ -8,12 +10,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NavigationScreen extends StatefulWidget {
+  final String imgUrl;
+
+  NavigationScreen(this.imgUrl);
+
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
   int _currentIndex = 0;
+
   var navigationPages = [HomeScreen(), TeamMembers(), LeaderboardScreen()];
 
   @override
@@ -27,7 +34,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               children: navigationPages,
             ),
             _currentIndex != 2
-                ? CustomAppBar('assets/images/profile.jpg')
+                ? CustomAppBar(FileImage(File(this.widget.imgUrl)))
                 : Container(
                     height: 0,
                     width: 0,

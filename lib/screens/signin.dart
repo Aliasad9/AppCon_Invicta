@@ -1,7 +1,9 @@
 import 'package:Invicta/screens/navigation_screen.dart';
+import 'package:Invicta/screens/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -18,6 +20,8 @@ class _SignInState extends State<SignIn> {
     "password": null,
     "acceptTerms": false,
   };
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -204,7 +208,10 @@ class _SignInState extends State<SignIn> {
                         height: 30,
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, '/signup');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => SignupPage()));
                           },
                           child: Text(
                             "Create Account",
@@ -282,9 +289,11 @@ class _SignInState extends State<SignIn> {
       ))
           .user;
       Navigator.pop(context);
-      //TODO: store email address and info in shared preferences
+
+      SharedPreferences prefs = await _prefs;
+      final String image = prefs.getString('imgUrl');
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => NavigationScreen()),
+          MaterialPageRoute(builder: (_) => NavigationScreen(image)),
           (route) => false);
     } on FirebaseAuthException catch (e) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(

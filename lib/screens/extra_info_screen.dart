@@ -9,6 +9,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
+import 'package:path_provider/path_provider.dart' as syspath;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExtraInfoScreen extends StatefulWidget {
   final email;
@@ -23,6 +25,9 @@ class ExtraInfoScreen extends StatefulWidget {
 
 class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
   final databaseReference = FirebaseFirestore.instance;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+
 
   CustomUser user = new CustomUser();
   TextEditingController _textEditingController = new TextEditingController();
@@ -338,14 +343,25 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                 this.user.companyName = _selectedCompany.name;
                 this.user.role = _selectedRole.name;
                 await databaseReference.collection("users").add(user.toJson());
-                // final appDir =
-                //     await syspaths.getApplicationDocumentsDirectory();
+                final appDir = await syspath.getApplicationDocumentsDirectory();
                 final fileName = Path.basename(_image.path);
-                // final savedImage =
-                //     await _image.copy('${appDir.path}/$fileName');
+                final savedImage = await _image.copy('${appDir.path}/$fileName');
+                final SharedPreferences prefs = await _prefs;
+                prefs.setString('email', user.email);
+                prefs.setString('name', user.name);
+                prefs.setString('imgUrl',savedImage.path);
+                prefs.setString('role', user.role);
+                prefs.setString('companyName', user.companyName);
+                prefs.setInt('points', 0);
+                prefs.setInt('level',1);
+                prefs.setInt('category1',0);
+                prefs.setInt('category2',0);
+                prefs.setInt('category3',0);
+                prefs.setInt('category4',0);
+                prefs.setInt('category5',0);
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => NavigationScreen()),
+                    MaterialPageRoute(builder: (_) => NavigationScreen(savedImage.path)),
                     (route) => false);
               } else {
                 _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -374,6 +390,7 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
         .child('profile_images/${Path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
+
 
     storageReference.getDownloadURL().then((fileURL) {
       link = fileURL;

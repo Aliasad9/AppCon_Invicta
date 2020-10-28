@@ -71,7 +71,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             ),
                           ),
                           ProfileImage(
-                            profileImgUrl: 'assets/images/profile.jpg',
+                            imageData: AssetImage('assets/images/profile.jpg'),
                             imgDiameter: 72.0,
                             borderDiameter: 80.0,
                           ),

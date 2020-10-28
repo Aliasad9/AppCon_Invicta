@@ -1,3 +1,4 @@
+import 'package:Invicta/screens/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -58,22 +59,19 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 24,right: 24, bottom: 24),
-                child:
-                SvgPicture.asset(
+                  padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                  child: SvgPicture.asset(
                     'assets/images/illust.svg',
-
-                )
-
-              ),
+                  )),
               Padding(
-                padding: const EdgeInsets.only(bottom:16),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: SizedBox(
                   width: 200,
                   height: 40,
                   child: FlatButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/signin');
+                    onPressed: () async {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => SignIn()));
                     },
                     color: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
@@ -94,7 +92,11 @@ class WelcomePage extends StatelessWidget {
                           margin: EdgeInsets.only(left: 8),
                           height: 18,
                           width: 18,
-                          child: Icon(Icons.arrow_forward,color: Colors.white,size: 16,),
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 16,
+                          ),
                           decoration: BoxDecoration(
                               color: Color(0xFF2D67FF), shape: BoxShape.circle),
                         ),
@@ -109,5 +111,4 @@ class WelcomePage extends StatelessWidget {
       ),
     );
   }
-
 }

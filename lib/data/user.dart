@@ -24,7 +24,8 @@ class CustomUser {
       this.category2,
       this.category3,
       this.category4,
-      this.category5);
+      this.category5
+      );
   Map<String, dynamic> toJson() =>
       {
         'name':this.name,

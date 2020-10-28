@@ -3,9 +3,9 @@ import 'package:Invicta/widgets/profile_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final String profileImgUrl;
+  final imageData;
 
-  const CustomAppBar(this.profileImgUrl);
+  const CustomAppBar(this.imageData);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class CustomAppBar extends StatelessWidget {
                     MaterialPageRoute(builder: (_) => ProfileScreen()));
               },
               child: ProfileImage(
-                profileImgUrl: profileImgUrl,
+                imageData: imageData,
                 imgDiameter: 40.0,
                 borderDiameter: 48.0,
               ),
