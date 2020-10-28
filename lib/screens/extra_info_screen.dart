@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:Invicta/data/user.dart';
+import 'package:Invicta/screens/navigation_screen.dart';
 import 'package:Invicta/widgets/heading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -330,21 +331,22 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
           onPressed: () async {
             if (_formKey.currentState.validate()) {
               if (_image != null) {
-                _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Getting your account ready...'),
-                      CircularProgressIndicator()
-                    ],
-                  ),
-                ));
-                this.user.imgUrl = await _uploadImage();
+                showAlertDialog(context);
+                await _uploadImage();
                 this.user.email = this.widget.email;
                 this.user.name = _textEditingController.text;
                 this.user.companyName = _selectedCompany.name;
                 this.user.role = _selectedRole.name;
                 await databaseReference.collection("users").add(user.toJson());
+                // final appDir =
+                //     await syspaths.getApplicationDocumentsDirectory();
+                final fileName = Path.basename(_image.path);
+                // final savedImage =
+                //     await _image.copy('${appDir.path}/$fileName');
+                Navigator.pop(context);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => NavigationScreen()),
+                    (route) => false);
               } else {
                 _scaffoldKey.currentState.showSnackBar(new SnackBar(
                   content: Text('Select your profile photo'),
@@ -366,7 +368,7 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
   }
 
   Future<String> _uploadImage() async {
-    String link;
+    String link = '';
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
         .child('profile_images/${Path.basename(_image.path)}');
@@ -375,8 +377,11 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
 
     storageReference.getDownloadURL().then((fileURL) {
       link = fileURL;
+      print(link);
+      setState(() {
+        this.user.imgUrl = link;
+      });
     });
-    return link;
   }
 
   @override
@@ -408,6 +413,27 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CircularProgressIndicator(),
+          Container(
+              margin: EdgeInsets.only(left: 8),
+              child: Text("Getting your account ready...")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

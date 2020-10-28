@@ -1,4 +1,6 @@
+import 'package:Invicta/screens/welcome.dart';
 import 'package:Invicta/widgets/profile_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -47,6 +49,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          height: 25,
+                          decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: FlatButton(
+                            child: Text(
+                              'Logout',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 11,
+                                  fontFamily: 'OpenSans'),
+                            ),
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (_) => WelcomePage()),
+                                  (route) => false);
+                            },
+                          ),
+                        ),
                       ),
                     ),
                     Padding(

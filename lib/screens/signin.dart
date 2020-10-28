@@ -1,6 +1,9 @@
 import 'package:Invicta/screens/navigation_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class SignIn extends StatefulWidget {
   SignIn();
@@ -16,7 +19,11 @@ class _SignInState extends State<SignIn> {
     "acceptTerms": false,
   };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _passwordcontroller = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
   bool acceptTerms = true;
   String email = '';
   String password = '';
@@ -24,9 +31,10 @@ class _SignInState extends State<SignIn> {
 
   Widget _buildEmailTextField() {
     return TextFormField(
+      controller: _emailController,
       validator: (value) {
         if (value.isEmpty || !value.trimRight().contains("@")) {
-          return ("Please provide a valid email accout!");
+          return ("Please provide a valid email account!");
         }
         return null;
       },
@@ -44,9 +52,9 @@ class _SignInState extends State<SignIn> {
 
   Widget _buildPasswordField() {
     return TextFormField(
-      controller: _passwordcontroller,
+      controller: _passwordController,
       validator: (value) {
-        if (value.isEmpty || value.length < 8) {
+        if (value.isEmpty || value.length < 4) {
           return "Please provide a valid password ";
         }
         return null;
@@ -74,6 +82,7 @@ class _SignInState extends State<SignIn> {
       },
       child: SafeArea(
         child: Scaffold(
+          key: _scaffoldKey,
           body: SingleChildScrollView(
             child: Container(
               height: MediaQuery.of(context).size.height - 24,
@@ -214,9 +223,9 @@ class _SignInState extends State<SignIn> {
                     right: 0,
                     child: InkWell(
                       onTap: () {
-                        // Navigator.pushNamed(context, '/navigation_screen');
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => NavigationScreen()));
+                        if (_formKey.currentState.validate()) {
+                          _signInWithEmailAndPassword();
+                        }
                       },
                       child: Container(
                         height: 50,
@@ -261,6 +270,46 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
+    );
+  }
+
+  void _signInWithEmailAndPassword() async {
+    try {
+      showAlertDialog(context);
+      final User user = (await _auth.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ))
+          .user;
+      Navigator.pop(context);
+      //TODO: store email address and info in shared preferences
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => NavigationScreen()),
+          (route) => false);
+    } on FirebaseAuthException catch (e) {
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: new Text('${e.message}'),
+        duration: Duration(seconds: 3),
+      ));
+      Navigator.pop(context);
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(margin: EdgeInsets.only(left: 32), child: Text("Loading")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

@@ -86,7 +86,7 @@ class _LoginState extends State<SignupPage> {
     return TextFormField(
       controller: _passwordController,
       validator: (value) {
-        if (value.isEmpty || value.length < 8) {
+        if (value.isEmpty || value.length < 4) {
           return "Please provide a valid password ";
         }
         return null;
@@ -270,16 +270,7 @@ class _LoginState extends State<SignupPage> {
                         child: InkWell(
                           onTap: () async {
                             if (_formKey.currentState.validate()) {
-                            _register(context);
-
-                            var email = _emailController.text;
-                            var companiesList = await _getCompanies();
-                            var rolesList = await _getRoles();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => ExtraInfoScreen(
-                                        email, companiesList, rolesList)));
+                              _register(context);
                             }
                           },
                           child: Container(
@@ -332,15 +323,14 @@ class _LoginState extends State<SignupPage> {
 
   _getCompanies() async {
     var list = [];
-    var count=0;
+    var count = 0;
     await databaseReference
         .collection('Companies')
         .get()
         .then((QuerySnapshot snapshot) {
       snapshot.docs.forEach((f) {
         list.add(Company(count, f.data()['companyName']));
-        count+=1;
-
+        count += 1;
       });
     });
     return list;
@@ -354,8 +344,9 @@ class _LoginState extends State<SignupPage> {
         .get()
         .then((QuerySnapshot snapshot) {
       snapshot.docs.forEach((f) {
-        list.add(Role.name(count,f.data()['roleName'], f.data()['companyName']));
-        count+=1;
+        list.add(
+            Role.name(count, f.data()['roleName'], f.data()['companyName']));
+        count += 1;
       });
     });
     return list;
@@ -383,20 +374,57 @@ class _LoginState extends State<SignupPage> {
         password: _passwordController.text,
       ))
           .user;
+      showAlertDialog(context);
+      var email = _emailController.text;
+      var companiesList = await _getCompanies();
+      var rolesList = await _getRoles();
+      await _auth.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      //TODO: store email address and info in shared preferences
+
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) =>
+                  ExtraInfoScreen(email, companiesList, rolesList)));
     } on FirebaseAuthException catch (e) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text('${e.message}'),
       ));
     }
-    if (user != null) {
-      setState(() {
-        _success = true;
-        email = user.email;
-      });
-    } else {
-      setState(() {
-        _success = true;
-      });
-    }
+    // if (user != null) {
+    //   setState(() {
+    //     _success = true;
+    //     email = user.email;
+    //   });
+    // } else {
+    //   setState(() {
+    //     _success = true;
+    //   });
+    // }
+  }
+
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CircularProgressIndicator(),
+          Container(
+              margin: EdgeInsets.only(left: 8),
+              child: Text("Registering your account")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
