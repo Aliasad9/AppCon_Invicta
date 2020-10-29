@@ -6,6 +6,7 @@ import 'package:Invicta/screens/team_members.dart';
 import 'package:Invicta/widgets/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../icons/my_flutter_app_icons.dart';
 
 class NavigationScreen extends StatefulWidget {
   final String imgUrl;
@@ -68,7 +69,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon: Icon(Icons.home, color: Colors.black),
+                            icon: Icon(MyFlutterApp.home_1, color: Colors.black),
                           ),
                           _currentIndex == 0
                               ? Container(
@@ -94,7 +95,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon: Icon(Icons.people, color: Colors.black),
+                            icon: Icon(MyFlutterApp.group_1, color: Colors.black),
                           ),
                           _currentIndex == 1
                               ? Container(
@@ -120,7 +121,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon: Icon(Icons.leaderboard, color: Colors.black),
+                            icon: Icon(MyFlutterApp.trophy_1, color: Colors.black),
                           ),
                           _currentIndex == 2
                               ? Container(
