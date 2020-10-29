@@ -44,6 +44,7 @@ class _TeamMembersState extends State<TeamMembers> {
                         (BuildContext context, int index) {
                           var fetchedJsonData =
                               snapshot.data.docs[index].data();
+
                           if (fetchedJsonData['email'] != this.widget.email) {
                             CustomUser user =
                                 CustomUser.fromJson(fetchedJsonData);
@@ -57,6 +58,7 @@ class _TeamMembersState extends State<TeamMembers> {
                             );
                           }
                           return null;
+
                         },
                         childCount: snapshot.data.size,
                       ),

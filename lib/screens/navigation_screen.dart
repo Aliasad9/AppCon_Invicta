@@ -8,6 +8,7 @@ import 'package:Invicta/widgets/custom_app_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../icons/my_flutter_app_icons.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -17,8 +18,8 @@ class NavigationScreen extends StatefulWidget {
   final String email;
   final CustomUser user;
 
-
-  NavigationScreen(this.imgUrl, this.companyName, this.name, this.email,this.user);
+  NavigationScreen(
+      this.imgUrl, this.companyName, this.name, this.email, this.user);
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
@@ -37,7 +38,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
       LeaderboardScreen()
     ];
 
-
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -47,7 +47,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
               children: navigationPages,
             ),
             _currentIndex != 2
-                ? CustomAppBar(FileImage(File(this.widget.imgUrl)), this.widget.user)
+                ? CustomAppBar(
+                    FileImage(File(this.widget.imgUrl)), this.widget.user)
                 : Container(
                     height: 0,
                     width: 0,
@@ -133,8 +134,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon:
-                                Icon(MyFlutterApp.trophy, color: Colors.black),
+                            icon: Icon(MyFlutterApp.trophy, color: Colors.black),
                           ),
                           _currentIndex == 2
                               ? Container(
