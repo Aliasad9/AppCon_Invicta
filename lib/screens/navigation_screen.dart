@@ -70,7 +70,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon: Icon(MyFlutterApp.home_2, color: Colors.black),
+                            icon: Icon(MyFlutterApp.home_outline, color: Colors.black),
                           ),
                           _currentIndex == 0
                               ? Container(
@@ -96,7 +96,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon: Icon(MyFlutterApp.heart_empty, color: Colors.black),
+                            icon: Icon(MyFlutterApp.users_outline, color: Colors.black),
                           ),
                           _currentIndex == 1
                               ? Container(
@@ -122,7 +122,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon: Icon(MyFlutterApp.trophy, color: Colors.black),
+                            icon: Icon(SvgPicture.asset('trophy_icon.svg'), color: Colors.black),
                           ),
                           _currentIndex == 2
                               ? Container(
