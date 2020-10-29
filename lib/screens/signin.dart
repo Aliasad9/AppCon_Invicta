@@ -293,8 +293,9 @@ class _SignInState extends State<SignIn> {
       SharedPreferences prefs = await _prefs;
       final String image = prefs.getString('imgUrl');
       final String companyName = prefs.getString('companyName');
+      final String name = prefs.getString('name');
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => NavigationScreen(image,companyName)),
+          MaterialPageRoute(builder: (_) => NavigationScreen(image,companyName,name)),
           (route) => false);
     } on FirebaseAuthException catch (e) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(

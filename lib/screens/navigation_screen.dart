@@ -11,9 +11,10 @@ import '../icons/my_flutter_app_icons.dart';
 class NavigationScreen extends StatefulWidget {
   final String imgUrl;
   final String companyName;
+  final String name;
 
 
-  NavigationScreen(this.imgUrl, this.companyName);
+  NavigationScreen(this.imgUrl, this.companyName, this.name);
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
@@ -26,7 +27,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var navigationPages = [HomeScreen(), TeamMembers(this.widget.companyName), LeaderboardScreen()];
+    var navigationPages = [HomeScreen(this.widget.name), TeamMembers(this.widget.companyName), LeaderboardScreen()];
 
     return SafeArea(
       child: Scaffold(

@@ -3,19 +3,24 @@ import 'package:Invicta/widgets/home_feed_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
+  final String name;
+
+  HomeScreen(this.name);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String name = 'John';
+
 
   @override
   Widget build(BuildContext context) {
+    var name = this.widget.name.split(' ');
     return CustomScrollView(
       physics: BouncingScrollPhysics(),
       slivers: [
-        CustomSliverAppBar(title: 'Good Day, John',height: 220,),
+        CustomSliverAppBar(title: 'Good Day, ${name[0]}',height: 220,),
         SliverList(
           delegate: new SliverChildListDelegate(_buildListItems(10)),
         )
