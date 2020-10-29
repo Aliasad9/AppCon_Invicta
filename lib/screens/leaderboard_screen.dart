@@ -123,7 +123,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'Backend Developer',
         'company': 'Facebook',
-        'level': '10'
+        'level': 100
       },
       {
         'name': 'Adam Lee',
@@ -131,7 +131,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'Backend Developer',
         'company': 'Traverse',
-        'level': '10'
+        'level': 52
       },
       {
         'name': 'Jones Stuart',
@@ -139,7 +139,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'Backend Developer',
         'company': 'Google',
-        'level': '10'
+        'level': 21
       },
       {
         'name': 'Chris Eduardo',
@@ -147,7 +147,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'Frontend Developer',
         'company': 'Traverse',
-        'level': '10'
+        'level': 20
       },
       {
         'name': 'Tom Brown',
@@ -155,7 +155,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'UI/UX Designer',
         'company': 'Youtube',
-        'level': '11'
+        'level': 9
       },
       {
         'name': 'Chris Eduardo',
@@ -163,7 +163,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'Frontend Developer',
         'company': 'Traverse',
-        'level': '10'
+        'level': 3
       },
       {
         'name': 'Tom Brown',
@@ -171,7 +171,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'UI/UX Designer',
         'company': 'Youtube',
-        'level': '11'
+        'level': 8
       },
       {
         'name': 'Chris Eduardo',
@@ -179,7 +179,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'Frontend Developer',
         'company': 'Traverse',
-        'level': '10'
+        'level': 5
       },
       {
         'name': 'Tom Brown',
@@ -187,7 +187,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'UI/UX Designer',
         'company': 'Youtube',
-        'level': '11'
+        'level': 11
       },
       {
         'name': 'Chris Eduardo',
@@ -195,7 +195,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'Frontend Developer',
         'company': 'Traverse',
-        'level': '10'
+        'level': 10
       },
       {
         'name': 'Tom Brown',
@@ -203,7 +203,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         'imgUrl': 'assets/images/profile.jpg',
         'role': 'UI/UX Designer',
         'company': 'Youtube',
-        'level': '11'
+        'level': 11
       },
     ];
     List<Widget> listItems = [];
@@ -211,7 +211,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       listItems.add(
         LeaderboardCard(
           name: leaderboardItems[i]['name'],
-            position: leaderboardItems[i]['position'],
+            position: (i+1).toString(),
             imgUrl:leaderboardItems[i]['imgUrl'],
             role: leaderboardItems[i]['role'],
             company: leaderboardItems[i]['company'],

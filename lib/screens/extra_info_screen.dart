@@ -361,7 +361,12 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (_) => NavigationScreen(savedImage.path, this.user.companyName, this.user.name)),
+                        builder: (_) => NavigationScreen(
+                            savedImage.path,
+                            this.user.companyName,
+                            this.user.name,
+                            this.user.email,
+                            this.user)),
                     (route) => false);
               } else {
                 _scaffoldKey.currentState.showSnackBar(new SnackBar(

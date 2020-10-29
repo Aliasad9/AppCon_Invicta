@@ -2,19 +2,12 @@ import 'package:Invicta/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class TeamMemberCard extends StatelessWidget {
-  final String name;
-
+  final user;
   final imgData;
-  final String role;
-  final String company;
-  final String level;
 
   TeamMemberCard({
-    @required this.name,
+    @required this.user,
     @required this.imgData,
-    @required this.role,
-    @required this.company,
-    @required this.level,
   });
 
   @override
@@ -28,10 +21,7 @@ class TeamMemberCard extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: CircleAvatar(
-                radius: 28,
-                backgroundImage: imgData
-              ),
+              child: CircleAvatar(radius: 28, backgroundImage: imgData),
             ),
             Container(
               width: MediaQuery.of(context).size.width - 80,
@@ -44,7 +34,7 @@ class TeamMemberCard extends StatelessWidget {
                     children: [
                       Container(
                         child: Text(
-                          '$name',
+                          '${user.name}',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -55,7 +45,7 @@ class TeamMemberCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '$role at',
+                            '${user.role} at',
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
@@ -72,7 +62,7 @@ class TeamMemberCard extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
-                                '$company',
+                                '${user.companyName}',
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
@@ -96,7 +86,7 @@ class TeamMemberCard extends StatelessWidget {
                             top: 6,
                           ),
                           child: Text(
-                            'LVL \u2022 $level',
+                            'LVL \u2022 ${user.level.toString()}',
                             style: TextStyle(
                               color: Colors.black38,
                               fontSize: 10,
@@ -107,7 +97,10 @@ class TeamMemberCard extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.push(context,MaterialPageRoute(builder: (_)=>ProfileScreen(false)));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ProfileScreen(false, user: user,)));
                           },
                           child: Container(
                             child: Flexible(

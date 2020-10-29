@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
   final isMyProfile;
+  final user;
 
-  ProfileScreen(this.isMyProfile);
+  ProfileScreen(this.isMyProfile, {this.user});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -88,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (_) =>
-                                                CreateCheerScreen()));
+                                                CreateCheerScreen(employee:this.widget.user)));
                                   },
                                   child: Text(
                                     'Give Cheer',
