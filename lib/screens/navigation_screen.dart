@@ -1,6 +1,4 @@
-
 import 'dart:io';
-
 import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/home_screen.dart';
 import 'package:Invicta/screens/leaderboard_screen.dart';
@@ -11,8 +9,10 @@ import 'package:flutter/material.dart';
 
 class NavigationScreen extends StatefulWidget {
   final String imgUrl;
+  final String companyName;
 
-  NavigationScreen(this.imgUrl);
+
+  NavigationScreen(this.imgUrl, this.companyName);
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
@@ -21,10 +21,12 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   int _currentIndex = 0;
 
-  var navigationPages = [HomeScreen(), TeamMembers(), LeaderboardScreen()];
+
 
   @override
   Widget build(BuildContext context) {
+    var navigationPages = [HomeScreen(), TeamMembers(this.widget.companyName), LeaderboardScreen()];
+
     return SafeArea(
       child: Scaffold(
         body: Stack(

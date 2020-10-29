@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class TeamMemberCard extends StatelessWidget {
   final String name;
 
-  final String imgUrl;
+  final imgData;
   final String role;
   final String company;
   final String level;
 
   TeamMemberCard({
     @required this.name,
-    @required this.imgUrl,
+    @required this.imgData,
     @required this.role,
     @required this.company,
     @required this.level,
@@ -30,9 +30,7 @@ class TeamMemberCard extends StatelessWidget {
               padding: const EdgeInsets.only(right: 8.0),
               child: CircleAvatar(
                 radius: 28,
-                backgroundImage: AssetImage(
-                  '$imgUrl',
-                ),
+                backgroundImage: imgData
               ),
             ),
             Container(
