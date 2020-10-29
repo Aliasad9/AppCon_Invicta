@@ -383,7 +383,7 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
     );
   }
 
-  Future<String> _uploadImage() async {
+  _uploadImage() async {
     String link = '';
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
@@ -395,7 +395,7 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
       link = fileURL;
       print(link);
       setState(() {
-        this.user.imgUrl = link;
+        this.user.imgUrl = fileURL; //TODO: imgUrl Not storing in firebase
       });
     });
   }

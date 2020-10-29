@@ -5,23 +5,23 @@ import 'package:flutter/material.dart';
 import '../widgets/heading.dart';
 
 class CreateCheerScreen extends StatefulWidget {
-
-
   @override
   _CreateCheerScreenState createState() => _CreateCheerScreenState();
 }
 
 class _CreateCheerScreenState extends State<CreateCheerScreen> {
   TextEditingController _messageTextController = TextEditingController();
-  List<Company> _companies = Company.getCompanies();
-  List<DropdownMenuItem<Company>> _dropdownMenuItems;
-  Company _selectedCompany;
+  TextEditingController _titleController = TextEditingController();
+
+  List<Category> _companies = Category.getCategory();
+  List<DropdownMenuItem<Category>> _dropdownMenuItems;
+  Category _selectedCompany;
   bool _isBlueChecked = true;
   bool _isRedChecked = false;
   bool _isTealChecked = false;
   bool _isOrangeChecked = false;
   bool _isPurpleChecked = false;
-  Color textFieldColor=Colors.blue;
+  Color textFieldColor = Colors.blue;
   int cheerType = 1;
 
   @override
@@ -31,9 +31,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     super.initState();
   }
 
-  List<DropdownMenuItem<Company>> buildDropdownMenuItems(List companies) {
-    List<DropdownMenuItem<Company>> items = List();
-    for (Company company in companies) {
+  List<DropdownMenuItem<Category>> buildDropdownMenuItems(List companies) {
+    List<DropdownMenuItem<Category>> items = List();
+    for (Category company in companies) {
       items.add(
         DropdownMenuItem(
           value: company,
@@ -54,7 +54,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     return items;
   }
 
-  onChangeDropdownItem(Company selectedCompany) {
+  onChangeDropdownItem(Category selectedCompany) {
     setState(() {
       _selectedCompany = selectedCompany;
     });
@@ -67,8 +67,32 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Heading("Cheers For Awais!"),
-            _buildSubHeading('Preview'),
+            Heading("Cheers For Your Peer!"),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0, top: 32),
+              child: TextFormField(
+                controller: _titleController,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return ("Field cannot be empty");
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: 'Title',
+                  contentPadding: EdgeInsets.only(left: 16),
+                  filled: true,
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                //keyboardType: TextInputType.emailAddress,
+              ),
+            ),
             _buildTextField(this.textFieldColor),
             _buildSubHeading('Select Desired Color'),
             Row(
@@ -85,8 +109,10 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             ),
             _buildSubHeading("Select the Label"),
             _buildContainer(),
-            cheerType==1?_buildSubHeading('Select a Category'):Container(),
-            cheerType==1?_buildDropDown():Container(),
+            cheerType == 1
+                ? _buildSubHeading('Select a Category')
+                : Container(),
+            cheerType == 1 ? _buildDropDown() : Container(),
             _buildButton(),
           ],
         ),
@@ -111,8 +137,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
         fillColor: fillColor.withOpacity(0.32),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide:
-              BorderSide(color: fillColor, width: 0),
+          borderSide: BorderSide(color: fillColor, width: 0),
         ),
         hintText: 'Type a Super Nice Message...',
         focusedBorder: OutlineInputBorder(
@@ -132,11 +157,10 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       child: Row(
         children: [
           InkWell(
-            onTap: (){
+            onTap: () {
               setState(() {
                 this.cheerType = 1;
               });
-
             },
             child: Container(
                 child: Center(
@@ -157,17 +181,18 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                     bottomLeft: Radius.circular(8),
                   ),
                   border: Border.all(
-                    color: Colors.green,style: cheerType==1?BorderStyle.solid:BorderStyle.none
-                  ),
+                      color: Colors.green,
+                      style: cheerType == 1
+                          ? BorderStyle.solid
+                          : BorderStyle.none),
                   color: Colors.green.withOpacity(0.32),
                 )),
           ),
           InkWell(
-            onTap: (){
+            onTap: () {
               setState(() {
                 this.cheerType = 2;
               });
-
             },
             child: Container(
                 child: Center(
@@ -184,17 +209,18 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                 height: 30,
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: Colors.red,style: cheerType==2?BorderStyle.solid:BorderStyle.none
-                  ),
+                      color: Colors.red,
+                      style: cheerType == 2
+                          ? BorderStyle.solid
+                          : BorderStyle.none),
                   color: Colors.red.withOpacity(0.32),
                 )),
           ),
           InkWell(
-            onTap: (){
+            onTap: () {
               setState(() {
                 this.cheerType = 3;
               });
-
             },
             child: Container(
                 child: Center(
@@ -215,8 +241,10 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                       bottomRight: Radius.circular(8)),
                   color: Theme.of(context).primaryColor.withOpacity(0.32),
                   border: Border.all(
-                      color: Theme.of(context).primaryColor,style: cheerType==3?BorderStyle.solid:BorderStyle.none
-                  ),
+                      color: Theme.of(context).primaryColor,
+                      style: cheerType == 3
+                          ? BorderStyle.solid
+                          : BorderStyle.none),
                 )),
           ),
         ],
@@ -341,30 +369,29 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
           body: Stack(
-            children: [
-              _buildScreenUI(context),
-              CustomAppBar(AssetImage('assets/images/profile.jpg')),
-            ],
-          )),
+        children: [
+          _buildScreenUI(context),
+          CustomAppBar(AssetImage('assets/images/profile.jpg')),
+        ],
+      )),
     );
   }
 }
 
-class Company {
+class Category {
   int id;
   String name;
 
-  Company(this.id, this.name);
+  Category(this.id, this.name);
 
-  static List<Company> getCompanies() {
-    return <Company>[
-      Company(1, 'Hardwork'),
-      Company(2, 'Dedication'),
-      Company(3, 'Teamwork'),
-      Company(4, 'Friendliness'),
-      Company(5, 'Management'),
+  static List<Category> getCategory() {
+    return <Category>[
+      Category(1, 'Hardwork'),
+      Category(2, 'Dedication'),
+      Category(3, 'Teamwork'),
+      Category(4, 'Friendliness'),
+      Category(5, 'Management'),
     ];
   }
 }

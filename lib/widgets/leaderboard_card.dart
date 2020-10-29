@@ -1,3 +1,4 @@
+import 'package:Invicta/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardCard extends StatelessWidget {
@@ -21,103 +22,109 @@ class LeaderboardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return position != '1st'
         ? Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16,bottom: 32),
-            child: Container(
-              height: 72,
-              width: MediaQuery.of(context).size.width - 32,
-              decoration: BoxDecoration(
-                  color: getColor(position).withOpacity(0.32),
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: getColor(position))),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 8.0),
-                    child: Text(
-                      '$position',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'OpenSans',
+            padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 32),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => ProfileScreen(false)));
+              },
+              child: Container(
+                height: 72,
+                width: MediaQuery.of(context).size.width - 32,
+                decoration: BoxDecoration(
+                    color: getColor(position).withOpacity(0.32),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: getColor(position))),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 8.0),
+                      child: Text(
+                        '$position',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'OpenSans',
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage(
-                        '$imgUrl',
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: AssetImage(
+                          '$imgUrl',
+                        ),
                       ),
                     ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            child: Text(
-                              '$name',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'OpenSans',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                              top: 6,
-                            ),
-                            child: Text(
-                              'LVL \u2022 $level',
-                              style: TextStyle(
-                                color: Colors.black38,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'OpenSans',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            '$role at',
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'OpenSans',
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 4),
-                            decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(50)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
                               child: Text(
-                                '$company',
+                                '$name',
                                 style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'OpenSans',
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 16.0,
+                                top: 6,
+                              ),
+                              child: Text(
+                                'LVL \u2022 $level',
+                                style: TextStyle(
+                                  color: Colors.black38,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'OpenSans',
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              '$role at',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'OpenSans',
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 4),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  '$company',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'OpenSans',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           )

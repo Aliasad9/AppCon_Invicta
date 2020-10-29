@@ -16,8 +16,8 @@ class CustomUser {
       this.email,
       this.name,
       this.imgUrl,
-      this.role,//dropdown menu
-      this.companyName,//dropdown menu
+      this.role,
+      this.companyName,
       this.points,
       this.level,
       this.category1,

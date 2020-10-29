@@ -1,3 +1,4 @@
+import 'package:Invicta/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class TeamMemberCard extends StatelessWidget {
@@ -107,7 +108,9 @@ class TeamMemberCard extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context,MaterialPageRoute(builder: (_)=>ProfileScreen(false)));
+                          },
                           child: Container(
                             child: Flexible(
                               child: Text(

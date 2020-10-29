@@ -1,3 +1,4 @@
+import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/welcome.dart';
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final isMyProfile;
+
+  ProfileScreen(this.isMyProfile);
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -60,23 +65,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(8)),
-                          child: FlatButton(
-                            child: Text(
-                              'Logout',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 11,
-                                  fontFamily: 'OpenSans'),
-                            ),
-                            onPressed: () {
-                              FirebaseAuth.instance.signOut();
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (_) => WelcomePage()),
-                                  (route) => false);
-                            },
-                          ),
+                          child: this.widget.isMyProfile
+                              ? FlatButton(
+                                  child: Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 11,
+                                        fontFamily: 'OpenSans'),
+                                  ),
+                                  onPressed: () {
+                                    FirebaseAuth.instance.signOut();
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (_) => WelcomePage()),
+                                        (route) => false);
+                                  },
+                                )
+                              : FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                CreateCheerScreen()));
+                                  },
+                                  child: Text(
+                                    'Give Cheer',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 11,
+                                        fontFamily: 'OpenSans'),
+                                  ),
+                                ),
                         ),
                       ),
                     ),
@@ -92,7 +114,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           children: [
                             ProfileImage(
-                              imageData: AssetImage('assets/images/profile.jpg'),
+                              imageData:
+                                  AssetImage('assets/images/profile.jpg'),
                               imgDiameter: 72.0,
                               borderDiameter: 80.0,
                             ),
