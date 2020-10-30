@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 import '../widgets/heading.dart';
 
 class CreateCheerScreen extends StatefulWidget {
+  final teamList;
+  final employee;
+
+  CreateCheerScreen({this.teamList, this.employee});
+
   @override
   _CreateCheerScreenState createState() => _CreateCheerScreenState();
 }
@@ -62,7 +67,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
   Widget _buildScreenUI(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 14.0, right: 14, top: 80),
+      padding: const EdgeInsets.only(left: 14.0, right: 14, top: 16),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,7 +377,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
           body: Stack(
         children: [
           _buildScreenUI(context),
-          CustomAppBar(AssetImage('assets/images/profile.jpg')),
+
         ],
       )),
     );

@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 
 class TeamMembers extends StatefulWidget {
   final companyName;
+  final email;
 
-  TeamMembers(this.companyName);
+  TeamMembers(this.companyName, this.email);
 
   @override
   _TeamMembersState createState() => _TeamMembersState();
@@ -43,29 +44,20 @@ class _TeamMembersState extends State<TeamMembers> {
                         (BuildContext context, int index) {
                           var fetchedJsonData =
                               snapshot.data.docs[index].data();
-                          CustomUser user = CustomUser.name(
-                              fetchedJsonData['email'],
-                              fetchedJsonData['name'],
-                              fetchedJsonData['imgUrl'],
-                              fetchedJsonData['role'],
-                              fetchedJsonData['companyName'],
-                              fetchedJsonData['points'],
-                              fetchedJsonData['level'],
-                              fetchedJsonData['category1'],
-                              fetchedJsonData['category2'],
-                              fetchedJsonData['category3'],
-                              fetchedJsonData['category4'],
-                              fetchedJsonData['category5']);
-                          var imgUrl = user.imgUrl;
-                          return TeamMemberCard(
-                            name: user.name,
-                            imgData: NetworkImage(imgUrl != null
-                                ? imgUrl
-                                : 'https://firebasestorage.googleapis.com/v0/b/invicta-c7073.appspot.com/o/profile_images%2Fimage_picker3178190758274656164.jpg?alt=media&token=f8462177-42c8-4975-b9b0-76792af7624e'),
-                            role: user.role,
-                            company: user.companyName,
-                            level: user.level.toString(),
-                          );
+
+                          // if (fetchedJsonData['email'] != this.widget.email) {
+                            CustomUser user =
+                                CustomUser.fromJson(fetchedJsonData);
+                            var imgUrl = user.imgUrl;
+                            return TeamMemberCard(
+                              //TODO: show my team card but hide view more btn
+                              user: user,
+                              imgData: NetworkImage(imgUrl != null
+                                  ? imgUrl
+                                  : 'https://firebasestorage.googleapis.com/v0/b/invicta-c7073.appspot.com/o/profile_images%2Fimage_picker3178190758274656164.jpg?alt=media&token=f8462177-42c8-4975-b9b0-76792af7624e'),
+                            );
+
+
                         },
                         childCount: snapshot.data.size,
                       ),

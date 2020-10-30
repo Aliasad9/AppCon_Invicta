@@ -336,32 +336,35 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
               if (_image != null) {
                 showAlertDialog(context);
                 await _uploadImage();
+
                 this.user.email = this.widget.email;
                 this.user.name = _textEditingController.text;
                 this.user.companyName = _selectedCompany.name;
                 this.user.role = _selectedRole.name;
                 await databaseReference.collection("users").add(user.toJson());
-                final appDir = await syspath.getApplicationDocumentsDirectory();
-                final fileName = Path.basename(_image.path);
-                final savedImage =
-                    await _image.copy('${appDir.path}/$fileName');
+
                 final SharedPreferences prefs = await _prefs;
                 prefs.setString('email', user.email);
                 prefs.setString('name', user.name);
-                prefs.setString('imgUrl', savedImage.path);
+                prefs.setString('imgUrl', user.imgUrl);
                 prefs.setString('role', user.role);
                 prefs.setString('companyName', user.companyName);
                 prefs.setInt('points', 0);
                 prefs.setInt('level', 1);
-                prefs.setInt('category1', 0);
-                prefs.setInt('category2', 0);
-                prefs.setInt('category3', 0);
-                prefs.setInt('category4', 0);
-                prefs.setInt('category5', 0);
+                prefs.setDouble('category1', 0);
+                prefs.setDouble('category2', 0);
+                prefs.setDouble('category3', 0);
+                prefs.setDouble('category4', 0);
+                prefs.setDouble('category5', 0);
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (_) => NavigationScreen(savedImage.path, this.user.companyName, this.user.name)),
+                        builder: (_) => NavigationScreen(
+                            user.imgUrl,
+                            this.user.companyName,
+                            this.user.name,
+                            this.user.email,
+                            this.user)),
                     (route) => false);
               } else {
                 _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -383,21 +386,21 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
     );
   }
 
-  _uploadImage() async {
-    String link = '';
+  Future<String> _uploadImage() async {
+    String link;
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
         .child('profile_images/${Path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
 
-    storageReference.getDownloadURL().then((fileURL) {
-      link = fileURL;
-      print(link);
-      setState(() {
-        this.user.imgUrl = fileURL; //TODO: imgUrl Not storing in firebase
-      });
+    var url = await storageReference.getDownloadURL();
+    setState(() {
+
+      this.user.imgUrl = url.toString();
     });
+
+    return link;
   }
 
   @override

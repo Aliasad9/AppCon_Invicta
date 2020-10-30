@@ -4,11 +4,13 @@ import 'package:Invicta/widgets/profile_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   final isMyProfile;
+  final user;
 
-  ProfileScreen(this.isMyProfile);
+  ProfileScreen(this.isMyProfile, {this.user});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -20,6 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var initialDedicationWidth = 0.05;
   var initialHardworkWidth = 0.05;
   var initialProductivityWidth = 0.05;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
 
   @override
   void initState() {
@@ -75,8 +79,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontSize: 11,
                                         fontFamily: 'OpenSans'),
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     FirebaseAuth.instance.signOut();
+                                    final SharedPreferences prefs = await _prefs;
+                                    prefs.clear();
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                             builder: (_) => WelcomePage()),
@@ -88,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (_) =>
-                                                CreateCheerScreen()));
+                                                CreateCheerScreen(employee:this.widget.user)));
                                   },
                                   child: Text(
                                     'Give Cheer',

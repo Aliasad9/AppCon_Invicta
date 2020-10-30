@@ -162,7 +162,7 @@ class _AdminProfileState extends State<AdminProfile>
                     controller: _tabController,
                     children: [
                       TeamGridAdmin(),
-                      AllActivity(),
+                      // AllActivity(),
                     ],
                   ),
                 ),

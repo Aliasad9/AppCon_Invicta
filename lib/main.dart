@@ -22,19 +22,51 @@ Future<void> main() async {
   await Firebase.initializeApp();
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final SharedPreferences prefs = await _prefs;
-  var email = prefs.getString('email');
+  var imgUrl;
+  var name;
+  var companyName;
+  var user;
+  var email;
+  try {
+    email = prefs.getString('email');
+    var list = [];
+    await databaseReference
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get()
+        .then((value) =>
+            value.docs.forEach((element) => list.add(element.data())));
+    if (list.length > 0 && email != null) {
+      user = CustomUser.fromJson(list[0]);
+      print(user.name);
+      prefs.setString('name', user.name);
+      prefs.setString('imgUrl', user.imgUrl);
+      prefs.setString('role', user.role);
+      prefs.setString('companyName', user.companyName);
+      prefs.setInt('points', user.points);
+      prefs.setInt('level', user.level);
+      prefs.setDouble('category1', user.category1);
+      prefs.setDouble('category2', user.category2);
+      prefs.setDouble('category3', user.category3);
+      prefs.setDouble('category4', user.category4);
+      prefs.setDouble('category5', user.category5);
+      imgUrl = user.imgUrl;
+      name = user.name;
+      companyName = user.companyName;
+    }
+  } on Exception catch (e) {
+    imgUrl = '';
+    name = '';
+    companyName = '';
+    user = CustomUser.name('', '', '', '', '', 0, 1, 0.0, 0.0, 0.0, 0.0, 0.0);
+  }
+  if (user == null) {
+    imgUrl = null;
+    name = null;
+    companyName = null;
+    email=null;
+  }
 
-  var name = prefs.getString('name');
-  var imgUrl = prefs.getString('imgUrl');
-  // var role = prefs.getString('role');
-  var companyName = prefs.getString('companyName');
-  // var points = prefs.getInt('points');
-  // var level = prefs.getInt('level');
-  // var category1 = prefs.getInt('category1');
-  // var category2 = prefs.getInt('category2');
-  // var category3 = prefs.getInt('category3');
-  // var category4 = prefs.getInt('category4');
-  // var category5 = prefs.getInt('category5');
   // var teamList = [];
   // await databaseReference
   //     .collection("users")
@@ -58,9 +90,10 @@ Future<void> main() async {
   //   });
   // });
   //Fixing Screen Orientation
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(new MyApp(email, imgUrl,companyName,name));
+    runApp(new MyApp(email, imgUrl, companyName, name, user));
   });
 }
 
@@ -69,9 +102,9 @@ class MyApp extends StatefulWidget {
   final imgUrl;
   final companyName;
   final name;
+  final user;
 
-
-  MyApp(this.email, this.imgUrl, this.companyName, this.name);
+  MyApp(this.email, this.imgUrl, this.companyName, this.name, this.user);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -88,7 +121,8 @@ class _MyAppState extends State<MyApp> {
       ),
       debugShowCheckedModeBanner: false,
       home: this.widget.email != null
-          ? NavigationScreen(this.widget.imgUrl, this.widget.companyName, this.widget.name)
+          ? NavigationScreen(this.widget.imgUrl, this.widget.companyName,
+              this.widget.name, this.widget.email, this.widget.user)
           : WelcomePage(),
     );
   }

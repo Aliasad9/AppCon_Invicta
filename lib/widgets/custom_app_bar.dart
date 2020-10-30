@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
   final imageData;
+  final user;
 
-  const CustomAppBar(this.imageData);
+  const CustomAppBar(this.imageData, this.user);
 
   @override
   Widget build(BuildContext context) {

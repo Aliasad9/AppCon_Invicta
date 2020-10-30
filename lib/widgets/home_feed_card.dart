@@ -1,13 +1,35 @@
 import 'package:flutter/material.dart';
 
-
 class HomeFeedCard extends StatelessWidget {
-  const HomeFeedCard({
-    Key key,
-  }) : super(key: key);
+  final imgData;
+  final senderName;
+  final receiverName;
+  final timeAgo;
+  final senderRole;
+  final title;
+  final cheerMsg;
+  final color;
+
+  HomeFeedCard(this.imgData, this.senderName, this.receiverName, this.timeAgo,
+      this.senderRole, this.title, this.cheerMsg, this.color);
 
   @override
   Widget build(BuildContext context) {
+    var _color;
+    if (color == 1) {
+      _color = Colors.blue;
+    } else if (color == 2) {
+      _color = Colors.teal;
+    } else if (color == 3) {
+      _color = Colors.redAccent;
+    } else if (color == 4) {
+      _color = Colors.orange;
+    } else if (color == 5) {
+      _color = Colors.purple;
+    } else {
+      _color = Colors.blue;
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 32.0, left: 16, right: 16),
       child: Container(
@@ -26,13 +48,11 @@ class HomeFeedCard extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: CircleAvatar(
                             radius: 9,
-                            backgroundImage: AssetImage(
-                              'assets/images/profile.jpg',
-                            ),
+                            backgroundImage: imgData,
                           ),
                         ),
                         Text(
-                          'Ali Awarded You',
+                          '${senderName} Awarded ${receiverName}',
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.w400,
@@ -42,7 +62,7 @@ class HomeFeedCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '2m ago',
+                      '${timeAgo} ago',
                       style: TextStyle(
                         fontFamily: 'OpenSans',
                         fontWeight: FontWeight.w400,
@@ -53,7 +73,7 @@ class HomeFeedCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  'Software Developer at Google',
+                  '$senderRole at Google',
                   style: TextStyle(
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.w400,
@@ -82,12 +102,12 @@ class HomeFeedCard extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             top: 16, left: 16.0, bottom: 8.0),
                         child: Text(
-                          'Welcome To The Team',
+                          '$title',
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.w400,
                             fontSize: 18,
-                            color: Colors.deepPurple,
+                            color: _color,
                           ),
                         ),
                       ),
@@ -97,14 +117,14 @@ class HomeFeedCard extends StatelessWidget {
                         child: SizedBox(
                           width: 200,
                           child: Text(
-                            'Collaboration with peers has never been more fun. Fostering a culture of incread productivity & employee satisfaction.',
+                            '$cheerMsg',
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.w400,
                               fontSize: 11,
-                              color: Colors.deepPurple,
+                              color: _color,
                             ),
                           ),
                         ),
@@ -116,14 +136,14 @@ class HomeFeedCard extends StatelessWidget {
                     child: Container(
                       width: 50,
                       height: 50,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.deepPurple),
+                      decoration:
+                          BoxDecoration(shape: BoxShape.circle, color: _color),
                       child: Center(
                           child: Icon(
-                            Icons.image_sharp,
-                            color: Colors.white,
-                            size: 30,
-                          )),
+                        Icons.image_sharp, //TODO: Update icon
+                        color: Colors.white,
+                        size: 30,
+                      )),
                     ),
                   )
                 ],

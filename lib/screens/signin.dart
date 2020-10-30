@@ -1,3 +1,5 @@
+import 'package:Invicta/data/user.dart';
+import 'package:Invicta/main.dart';
 import 'package:Invicta/screens/navigation_screen.dart';
 import 'package:Invicta/screens/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -291,12 +293,37 @@ class _SignInState extends State<SignIn> {
       Navigator.pop(context);
 
       SharedPreferences prefs = await _prefs;
-      final String image = prefs.getString('imgUrl');
-      final String companyName = prefs.getString('companyName');
-      final String name = prefs.getString('name');
+      CustomUser customUser;
+      var list = [];
+      await databaseReference
+          .collection('users')
+          .where('email', isEqualTo: _emailController.text)
+          .get()
+          .then((value) =>
+              value.docs.forEach((element) => list.add(element.data())));
+      customUser = CustomUser.fromJson(list[0]);
+      prefs.setString('email', customUser.email);
+      prefs.setString('name', customUser.name);
+      prefs.setString('imgUrl', customUser.imgUrl);
+      prefs.setString('role', customUser.role);
+      prefs.setString('companyName', customUser.companyName);
+      prefs.setInt('points', customUser.points);
+      prefs.setInt('level', customUser.level);
+      prefs.setDouble('category1', customUser.category1);
+      prefs.setDouble('category2', customUser.category2);
+      prefs.setDouble('category3', customUser.category3);
+      prefs.setDouble('category4', customUser.category4);
+      prefs.setDouble('category5', customUser.category5);
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => NavigationScreen(image,companyName,name)),
-          (route) => false);
+          MaterialPageRoute(
+            builder: (_) => NavigationScreen(
+                customUser.imgUrl,
+                customUser.companyName,
+                customUser.name,
+                _emailController.text,
+                customUser),
+          ),
+          (Route<dynamic> route) => false);
     } on FirebaseAuthException catch (e) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text('${e.message}'),
@@ -311,11 +338,16 @@ class _SignInState extends State<SignIn> {
       content: new Row(
         children: [
           CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: 32), child: Text("Loading", style: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-          ),)),
+          Container(
+              margin: EdgeInsets.only(left: 32),
+              child: Text(
+                "Loading",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              )),
         ],
       ),
     );
