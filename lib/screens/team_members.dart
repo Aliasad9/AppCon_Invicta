@@ -45,7 +45,7 @@ class _TeamMembersState extends State<TeamMembers> {
                           var fetchedJsonData =
                               snapshot.data.docs[index].data();
 
-                          if (fetchedJsonData['email'] != this.widget.email) {
+                          // if (fetchedJsonData['email'] != this.widget.email) {
                             CustomUser user =
                                 CustomUser.fromJson(fetchedJsonData);
                             var imgUrl = user.imgUrl;
@@ -56,8 +56,7 @@ class _TeamMembersState extends State<TeamMembers> {
                                   ? imgUrl
                                   : 'https://firebasestorage.googleapis.com/v0/b/invicta-c7073.appspot.com/o/profile_images%2Fimage_picker3178190758274656164.jpg?alt=media&token=f8462177-42c8-4975-b9b0-76792af7624e'),
                             );
-                          }
-                          return null;
+
 
                         },
                         childCount: snapshot.data.size,

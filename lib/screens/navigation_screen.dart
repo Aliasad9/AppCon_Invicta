@@ -48,7 +48,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
             ),
             _currentIndex != 2
                 ? CustomAppBar(
-                    FileImage(File(this.widget.imgUrl)), this.widget.user)
+                    this.widget.imgUrl != null
+                        ? NetworkImage(this.widget.imgUrl)
+                        : AssetImage('assets/images/profile.jpg'),
+                    this.widget.user)
                 : Container(
                     height: 0,
                     width: 0,
@@ -134,7 +137,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon: Icon(MyFlutterApp.trophy, color: Colors.black),
+                            icon:
+                                Icon(MyFlutterApp.trophy, color: Colors.black),
                           ),
                           _currentIndex == 2
                               ? Container(

@@ -6,11 +6,11 @@ class CustomUser {
   String companyName;
   int points;
   int level;
-  int category1;
-  int category2;
-  int category3;
-  int category4;
-  int category5;
+  double category1;
+  double category2;
+  double category3;
+  double category4;
+  double category5;
 
   CustomUser();
 
@@ -36,11 +36,11 @@ class CustomUser {
         companyName = json['companyName'],
         points = json['points'],
         level = json['level'],
-        category1 = json['category1'],
-        category2 = json['category2'],
-        category3 = json['category3'],
-        category4 = json['category4'],
-        category5 = json['category5'];
+        category1 = (json['category1']).toDouble(),
+        category2 = (json['category2']).toDouble(),
+        category3 = (json['category3']).toDouble(),
+        category4 = (json['category4']).toDouble(),
+        category5 = (json['category5']).toDouble();
 
   Map<String, dynamic> toJson() => {
         'name': this.name,
