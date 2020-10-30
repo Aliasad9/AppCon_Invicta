@@ -1,5 +1,4 @@
 import 'package:Invicta/data/user.dart';
-import 'package:Invicta/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardCard extends StatelessWidget {
@@ -51,34 +50,38 @@ class LeaderboardCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            child: Text(
-                              '${user.name}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'OpenSans',
+                      Container(
+                        width: MediaQuery.of(context).size.width-132,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text(
+                                '${user.name}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'OpenSans',
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                              top: 6,
-                            ),
-                            child: Text(
-                              'LVL \u2022 ${user.level}',
-                              style: TextStyle(
-                                color: Colors.black38,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'OpenSans',
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 16.0,
+                                top: 6,
+                              ),
+                              child: Text(
+                                'LVL \u2022 ${user.level}',
+                                style: TextStyle(
+                                  color: Colors.black38,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'OpenSans',
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Row(
                         children: [

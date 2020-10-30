@@ -68,8 +68,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData && snapshot.data.size > 0) {
-                              var fetchedDataJson = snapshot.data.docs[0].data();
-                              CustomUser user = CustomUser.fromJson(fetchedDataJson);
+                              var fetchedDataJson =
+                                  snapshot.data.docs[0].data();
+                              CustomUser user =
+                                  CustomUser.fromJson(fetchedDataJson);
                               return Column(
                                 children: [
                                   Text(
@@ -82,8 +84,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     ),
                                   ),
                                   ProfileImage(
-                                    imageData:
-                                        NetworkImage(user.imgUrl),
+                                    imageData: NetworkImage(user.imgUrl),
                                     imgDiameter: 72.0,
                                     borderDiameter: 80.0,
                                   ),
@@ -175,109 +176,4 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     );
   }
 
-// List _buildListItems() {
-//   var leaderboardItems = [
-//     {
-//       'name': 'Awais Qamar',
-//       'position': '1st',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'Backend Developer',
-//       'company': 'Facebook',
-//       'level': 100
-//     },
-//     {
-//       'name': 'Adam Lee',
-//       'position': '2nd',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'Backend Developer',
-//       'company': 'Traverse',
-//       'level': 52
-//     },
-//     {
-//       'name': 'Jones Stuart',
-//       'position': '3rd',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'Backend Developer',
-//       'company': 'Google',
-//       'level': 21
-//     },
-//     {
-//       'name': 'Chris Eduardo',
-//       'position': '4th',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'Frontend Developer',
-//       'company': 'Traverse',
-//       'level': 20
-//     },
-//     {
-//       'name': 'Tom Brown',
-//       'position': '5th',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'UI/UX Designer',
-//       'company': 'Youtube',
-//       'level': 9
-//     },
-//     {
-//       'name': 'Chris Eduardo',
-//       'position': '4th',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'Frontend Developer',
-//       'company': 'Traverse',
-//       'level': 3
-//     },
-//     {
-//       'name': 'Tom Brown',
-//       'position': '5th',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'UI/UX Designer',
-//       'company': 'Youtube',
-//       'level': 8
-//     },
-//     {
-//       'name': 'Chris Eduardo',
-//       'position': '4th',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'Frontend Developer',
-//       'company': 'Traverse',
-//       'level': 5
-//     },
-//     {
-//       'name': 'Tom Brown',
-//       'position': '5th',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'UI/UX Designer',
-//       'company': 'Youtube',
-//       'level': 11
-//     },
-//     {
-//       'name': 'Chris Eduardo',
-//       'position': '4th',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'Frontend Developer',
-//       'company': 'Traverse',
-//       'level': 10
-//     },
-//     {
-//       'name': 'Tom Brown',
-//       'position': '5th',
-//       'imgUrl': 'assets/images/profile.jpg',
-//       'role': 'UI/UX Designer',
-//       'company': 'Youtube',
-//       'level': 11
-//     },
-//   ];
-//   List<Widget> listItems = [];
-//   for (var i = 0; i < leaderboardItems.length; i++)
-//     listItems.add(
-//       LeaderboardCard(
-//         name: leaderboardItems[i]['name'],
-//           position: (i+1).toString(),
-//           imgUrl:leaderboardItems[i]['imgUrl'],
-//           role: leaderboardItems[i]['role'],
-//           company: leaderboardItems[i]['company'],
-//           level: leaderboardItems[i]['level']
-//       ),
-//     );
-//   return listItems;
-// }
 }
