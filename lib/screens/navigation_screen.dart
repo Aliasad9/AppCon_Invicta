@@ -110,7 +110,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-                            icon: Icon(MyFlutterApp.heart_empty,
+                            icon: Icon(MyFlutterApp.group,
                                 color: Colors.black),
                           ),
                           _currentIndex == 1

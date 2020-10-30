@@ -1,5 +1,7 @@
+import 'package:Invicta/data/user.dart';
 import 'package:Invicta/widgets/leaderboard_card.dart';
 import 'package:Invicta/widgets/profile_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardScreen extends StatefulWidget {
@@ -59,165 +61,223 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 : Container(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Leaderboard',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'OpenSans',
-                            ),
-                          ),
-                          ProfileImage(
-                            imageData: AssetImage('assets/images/profile.jpg'),
-                            imgDiameter: 72.0,
-                            borderDiameter: 80.0,
-                          ),
-                          Text(
-                            'Awais Qamar',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'OpenSans',
-                            ),
-                          ),
-                          Text(
-                            'Senior React Developer',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF8F8F8F),
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'OpenSans',
-                            ),
-                          ),
-                          Text(
-                            '1200 Points',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'OpenSans',
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("users")
+                              .orderBy('points', descending: true)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData && snapshot.data.size > 0) {
+                              var fetchedDataJson = snapshot.data.docs[0].data();
+                              CustomUser user = CustomUser.fromJson(fetchedDataJson);
+                              return Column(
+                                children: [
+                                  Text(
+                                    'Leaderboard',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'OpenSans',
+                                    ),
+                                  ),
+                                  ProfileImage(
+                                    imageData:
+                                        NetworkImage(user.imgUrl),
+                                    imgDiameter: 72.0,
+                                    borderDiameter: 80.0,
+                                  ),
+                                  Text(
+                                    '${user.name}',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'OpenSans',
+                                    ),
+                                  ),
+                                  Text(
+                                    '${user.role}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF8F8F8F),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'OpenSans',
+                                    ),
+                                  ),
+                                  Text(
+                                    '${user.points} Points',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'OpenSans',
+                                    ),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return SliverToBoxAdapter(
+                                child: Text('No User Exists'),
+                              );
+                            }
+                          }),
                     ),
                   ),
           ),
         ),
-        SliverList(
-          delegate: new SliverChildListDelegate(_buildListItems()),
+        StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection("users")
+              .orderBy('points', descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return SliverToBoxAdapter(
+                child: Text(
+                  'No Team Members Found :(',
+                ),
+              );
+            } else if (snapshot.hasData) {
+              return (snapshot.hasData && snapshot.data.size > 0)
+                  ? SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          var fetchedJsonData =
+                              snapshot.data.docs[index].data();
+
+                          // if (fetchedJsonData['email'] != this.widget.email) {
+                          CustomUser user =
+                              CustomUser.fromJson(fetchedJsonData);
+
+                          return LeaderboardCard(
+                              user: user, position: (index + 1).toString());
+                        },
+                        childCount: snapshot.data.size,
+                      ),
+                    )
+                  : SliverToBoxAdapter(
+                      child: Container(
+                        height: 200,
+                        child: Center(
+                          child: Text(
+                            'No Team Members Found :(',
+                          ),
+                        ),
+                      ),
+                    );
+            } else {
+              return SliverToBoxAdapter(child: CircularProgressIndicator());
+            }
+          },
         )
       ],
     );
   }
 
-  List _buildListItems() {
-    var leaderboardItems = [
-      {
-        'name': 'Awais Qamar',
-        'position': '1st',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'Backend Developer',
-        'company': 'Facebook',
-        'level': 100
-      },
-      {
-        'name': 'Adam Lee',
-        'position': '2nd',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'Backend Developer',
-        'company': 'Traverse',
-        'level': 52
-      },
-      {
-        'name': 'Jones Stuart',
-        'position': '3rd',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'Backend Developer',
-        'company': 'Google',
-        'level': 21
-      },
-      {
-        'name': 'Chris Eduardo',
-        'position': '4th',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'Frontend Developer',
-        'company': 'Traverse',
-        'level': 20
-      },
-      {
-        'name': 'Tom Brown',
-        'position': '5th',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'UI/UX Designer',
-        'company': 'Youtube',
-        'level': 9
-      },
-      {
-        'name': 'Chris Eduardo',
-        'position': '4th',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'Frontend Developer',
-        'company': 'Traverse',
-        'level': 3
-      },
-      {
-        'name': 'Tom Brown',
-        'position': '5th',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'UI/UX Designer',
-        'company': 'Youtube',
-        'level': 8
-      },
-      {
-        'name': 'Chris Eduardo',
-        'position': '4th',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'Frontend Developer',
-        'company': 'Traverse',
-        'level': 5
-      },
-      {
-        'name': 'Tom Brown',
-        'position': '5th',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'UI/UX Designer',
-        'company': 'Youtube',
-        'level': 11
-      },
-      {
-        'name': 'Chris Eduardo',
-        'position': '4th',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'Frontend Developer',
-        'company': 'Traverse',
-        'level': 10
-      },
-      {
-        'name': 'Tom Brown',
-        'position': '5th',
-        'imgUrl': 'assets/images/profile.jpg',
-        'role': 'UI/UX Designer',
-        'company': 'Youtube',
-        'level': 11
-      },
-    ];
-    List<Widget> listItems = [];
-    for (var i = 0; i < leaderboardItems.length; i++)
-      listItems.add(
-        LeaderboardCard(
-          name: leaderboardItems[i]['name'],
-            position: (i+1).toString(),
-            imgUrl:leaderboardItems[i]['imgUrl'],
-            role: leaderboardItems[i]['role'],
-            company: leaderboardItems[i]['company'],
-            level: leaderboardItems[i]['level']
-        ),
-      );
-    return listItems;
-  }
+// List _buildListItems() {
+//   var leaderboardItems = [
+//     {
+//       'name': 'Awais Qamar',
+//       'position': '1st',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'Backend Developer',
+//       'company': 'Facebook',
+//       'level': 100
+//     },
+//     {
+//       'name': 'Adam Lee',
+//       'position': '2nd',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'Backend Developer',
+//       'company': 'Traverse',
+//       'level': 52
+//     },
+//     {
+//       'name': 'Jones Stuart',
+//       'position': '3rd',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'Backend Developer',
+//       'company': 'Google',
+//       'level': 21
+//     },
+//     {
+//       'name': 'Chris Eduardo',
+//       'position': '4th',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'Frontend Developer',
+//       'company': 'Traverse',
+//       'level': 20
+//     },
+//     {
+//       'name': 'Tom Brown',
+//       'position': '5th',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'UI/UX Designer',
+//       'company': 'Youtube',
+//       'level': 9
+//     },
+//     {
+//       'name': 'Chris Eduardo',
+//       'position': '4th',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'Frontend Developer',
+//       'company': 'Traverse',
+//       'level': 3
+//     },
+//     {
+//       'name': 'Tom Brown',
+//       'position': '5th',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'UI/UX Designer',
+//       'company': 'Youtube',
+//       'level': 8
+//     },
+//     {
+//       'name': 'Chris Eduardo',
+//       'position': '4th',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'Frontend Developer',
+//       'company': 'Traverse',
+//       'level': 5
+//     },
+//     {
+//       'name': 'Tom Brown',
+//       'position': '5th',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'UI/UX Designer',
+//       'company': 'Youtube',
+//       'level': 11
+//     },
+//     {
+//       'name': 'Chris Eduardo',
+//       'position': '4th',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'Frontend Developer',
+//       'company': 'Traverse',
+//       'level': 10
+//     },
+//     {
+//       'name': 'Tom Brown',
+//       'position': '5th',
+//       'imgUrl': 'assets/images/profile.jpg',
+//       'role': 'UI/UX Designer',
+//       'company': 'Youtube',
+//       'level': 11
+//     },
+//   ];
+//   List<Widget> listItems = [];
+//   for (var i = 0; i < leaderboardItems.length; i++)
+//     listItems.add(
+//       LeaderboardCard(
+//         name: leaderboardItems[i]['name'],
+//           position: (i+1).toString(),
+//           imgUrl:leaderboardItems[i]['imgUrl'],
+//           role: leaderboardItems[i]['role'],
+//           company: leaderboardItems[i]['company'],
+//           level: leaderboardItems[i]['level']
+//       ),
+//     );
+//   return listItems;
+// }
 }

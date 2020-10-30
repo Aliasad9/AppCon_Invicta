@@ -3,20 +3,14 @@ import 'package:Invicta/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardCard extends StatelessWidget {
-  final String name;
+  final CustomUser user;
   final String position;
-  final String imgUrl;
-  final String role;
-  final String company;
-  final int level;
+
 
   LeaderboardCard({
-    @required this.name,
+    @required this.user,
     @required this.position,
-    @required this.imgUrl,
-    @required this.role,
-    @required this.company,
-    @required this.level,
+
   });
 
   @override
@@ -48,8 +42,8 @@ class LeaderboardCard extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: CircleAvatar(
                       radius: 20,
-                      backgroundImage: AssetImage(
-                        '$imgUrl',
+                      backgroundImage: NetworkImage(
+                        '${user.imgUrl}',
                       ),
                     ),
                   ),
@@ -61,7 +55,7 @@ class LeaderboardCard extends StatelessWidget {
                         children: [
                           Container(
                             child: Text(
-                              '$name',
+                              '${user.name}',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w400,
@@ -75,7 +69,7 @@ class LeaderboardCard extends StatelessWidget {
                               top: 6,
                             ),
                             child: Text(
-                              'LVL \u2022 $level',
+                              'LVL \u2022 ${user.level}',
                               style: TextStyle(
                                 color: Colors.black38,
                                 fontSize: 10,
@@ -89,7 +83,7 @@ class LeaderboardCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '$role at',
+                            '${user.role} at',
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
@@ -106,7 +100,7 @@ class LeaderboardCard extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
-                                '$company',
+                                '${user.companyName}',
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
