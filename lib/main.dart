@@ -36,24 +36,35 @@ Future<void> main() async {
         .get()
         .then((value) =>
             value.docs.forEach((element) => list.add(element.data())));
-    user = CustomUser.fromJson(list[0]);
-    print(user.name);
-    name = prefs.setString('name', user.name);
-    imgUrl = prefs.setString('imgUrl', user.imgUrl);
-    var role = prefs.setString('role', user.role);
-    companyName = prefs.setString('companyName', user.companyName);
-    var points = prefs.setInt('points', user.points);
-    var level = prefs.setInt('level', user.level);
-    var category1 = prefs.setDouble('category1', user.category1);
-    var category2 = prefs.setDouble('category2', user.category2);
-    var category3 = prefs.setDouble('category3', user.category3);
-    var category4 = prefs.setDouble('category4', user.category4);
-    var category5 = prefs.setDouble('category5', user.category5);
+    if (list.length > 0 && email != null) {
+      user = CustomUser.fromJson(list[0]);
+      print(user.name);
+      prefs.setString('name', user.name);
+      prefs.setString('imgUrl', user.imgUrl);
+      prefs.setString('role', user.role);
+      prefs.setString('companyName', user.companyName);
+      prefs.setInt('points', user.points);
+      prefs.setInt('level', user.level);
+      prefs.setDouble('category1', user.category1);
+      prefs.setDouble('category2', user.category2);
+      prefs.setDouble('category3', user.category3);
+      prefs.setDouble('category4', user.category4);
+      prefs.setDouble('category5', user.category5);
+      imgUrl = user.imgUrl;
+      name = user.name;
+      companyName = user.companyName;
+    }
   } on Exception catch (e) {
+    imgUrl = '';
+    name = '';
+    companyName = '';
+    user = CustomUser.name('', '', '', '', '', 0, 1, 0.0, 0.0, 0.0, 0.0, 0.0);
+  }
+  if (user == null) {
     imgUrl = null;
     name = null;
     companyName = null;
-    user = null;
+    email=null;
   }
 
   // var teamList = [];
@@ -82,8 +93,7 @@ Future<void> main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(
-        new MyApp(user.email, user.imgUrl, user.companyName, user.name, user));
+    runApp(new MyApp(email, imgUrl, companyName, name, user));
   });
 }
 

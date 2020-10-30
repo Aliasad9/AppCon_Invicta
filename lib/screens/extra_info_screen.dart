@@ -335,8 +335,8 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
             if (_formKey.currentState.validate()) {
               if (_image != null) {
                 showAlertDialog(context);
-                var link = await _uploadImage();
-                print(link);
+                await _uploadImage();
+
                 this.user.email = this.widget.email;
                 this.user.name = _textEditingController.text;
                 this.user.companyName = _selectedCompany.name;
@@ -346,7 +346,7 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                 final SharedPreferences prefs = await _prefs;
                 prefs.setString('email', user.email);
                 prefs.setString('name', user.name);
-                prefs.setString('imgUrl', link);
+                prefs.setString('imgUrl', user.imgUrl);
                 prefs.setString('role', user.role);
                 prefs.setString('companyName', user.companyName);
                 prefs.setInt('points', 0);
@@ -360,7 +360,7 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (_) => NavigationScreen(
-                            link,
+                            user.imgUrl,
                             this.user.companyName,
                             this.user.name,
                             this.user.email,
@@ -387,21 +387,20 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
   }
 
   Future<String> _uploadImage() async {
-    String link = '';
+    String link;
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
         .child('profile_images/${Path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
 
-    storageReference.getDownloadURL().then((fileURL) {
-      link = fileURL;
-      print(link);
-      setState(() {
-        this.user.imgUrl = fileURL; //TODO: imgUrl Not storing in firebase
-        return link;
-      });
+    var url = await storageReference.getDownloadURL();
+    setState(() {
+
+      this.user.imgUrl = url.toString();
     });
+
+    return link;
   }
 
   @override

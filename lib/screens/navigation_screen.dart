@@ -33,7 +33,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     var navigationPages = [
-      HomeScreen(this.widget.name),
+      HomeScreen(this.widget.name, this.widget.email),
       TeamMembers(this.widget.companyName, this.widget.email),
       LeaderboardScreen()
     ];
