@@ -1,11 +1,11 @@
-import 'package:Invicta/widgets/custom_app_bar.dart';
+import 'package:Invicta/data/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/heading.dart';
 
 class CreateCheerScreen extends StatefulWidget {
-  final teamList;
+  final List<CustomUser> teamList;
   final employee;
 
   CreateCheerScreen({this.teamList, this.employee});
@@ -22,9 +22,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   List<DropdownMenuItem<Category>> _dropdownMenuItemsCategory;
   Category _selectedCompany;
 
-  List<Employee> _employees = Employee.getEmployee();
-  List<DropdownMenuItem<Employee>> _dropdownMenuItemsEmployee;
-  Employee _selectedEmployee;
+  List<CustomUser> _employees;
+  List<DropdownMenuItem<CustomUser>> _dropdownMenuItemsEmployee;
+  CustomUser _selectedEmployee;
 
   bool _isBlueChecked = true;
   bool _isRedChecked = false;
@@ -36,16 +36,19 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
   @override
   void initState() {
+    if (this.widget.teamList != null) {
+      _employees = this.widget.teamList;
+      _dropdownMenuItemsEmployee = buildDropdownMenuItemsEmployee(_employees);
+      _selectedEmployee = _dropdownMenuItemsEmployee[0].value;
+    }
     _dropdownMenuItemsCategory = buildDropdownMenuItemsCategory(_companies);
     _selectedCompany = _dropdownMenuItemsCategory[0].value;
-
-    _dropdownMenuItemsEmployee = buildDropdownMenuItemsEmployee(_employees);
-    _selectedEmployee = _dropdownMenuItemsEmployee[0].value;
 
     super.initState();
   }
 
-  List<DropdownMenuItem<Category>> buildDropdownMenuItemsCategory(List companies) {
+  List<DropdownMenuItem<Category>> buildDropdownMenuItemsCategory(
+      List companies) {
     List<DropdownMenuItem<Category>> items = List();
     for (Category company in companies) {
       items.add(
@@ -68,24 +71,27 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     return items;
   }
 
-
-  List<DropdownMenuItem<Employee>> buildDropdownMenuItemsEmployee(List employees) {
-    List<DropdownMenuItem<Employee>> items = List();
-    for (Employee employee in employees) {
+  List<DropdownMenuItem<CustomUser>> buildDropdownMenuItemsEmployee(employees) {
+    List<DropdownMenuItem<CustomUser>> items = [];
+    for (CustomUser employee in employees) {
       items.add(
         DropdownMenuItem(
           value: employee,
           child: Padding(
-            padding: const EdgeInsets.only(left: 16.0),
+            padding: const EdgeInsets.only(left: 0),
             child: ListTile(
-              title:Text(employee.username,style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'OpenSans',
-                  fontSize: 13),
-
-
+              leading: CircleAvatar(
+                radius: 18,
+                backgroundImage: employee.imgUrl!=null?NetworkImage(employee.imgUrl):AssetImage('assets/images/profile.jpg'),
               ),
-              subtitle:Text(employee.email),
+              title: Text(
+                employee.name,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'OpenSans',
+                    fontSize: 13),
+              ),
+              subtitle: Text(employee.email),
             ),
           ),
         ),
@@ -94,15 +100,13 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     return items;
   }
 
-
-
-
   onChangeDropdownItemCategory(Category selectedCompany) {
     setState(() {
       _selectedCompany = selectedCompany;
     });
   }
-  onChangeDropdownItemEmployee(Employee selectedEmployee) {
+
+  onChangeDropdownItemEmployee(CustomUser selectedEmployee) {
     setState(() {
       _selectedEmployee = selectedEmployee;
     });
@@ -116,6 +120,34 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Heading("Cheers For Your Peer!"),
+            SizedBox(
+              height: 5,
+            ),
+            this.widget.teamList != null
+                ? _buildDropDownEmployee()
+                : Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16), border: Border.all(color:Colors.black)
+                      ),
+                      child: ListTile(
+
+                        leading: CircleAvatar(
+                          radius: 18,
+                          backgroundImage: this.widget.employee.imgUrl!=null?NetworkImage(this.widget.employee.imgUrl):AssetImage('assets/images/profile.jpg'),
+                        ),
+                        title: Text(
+                          this.widget.employee.name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'OpenSans',
+                              fontSize: 13),
+                        ),
+                        subtitle: Text(this.widget.employee.email),
+                      ),
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0, top: 32),
               child: TextFormField(
@@ -161,8 +193,6 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                 ? _buildSubHeading('Select a Category')
                 : Container(),
             cheerType == 1 ? _buildDropDownCategory() : Container(),
-            SizedBox(height: 5,),
-            _buildDropDownEmployee(),
             _buildButton(),
           ],
         ),
@@ -393,6 +423,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
           isExpanded: true,
+          itemHeight: 60,
           value: _selectedEmployee,
           items: _dropdownMenuItemsEmployee,
           onChanged: onChangeDropdownItemEmployee,
@@ -400,6 +431,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       ),
     );
   }
+
   _buildButton() {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, bottom: 16),
@@ -437,7 +469,6 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
           body: Stack(
         children: [
           _buildScreenUI(context),
-
         ],
       )),
     );
@@ -460,20 +491,19 @@ class Category {
     ];
   }
 }
-class Employee {
-  String username;
-  String email;
-
-  Employee(this.username, this.email);
-
-  static List<Employee> getEmployee() {
-    return <Employee>[
-      Employee("alpha","alpha@gmail.com"),
-      Employee("alpha","alpha@gmail.com"),
-      Employee("alpha","alpha@gmail.com"),
-      Employee("alpha","alpha@gmail.com"),
-
-
-    ];
-  }
-}
+//
+// class Employee {
+//   String username;
+//   String email;
+//
+//   Employee(this.username, this.email);
+//
+//   static List<Employee> getEmployee() {
+//     return <Employee>[
+//       Employee("Al Asad", "alaliasad@gmail.com"),
+//       Employee("Awais Qamar", "awais@gmail.com"),
+//       Employee("Fahad", "fahad@gmail.com"),
+//       Employee("Ali Zeb", "zbe@gmail.com"),
+//     ];
+//   }
+// }

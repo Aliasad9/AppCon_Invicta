@@ -85,7 +85,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             iconSize: 30.0,
 
                             icon:
-                                Icon(MyFlutterApp.home_2, color: Colors.black),
+                                Icon(MyFlutterApp.home_outline, color: Colors.black),
 
                           ),
                           _currentIndex == 0
@@ -113,7 +113,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             },
                             iconSize: 30.0,
 
-                            icon: Icon(MyFlutterApp.group,
+                            icon: Icon(MyFlutterApp.users_outline,
                                 color: Colors.black),
 
                           ),
@@ -143,7 +143,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             iconSize: 30.0,
 
                             icon:
-                                Icon(MyFlutterApp.trophy, color: Colors.black),
+                                Icon(MyFlutterApp.graduation_hat, color: Colors.black),
 
                           ),
                           _currentIndex == 2
@@ -174,7 +174,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            var list = [];
+            List<CustomUser> list = [];
             await databaseReference
                 .collection("users")
                 .where("companyName", isEqualTo: this.widget.companyName)
