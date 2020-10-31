@@ -19,8 +19,13 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   TextEditingController _titleController = TextEditingController();
 
   List<Category> _companies = Category.getCategory();
-  List<DropdownMenuItem<Category>> _dropdownMenuItems;
+  List<DropdownMenuItem<Category>> _dropdownMenuItemsCategory;
   Category _selectedCompany;
+
+  List<Employee> _employees = Employee.getEmployee();
+  List<DropdownMenuItem<Employee>> _dropdownMenuItemsEmployee;
+  Employee _selectedEmployee;
+
   bool _isBlueChecked = true;
   bool _isRedChecked = false;
   bool _isTealChecked = false;
@@ -31,12 +36,16 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
   @override
   void initState() {
-    _dropdownMenuItems = buildDropdownMenuItems(_companies);
-    _selectedCompany = _dropdownMenuItems[0].value;
+    _dropdownMenuItemsCategory = buildDropdownMenuItemsCategory(_companies);
+    _selectedCompany = _dropdownMenuItemsCategory[0].value;
+
+    _dropdownMenuItemsEmployee = buildDropdownMenuItemsEmployee(_employees);
+    _selectedEmployee = _dropdownMenuItemsEmployee[0].value;
+
     super.initState();
   }
 
-  List<DropdownMenuItem<Category>> buildDropdownMenuItems(List companies) {
+  List<DropdownMenuItem<Category>> buildDropdownMenuItemsCategory(List companies) {
     List<DropdownMenuItem<Category>> items = List();
     for (Category company in companies) {
       items.add(
@@ -59,9 +68,43 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     return items;
   }
 
-  onChangeDropdownItem(Category selectedCompany) {
+
+  List<DropdownMenuItem<Employee>> buildDropdownMenuItemsEmployee(List employees) {
+    List<DropdownMenuItem<Employee>> items = List();
+    for (Employee employee in employees) {
+      items.add(
+        DropdownMenuItem(
+          value: employee,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: ListTile(
+              title:Text(employee.username,style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'OpenSans',
+                  fontSize: 13),
+
+
+              ),
+              subtitle:Text(employee.email),
+            ),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
+
+
+
+  onChangeDropdownItemCategory(Category selectedCompany) {
     setState(() {
       _selectedCompany = selectedCompany;
+    });
+  }
+  onChangeDropdownItemEmployee(Employee selectedEmployee) {
+    setState(() {
+      _selectedEmployee = selectedEmployee;
     });
   }
 
@@ -117,7 +160,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             cheerType == 1
                 ? _buildSubHeading('Select a Category')
                 : Container(),
-            cheerType == 1 ? _buildDropDown() : Container(),
+            cheerType == 1 ? _buildDropDownCategory() : Container(),
+            SizedBox(height: 5,),
+            _buildDropDownEmployee(),
             _buildButton(),
           ],
         ),
@@ -324,7 +369,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     );
   }
 
-  _buildDropDown() {
+  _buildDropDownCategory() {
     return Card(
       elevation: 3,
       shadowColor: Colors.black45,
@@ -333,13 +378,28 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
         child: DropdownButton(
           isExpanded: true,
           value: _selectedCompany,
-          items: _dropdownMenuItems,
-          onChanged: onChangeDropdownItem,
+          items: _dropdownMenuItemsCategory,
+          onChanged: onChangeDropdownItemCategory,
         ),
       ),
     );
   }
 
+  _buildDropDownEmployee() {
+    return Card(
+      elevation: 3,
+      shadowColor: Colors.black45,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton(
+          isExpanded: true,
+          value: _selectedEmployee,
+          items: _dropdownMenuItemsEmployee,
+          onChanged: onChangeDropdownItemEmployee,
+        ),
+      ),
+    );
+  }
   _buildButton() {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, bottom: 16),
@@ -397,6 +457,23 @@ class Category {
       Category(3, 'Teamwork'),
       Category(4, 'Friendliness'),
       Category(5, 'Management'),
+    ];
+  }
+}
+class Employee {
+  String username;
+  String email;
+
+  Employee(this.username, this.email);
+
+  static List<Employee> getEmployee() {
+    return <Employee>[
+      Employee("alpha","alpha@gmail.com"),
+      Employee("alpha","alpha@gmail.com"),
+      Employee("alpha","alpha@gmail.com"),
+      Employee("alpha","alpha@gmail.com"),
+
+
     ];
   }
 }
