@@ -52,7 +52,7 @@ class HomeFeedCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${senderName} Awarded ${receiverName}',
+                          '${senderName.split(' ')[0]} Awarded ${receiverName.split(' ')[0]}',
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.w400,
@@ -88,8 +88,8 @@ class HomeFeedCard extends StatelessWidget {
               height: 138,
               margin: EdgeInsets.symmetric(vertical: 22),
               decoration: BoxDecoration(
-                  color: Colors.deepPurple.withOpacity(0.32),
-                  border: Border.all(color: Colors.deepPurple),
+                  color: _color.withOpacity(0.32),
+                  border: Border.all(color: _color),
                   borderRadius: BorderRadius.circular(8)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

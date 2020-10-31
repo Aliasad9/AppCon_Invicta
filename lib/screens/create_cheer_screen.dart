@@ -1,6 +1,10 @@
+import 'package:Invicta/data/cheer.dart';
 import 'package:Invicta/data/user.dart';
+import 'package:Invicta/screens/admin_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/heading.dart';
 
@@ -15,8 +19,10 @@ class CreateCheerScreen extends StatefulWidget {
 }
 
 class _CreateCheerScreenState extends State<CreateCheerScreen> {
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TextEditingController _messageTextController = TextEditingController();
   TextEditingController _titleController = TextEditingController();
+  final databaseReference = FirebaseFirestore.instance;
 
   List<Category> _companies = Category.getCategory();
   List<DropdownMenuItem<Category>> _dropdownMenuItemsCategory;
@@ -82,7 +88,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             child: ListTile(
               leading: CircleAvatar(
                 radius: 18,
-                backgroundImage: employee.imgUrl!=null?NetworkImage(employee.imgUrl):AssetImage('assets/images/profile.jpg'),
+                backgroundImage: employee.imgUrl != null
+                    ? NetworkImage(employee.imgUrl)
+                    : AssetImage('assets/images/profile.jpg'),
               ),
               title: Text(
                 employee.name,
@@ -129,13 +137,14 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                     padding: const EdgeInsets.only(left: 0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16), border: Border.all(color:Colors.black)
-                      ),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.black)),
                       child: ListTile(
-
                         leading: CircleAvatar(
                           radius: 18,
-                          backgroundImage: this.widget.employee.imgUrl!=null?NetworkImage(this.widget.employee.imgUrl):AssetImage('assets/images/profile.jpg'),
+                          backgroundImage: this.widget.employee.imgUrl != null
+                              ? NetworkImage(this.widget.employee.imgUrl)
+                              : AssetImage('assets/images/profile.jpg'),
                         ),
                         title: Text(
                           this.widget.employee.name,
@@ -438,8 +447,42 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       child: FlatButton(
         color: Colors.red,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        onPressed: () {
-          Navigator.pushNamed(context, "/admin");
+        onPressed: () async {
+          SharedPreferences prefs = await _prefs;
+          var color;
+          if (this.textFieldColor == Colors.blue) {
+            color = 1;
+          } else if (this.textFieldColor == Colors.teal) {
+            color = 2;
+          } else if (this.textFieldColor == Colors.redAccent) {
+            color = 3;
+          } else if (this.textFieldColor == Colors.orange) {
+            color = 4;
+          } else if (this.textFieldColor == Colors.purple) {
+            color = 5;
+          } else {
+            color = 1;
+          }
+          Cheer cheer = Cheer.name(
+            _titleController.text,
+            prefs.getString('email'),
+            prefs.getString('name'),
+            prefs.getString('imgUrl'),
+            this.widget.employee != null
+                ? this.widget.employee.name
+                : this._selectedEmployee.name,
+            prefs.getString('role'),
+            this.widget.employee != null
+                ? this.widget.employee.email
+                : this._selectedEmployee.email,
+            _messageTextController.text,
+            color,
+            cheerType,
+            _selectedCompany.name,
+            DateTime.now(),
+          );
+          await databaseReference.collection("cheers").add(cheer.toJson());
+          Navigator.pop(context);
         },
         child: Container(
           width: 140,
@@ -491,19 +534,3 @@ class Category {
     ];
   }
 }
-//
-// class Employee {
-//   String username;
-//   String email;
-//
-//   Employee(this.username, this.email);
-//
-//   static List<Employee> getEmployee() {
-//     return <Employee>[
-//       Employee("Al Asad", "alaliasad@gmail.com"),
-//       Employee("Awais Qamar", "awais@gmail.com"),
-//       Employee("Fahad", "fahad@gmail.com"),
-//       Employee("Ali Zeb", "zbe@gmail.com"),
-//     ];
-//   }
-// }

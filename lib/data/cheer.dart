@@ -57,5 +57,5 @@ class Cheer {
         color = json['color'],
         label = json['label'],
         category = json['category'],
-        createdAt = json['createdAt'];
+        createdAt = json['createdAt'].toDate();
 }

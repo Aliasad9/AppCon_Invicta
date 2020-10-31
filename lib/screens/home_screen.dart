@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             stream: FirebaseFirestore.instance
                 .collection("cheers")
                 .where("senderEmail", isEqualTo: this.widget.email)
-                .where('receiverEmail', isEqualTo: this.widget.email)
+                // .where('receiverEmail', isEqualTo: this.widget.email)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -48,16 +48,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             Cheer cheer = Cheer.fromJson(fetchedJsonData);
                             DateTime dateTimeNow = DateTime.now();
+
                             var timeAgo = '';
                             var day =
-                                cheer.createdAt.difference(dateTimeNow).inDays;
+                                dateTimeNow.difference(cheer.createdAt).inDays;
                             if (day < 1) {
-                              var hrs = cheer.createdAt
-                                  .difference(dateTimeNow)
+                              var hrs = dateTimeNow
+                                  .difference(cheer.createdAt)
                                   .inHours;
                               if (hrs < 1) {
-                                var min = cheer.createdAt
-                                    .difference(dateTimeNow)
+                                var min = dateTimeNow
+                                    .difference(cheer.createdAt)
                                     .inMinutes;
                                 timeAgo = min.toString() + 'min';
                               } else {
