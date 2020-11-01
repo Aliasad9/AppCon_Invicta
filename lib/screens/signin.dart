@@ -1,5 +1,6 @@
 import 'package:Invicta/data/user.dart';
 import 'package:Invicta/main.dart';
+import 'package:Invicta/screens/admin_screen.dart';
 import 'package:Invicta/screens/navigation_screen.dart';
 import 'package:Invicta/screens/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -290,7 +291,6 @@ class _SignInState extends State<SignIn> {
         password: _passwordController.text,
       ))
           .user;
-      Navigator.pop(context);
 
       SharedPreferences prefs = await _prefs;
       CustomUser customUser;
@@ -302,6 +302,8 @@ class _SignInState extends State<SignIn> {
           .then((value) =>
               value.docs.forEach((element) => list.add(element.data())));
       customUser = CustomUser.fromJson(list[0]);
+      var isAdmin = list[0]['isAdmin'];
+
       prefs.setString('email', customUser.email);
       prefs.setString('name', customUser.name);
       prefs.setString('imgUrl', customUser.imgUrl);
@@ -314,16 +316,27 @@ class _SignInState extends State<SignIn> {
       prefs.setDouble('category3', customUser.category3);
       prefs.setDouble('category4', customUser.category4);
       prefs.setDouble('category5', customUser.category5);
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => NavigationScreen(
-                customUser.imgUrl,
-                customUser.companyName,
-                customUser.name,
-                _emailController.text,
-                customUser),
-          ),
-          (Route<dynamic> route) => false);
+      print(isAdmin);
+      Navigator.pop(context);
+      if (isAdmin==true) {
+        prefs.setBool('isAdmin', isAdmin);
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (_) => AdminProfile(customUser),
+            ),
+            (Route<dynamic> route) => false);
+      } else {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (_) => NavigationScreen(
+                  customUser.imgUrl,
+                  customUser.companyName,
+                  customUser.name,
+                  _emailController.text,
+                  customUser),
+            ),
+            (Route<dynamic> route) => false);
+      }
     } on FirebaseAuthException catch (e) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text('${e.message}'),

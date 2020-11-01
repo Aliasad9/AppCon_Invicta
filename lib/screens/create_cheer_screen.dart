@@ -41,6 +41,13 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   int cheerType = 1;
 
   @override
+  void dispose() {
+    super.dispose();
+    _formKey.currentState.dispose();
+    _messageTextController.dispose();
+    _titleController.dispose();
+  }
+  @override
   void initState() {
     if (this.widget.teamList != null) {
       _employees = this.widget.teamList;
@@ -161,31 +168,42 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
               padding: const EdgeInsets.only(bottom: 16.0, top: 32),
               child: Form(
                 key: _formKey,
-                child: TextFormField(
-                  controller: _titleController,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return ("Field cannot be empty");
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Title',
-                    contentPadding: EdgeInsets.only(left: 16),
-                    filled: true,
-                    fillColor: Colors.white,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:16.0),
+                      child: TextFormField(
+                        controller: _titleController,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return ("Field cannot be empty");
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Title',
+                          contentPadding: EdgeInsets.only(left: 16),
+                          filled: true,
+                          fillColor: Colors.white,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid, width: 1)
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid, width: 1)
+
+                          ),
+                        ),
+                        //keyboardType: TextInputType.emailAddress,
+                      ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  //keyboardType: TextInputType.emailAddress,
+                    _buildTextField(this.textFieldColor),
+                  ],
                 ),
               ),
             ),
-            _buildTextField(this.textFieldColor),
+
             _buildSubHeading('Select Desired Color'),
             Row(
               children: [
@@ -221,31 +239,28 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   }
 
   _buildTextField(fillColor) {
-    return Form(
-      key: _formKey,
-      child: TextFormField(
-        validator: (value) {
-          if (value.isEmpty) {
-            return ("Field cannot be empty");
-          }
-          return null;
-        },
-        controller: _messageTextController,
-        maxLines: 4,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: fillColor.withOpacity(0.32),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: fillColor, width: 0),
-          ),
-          hintText: 'Type a Super Nice Message...',
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-              color: fillColor,
-              width: 2,
-            ),
+    return TextFormField(
+      validator: (value) {
+        if (value.isEmpty) {
+          return ("Field cannot be empty");
+        }
+        return null;
+      },
+      controller: _messageTextController,
+      maxLines: 4,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: fillColor.withOpacity(0.32),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: fillColor, width: 0),
+        ),
+        hintText: 'Type a Super Nice Message...',
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: fillColor,
+            width: 2,
           ),
         ),
       ),

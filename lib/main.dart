@@ -1,4 +1,5 @@
 import 'package:Invicta/data/user.dart';
+import 'package:Invicta/screens/admin_screen.dart';
 import 'package:Invicta/screens/navigation_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,6 +28,7 @@ Future<void> main() async {
   var companyName;
   var user;
   var email;
+  var isAdmin;
   try {
     email = prefs.getString('email');
     var list = [];
@@ -38,7 +40,9 @@ Future<void> main() async {
             value.docs.forEach((element) => list.add(element.data())));
     if (list.length > 0 && email != null) {
       user = CustomUser.fromJson(list[0]);
+      isAdmin = list[0]['isAdmin'];
       print(user.name);
+      prefs.setBool('isAdmin', isAdmin);
       prefs.setString('name', user.name);
       prefs.setString('imgUrl', user.imgUrl);
       prefs.setString('role', user.role);
@@ -64,7 +68,7 @@ Future<void> main() async {
     imgUrl = null;
     name = null;
     companyName = null;
-    email=null;
+    email = null;
   }
 
   // var teamList = [];
@@ -93,7 +97,7 @@ Future<void> main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(new MyApp(email, imgUrl, companyName, name, user));
+    runApp(new MyApp(email, imgUrl, companyName, name, user, isAdmin));
   });
 }
 
@@ -103,8 +107,10 @@ class MyApp extends StatefulWidget {
   final companyName;
   final name;
   final user;
+  final isAdmin;
 
-  MyApp(this.email, this.imgUrl, this.companyName, this.name, this.user);
+  MyApp(this.email, this.imgUrl, this.companyName, this.name, this.user,
+      this.isAdmin);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -121,8 +127,10 @@ class _MyAppState extends State<MyApp> {
       ),
       debugShowCheckedModeBanner: false,
       home: this.widget.email != null
-          ? NavigationScreen(this.widget.imgUrl, this.widget.companyName,
-              this.widget.name, this.widget.email, this.widget.user)
+          ? this.widget.isAdmin == true
+              ? AdminProfile(this.widget.user)
+              : NavigationScreen(this.widget.imgUrl, this.widget.companyName,
+                  this.widget.name, this.widget.email, this.widget.user)
           : WelcomePage(),
     );
   }

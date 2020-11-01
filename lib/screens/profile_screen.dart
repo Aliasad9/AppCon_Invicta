@@ -120,8 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           children: [
                             ProfileImage(
-                              imageData:
-                                  AssetImage('assets/images/profile.jpg'),
+                              imageData: NetworkImage(this.widget.user.imgUrl),
                               imgDiameter: 72.0,
                               borderDiameter: 80.0,
                             ),
@@ -143,7 +142,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontFamily: 'OpenSans',
                               ),
                             ),
-                            SizedBox(height: 12,),
+                            SizedBox(
+                              height: 12,
+                            ),
                             // Text(
                             //   '${this.widget.user.points} Points',
                             //   style: TextStyle(
@@ -440,7 +441,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Stack(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width - 110,
+                    width: MediaQuery.of(context).size.width - 32,
                     height: 36,
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.32),
@@ -449,7 +450,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   AnimatedContainer(
                     height: 36,
-                    width: (MediaQuery.of(context).size.width - 110) * value,
+                    width: (MediaQuery.of(context).size.width - 32) * value,
                     duration: Duration(seconds: 5),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
@@ -459,7 +460,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              getLabelName('${(value * 100).round()}%'),
+              // getLabelName('${(value * 100).round()}%'),
             ],
           ),
         ),
@@ -497,21 +498,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   updateWidth(BuildContext context) {
     setState(() {
-      initialFriendlinessWidth = this.widget.user.category1 > 100
-          ? 1
-          : this.widget.user.category1 / 100;
-      initialTeamworkWidth = this.widget.user.category2 > 100
-          ? 1
-          : this.widget.user.category2 / 100;
-      initialDedicationWidth = this.widget.user.category3 > 100
-          ? 1
-          : this.widget.user.category3 / 100;
-      initialHardworkWidth = this.widget.user.category4 > 100
-          ? 1
-          : this.widget.user.category4 / 100;
-      initialProductivityWidth = this.widget.user.category5 > 100
-          ? 1
-          : this.widget.user.category5 / 100;
+      var total = this.widget.user.category1 +
+          this.widget.user.category2 +
+          this.widget.user.category3 +
+          this.widget.user.category4 +
+          this.widget.user.category5;
+      if (total==0){
+        total=1;
+      }
+      initialFriendlinessWidth = this.widget.user.category1 / total;
+      initialTeamworkWidth = this.widget.user.category2 / total;
+      initialDedicationWidth = this.widget.user.category3 / total;
+      initialHardworkWidth = this.widget.user.category4 / total;
+      initialProductivityWidth = this.widget.user.category5 / total;
     });
   }
 }

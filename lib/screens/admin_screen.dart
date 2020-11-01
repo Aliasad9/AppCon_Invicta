@@ -1,11 +1,18 @@
 import 'package:Invicta/screens/all_activity_tab_view.dart';
 import 'package:Invicta/screens/create_new_team.dart';
+import 'package:Invicta/screens/welcome.dart';
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:Invicta/widgets/teams_grid_admin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminProfile extends StatefulWidget {
+  final user;
+
+  AdminProfile(this.user);
+
   @override
   _AdminProfileState createState() => _AdminProfileState();
 }
@@ -13,6 +20,7 @@ class AdminProfile extends StatefulWidget {
 class _AdminProfileState extends State<AdminProfile>
     with TickerProviderStateMixin {
   TabController _tabController;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
   void initState() {
@@ -88,7 +96,14 @@ class _AdminProfileState extends State<AdminProfile>
                           fontSize: 11,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        FirebaseAuth.instance.signOut();
+                        final SharedPreferences prefs = await _prefs;
+                        prefs.clear();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (_) => WelcomePage()),
+                            (route) => false);
+                      },
                     ),
                   ),
                 ),
@@ -106,7 +121,7 @@ class _AdminProfileState extends State<AdminProfile>
                     ),
                   ),
                   Text(
-                    "Awais Qamar",
+                    "${this.widget.user.name}",
                     style: TextStyle(
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.w600,
@@ -114,7 +129,7 @@ class _AdminProfileState extends State<AdminProfile>
                     ),
                   ),
                   Text(
-                    "System Admin",
+                    "${this.widget.user.role}",
                     style: TextStyle(
                       color: Colors.black45,
                       fontFamily: 'OpenSans',

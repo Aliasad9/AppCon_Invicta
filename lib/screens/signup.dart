@@ -268,11 +268,10 @@ class _LoginState extends State<SignupPage> {
                         right: 0,
                         child: InkWell(
                           onTap: () async {
-                            // if (_formKey.currentState.validate()) {
-                            //   _register(context);
-                            // }
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => AdminProfile()));
+                            if (_formKey.currentState.validate()) {
+                              _register(context);
+                            }
+
                           },
                           child: Container(
                             height: 50,

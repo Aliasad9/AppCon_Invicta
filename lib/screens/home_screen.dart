@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 .orderBy('createdAt', descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
+              var count = 0;
               if (!snapshot.hasData) {
                 return SliverToBoxAdapter(
                   child: CircularProgressIndicator(),
@@ -66,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 timeAgo = day.toString() + 'days';
                               }
+                              count++;
 
                               return HomeFeedCard(
                                   cheer.senderImgData,
@@ -78,7 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   cheer.color,
                                   cheer.label);
                             } else {
-                              return Container();
+                              if (count == 0) {
+                                count++;
+                                return Container(
+                                  //child: Center(child: Text('No data found!')),
+                                );
+                              } else {
+                                return Container();
+                              }
                             }
                           },
                           childCount: snapshot.data.size,
@@ -89,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 200,
                           child: Center(
                             child: Text(
-                              'No Cheers Found :(',
+                              'No Data Found :(',
                             ),
                           ),
                         ),
@@ -97,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else {
                 return SliverToBoxAdapter(
                   child: Text(
-                    'No Cheers Found :(',
+                    'No Data Found :(',
                   ),
                 );
               }
