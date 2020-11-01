@@ -45,7 +45,7 @@ class CustomAppBar extends StatelessWidget {
             InkWell(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => ProfileScreen(true)));
+                    MaterialPageRoute(builder: (_) => ProfileScreen(true, user)));//TODO: Pass user here
               },
               child: ProfileImage(
                 imageData: imageData,

@@ -104,7 +104,7 @@ class TeamMemberCard extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => ProfileScreen(false, user: user,)));
+                                      builder: (_) => ProfileScreen(false, user)));
                             },
                             child: Container(
                               child: Flexible(

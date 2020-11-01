@@ -10,7 +10,7 @@ class ProfileScreen extends StatefulWidget {
   final isMyProfile;
   final user;
 
-  ProfileScreen(this.isMyProfile, {this.user});
+  ProfileScreen(this.isMyProfile, this.user);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               borderDiameter: 80.0,
                             ),
                             Text(
-                              'Awais Qamar',
+                              '${this.widget.user.name}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             Text(
-                              'Senior React Developer',
+                              '${this.widget.user.role}',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF8F8F8F),
@@ -143,97 +143,112 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontFamily: 'OpenSans',
                               ),
                             ),
-                            Text(
-                              '1200 Points',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'OpenSans',
-                              ),
-                            ),
+                            SizedBox(height: 12,),
+                            // Text(
+                            //   '${this.widget.user.points} Points',
+                            //   style: TextStyle(
+                            //     fontSize: 12,
+                            //     color: Theme.of(context).primaryColor,
+                            //     fontWeight: FontWeight.w600,
+                            //     fontFamily: 'OpenSans',
+                            //   ),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        height: 56,
-                                        width: 56,
-                                        margin: EdgeInsets.only(bottom: 8),
-                                        decoration: BoxDecoration(
-                                            color: Colors.yellow,
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.auto_awesome,
-                                          size: 40,
-                                          color: Colors.orange,
+                                  this.widget.user.level >= 50
+                                      ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4.0),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: 56,
+                                                width: 56,
+                                                margin:
+                                                    EdgeInsets.only(bottom: 8),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.yellow,
+                                                    shape: BoxShape.circle),
+                                                child: Icon(
+                                                  Icons.auto_awesome,
+                                                  size: 40,
+                                                  color: Colors.orange,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Gold Badge',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'OpenSans',
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : Container(),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 24.0),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 56,
+                                          width: 56,
+                                          margin: EdgeInsets.only(bottom: 8),
+                                          decoration: BoxDecoration(
+                                              color: Colors.deepPurple
+                                                  .withOpacity(0.32),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            Icons.leaderboard,
+                                            size: 40,
+                                            color: Colors.deepPurple,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Gold Badge',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'OpenSans',
-                                        ),
-                                      )
-                                    ],
+                                        Text(
+                                          'LVL \u2022 ${this.widget.user.level.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'OpenSans',
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        height: 56,
-                                        width: 56,
-                                        margin: EdgeInsets.only(bottom: 8),
-                                        decoration: BoxDecoration(
-                                            color: Colors.deepPurple
-                                                .withOpacity(0.32),
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.leaderboard,
-                                          size: 40,
-                                          color: Colors.deepPurple,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 24.0),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 56,
+                                          width: 56,
+                                          margin: EdgeInsets.only(bottom: 8),
+                                          decoration: BoxDecoration(
+                                              color: Colors.green
+                                                  .withOpacity(0.32),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            Icons.star,
+                                            size: 40,
+                                            color: Colors.green,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'LVL 10',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'OpenSans',
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        height: 56,
-                                        width: 56,
-                                        margin: EdgeInsets.only(bottom: 8),
-                                        decoration: BoxDecoration(
-                                            color:
-                                                Colors.green.withOpacity(0.32),
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.star,
-                                          size: 40,
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                      Text(
-                                        '100 Points',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'OpenSans',
-                                        ),
-                                      )
-                                    ],
+                                        Text(
+                                          '${this.widget.user.points.toString()} Points',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'OpenSans',
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -254,140 +269,140 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        getLabelName('Summary'),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                color: Colors.deepPurple.withOpacity(0.10),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Colors.deepPurple.withOpacity(0.32),
-                                        shape: BoxShape.circle),
-                                    child: Icon(
-                                      Icons.leaderboard,
-                                      size: 20,
-                                      color: Colors.deepPurple,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Level',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: 'OpenSans',
-                                    ),
-                                  ),
-                                  Text(
-                                    '100',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'OpenSans',
-                                      color: Colors.deepPurple,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 100,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFD3D9E8),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Color(0xFF2E68FF).withOpacity(0.32),
-                                        shape: BoxShape.circle),
-                                    child: Icon(
-                                      Icons.leaderboard,
-                                      size: 20,
-                                      color: Color(0xFF2E68FF),
-                                    ),
-                                  ),
-                                  Text(
-                                    'Points',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: 'OpenSans',
-                                    ),
-                                  ),
-                                  Text(
-                                    '1020',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'OpenSans',
-                                      color: Color(0xFF2E68FF),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 100,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                color: Colors.yellow.withOpacity(0.32),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    decoration: BoxDecoration(
-                                        color: Colors.yellow,
-                                        shape: BoxShape.circle),
-                                    child: Icon(
-                                      Icons.leaderboard,
-                                      size: 20,
-                                      color: Colors.orange,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Badge',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: 'OpenSans',
-                                    ),
-                                  ),
-                                  Text(
-                                    'Gold',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'OpenSans',
-                                        color: Colors.orange),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        getLabelName('Your Stats'),
+                        // getLabelName('Summary'),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   children: [
+                        //     Container(
+                        //       width: 100,
+                        //       height: 120,
+                        //       decoration: BoxDecoration(
+                        //         color: Colors.deepPurple.withOpacity(0.10),
+                        //         borderRadius: BorderRadius.circular(12),
+                        //       ),
+                        //       child: Column(
+                        //         children: [
+                        //           Container(
+                        //             height: 40,
+                        //             width: 40,
+                        //             margin: EdgeInsets.symmetric(vertical: 10),
+                        //             decoration: BoxDecoration(
+                        //                 color:
+                        //                     Colors.deepPurple.withOpacity(0.32),
+                        //                 shape: BoxShape.circle),
+                        //             child: Icon(
+                        //               Icons.leaderboard,
+                        //               size: 20,
+                        //               color: Colors.deepPurple,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             'Level',
+                        //             style: TextStyle(
+                        //               fontSize: 11,
+                        //               fontWeight: FontWeight.w400,
+                        //               fontFamily: 'OpenSans',
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             '100',
+                        //             style: TextStyle(
+                        //               fontSize: 18,
+                        //               fontWeight: FontWeight.w600,
+                        //               fontFamily: 'OpenSans',
+                        //               color: Colors.deepPurple,
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //       width: 100,
+                        //       height: 120,
+                        //       decoration: BoxDecoration(
+                        //         color: Color(0xFFD3D9E8),
+                        //         borderRadius: BorderRadius.circular(12),
+                        //       ),
+                        //       child: Column(
+                        //         children: [
+                        //           Container(
+                        //             height: 40,
+                        //             width: 40,
+                        //             margin: EdgeInsets.symmetric(vertical: 10),
+                        //             decoration: BoxDecoration(
+                        //                 color:
+                        //                     Color(0xFF2E68FF).withOpacity(0.32),
+                        //                 shape: BoxShape.circle),
+                        //             child: Icon(
+                        //               Icons.leaderboard,
+                        //               size: 20,
+                        //               color: Color(0xFF2E68FF),
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             'Points',
+                        //             style: TextStyle(
+                        //               fontSize: 11,
+                        //               fontWeight: FontWeight.w400,
+                        //               fontFamily: 'OpenSans',
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             '1020',
+                        //             style: TextStyle(
+                        //               fontSize: 18,
+                        //               fontWeight: FontWeight.w600,
+                        //               fontFamily: 'OpenSans',
+                        //               color: Color(0xFF2E68FF),
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //       width: 100,
+                        //       height: 120,
+                        //       decoration: BoxDecoration(
+                        //         color: Colors.yellow.withOpacity(0.32),
+                        //         borderRadius: BorderRadius.circular(12),
+                        //       ),
+                        //       child: Column(
+                        //         children: [
+                        //           Container(
+                        //             height: 40,
+                        //             width: 40,
+                        //             margin: EdgeInsets.symmetric(vertical: 10),
+                        //             decoration: BoxDecoration(
+                        //                 color: Colors.yellow,
+                        //                 shape: BoxShape.circle),
+                        //             child: Icon(
+                        //               Icons.leaderboard,
+                        //               size: 20,
+                        //               color: Colors.orange,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             'Badge',
+                        //             style: TextStyle(
+                        //               fontSize: 11,
+                        //               fontWeight: FontWeight.w400,
+                        //               fontFamily: 'OpenSans',
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             'Gold',
+                        //             style: TextStyle(
+                        //                 fontSize: 18,
+                        //                 fontWeight: FontWeight.w600,
+                        //                 fontFamily: 'OpenSans',
+                        //                 color: Colors.orange),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
+                        getLabelName('Statistics'),
                         getProgressBar('Friendliness', initialFriendlinessWidth,
                             Theme.of(context).primaryColor, context),
                         getProgressBar('Hardwork', initialHardworkWidth,
@@ -425,7 +440,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Stack(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width - 102,
+                    width: MediaQuery.of(context).size.width - 110,
                     height: 36,
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.32),
@@ -434,7 +449,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   AnimatedContainer(
                     height: 36,
-                    width: (MediaQuery.of(context).size.width - 100) * value,
+                    width: (MediaQuery.of(context).size.width - 110) * value,
                     duration: Duration(seconds: 5),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
@@ -468,7 +483,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget getLabelName(String label) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8, left: 16.0, bottom: 8.0),
+      padding: const EdgeInsets.only(top: 16, left: 16.0, bottom: 8.0),
       child: Text(
         '$label',
         style: TextStyle(
@@ -482,11 +497,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   updateWidth(BuildContext context) {
     setState(() {
-      initialFriendlinessWidth = 0.85;
-      initialTeamworkWidth = 0.65;
-      initialDedicationWidth = 0.35;
-      initialHardworkWidth = 0.95;
-      initialProductivityWidth = 0.15;
+      initialFriendlinessWidth = this.widget.user.category1 > 100
+          ? 1
+          : this.widget.user.category1 / 100;
+      initialTeamworkWidth = this.widget.user.category2 > 100
+          ? 1
+          : this.widget.user.category2 / 100;
+      initialDedicationWidth = this.widget.user.category3 > 100
+          ? 1
+          : this.widget.user.category3 / 100;
+      initialHardworkWidth = this.widget.user.category4 > 100
+          ? 1
+          : this.widget.user.category4 / 100;
+      initialProductivityWidth = this.widget.user.category5 > 100
+          ? 1
+          : this.widget.user.category5 / 100;
     });
   }
 }
