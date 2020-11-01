@@ -12,7 +12,7 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _descriptionController = new TextEditingController();
 
- final databaseReference = FirebaseFirestore.instance;
+  final databaseReference = FirebaseFirestore.instance;
 
   Map<int, TextEditingController> controllers = {};
 
@@ -33,11 +33,13 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
             }
             return null;
           },
-
           controller: controller,
-          decoration: InputDecoration(labelText: 'role name',   filled: true,
+          decoration: InputDecoration(
+            labelText: 'Position Name',
+            filled: true,
             fillColor: Colors.white,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
+          ),
         ),
       ));
     });
@@ -59,18 +61,16 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
 
           controller: _nameController,
           decoration: InputDecoration(
-
-    filled: true,
-    fillColor: Colors.white,
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
-
-
-              labelText: 'title'), //TODO: put empty string validator
+              filled: true,
+              fillColor: Colors.white,
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
+              labelText: 'Name'),
         ),
       ),
-      SizedBox(height:5),
+
       Padding(
-                padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: TextFormField(
           validator: (value) {
             if (value.isEmpty) {
@@ -79,41 +79,16 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
             return null;
           },
           controller: _descriptionController,
-          decoration: InputDecoration(labelText: 'description',
-
+          decoration: InputDecoration(
+            labelText: 'Description',
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
-
           ),
         ),
       )
     ];
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -141,101 +116,100 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: listOfFields,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: listOfFields,
+                  ),
                 ),
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top:8.0,left:140,right: 4),
-                    child: ClipOval(
-                      child: Material(
-                        color:  Colors.blue,
-                        child: InkWell(
-                          splashColor: Colors.red,
-                          child: SizedBox(
-                            child: Icon(Icons.remove),
-                            width: 56,
-                            height: 56,
-                          ),
-                            onTap: () {
-                              setState(() {
-                                if (listOfFields.length > 2) {
-                                  listOfFields.removeAt(listOfFields.length - 1);
-                                  _fieldsCount -= 1;
-                                }
-                              });
-                            }
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 8.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.blue,
+                          child: InkWell(
+                              splashColor: Colors.red,
+                              child: SizedBox(
+                                child: Icon(Icons.remove),
+                                width: 56,
+                                height: 56,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  if (listOfFields.length > 2) {
+                                    listOfFields
+                                        .removeAt(listOfFields.length - 1);
+                                    _fieldsCount -= 1;
+                                  }
+                                });
+                              }),
                         ),
                       ),
-
-
-
-                       ),
-                  ),
-                  SizedBox(
-                    width:5,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top:8.0),
-                    child: ClipOval(
-                      child: Material(
-                        color:  Colors.blue,
-                        child: InkWell(
-                            splashColor: Colors.green,
-                            child: SizedBox(
-                              child: Icon(Icons.add),
-                              width: 56,
-                              height: 56,
-                            ),
-                            onTap: () {
-                             addNewField();
-                            }
-                        ),
-                      ),
-
-
-
                     ),
-                  ),
-
-                ],
-              ),
-              SizedBox(height: 5,),
-              Center(
-                child: RaisedButton(
-                  color: Colors.redAccent,
-                    padding: const EdgeInsets.all(10),
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
-
-                  onPressed: () async {
-                    var companyName = _nameController.text;
-                    await databaseReference.collection('Companies').add({
-                      'companyName': companyName,
-                      'description': _descriptionController.text,
-                    });
-                    var batch = databaseReference.batch();
-                    for (var i = 1; i < controllers.length + 1; i++) {
-                      var ref = databaseReference.collection('Roles').doc();
-                      batch.set(ref, {
-                        'companyName': companyName,
-                        'roleName': controllers[i].text
-                      });
-                    }
-                    await batch.commit();
-                    print('Done');
-                    Navigator.pop(context);
-                  },
-                    child: Text('Submit')),
-              )
-            ],
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.blue,
+                          child: InkWell(
+                              splashColor: Colors.green,
+                              child: SizedBox(
+                                child: Icon(Icons.add),
+                                width: 56,
+                                height: 56,
+                              ),
+                              onTap: () {
+                                addNewField();
+                              }),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 32,
+                ),
+                Center(
+                  child: FlatButton(
+                      color: Colors.redAccent,
+                      padding: const EdgeInsets.all(10),
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                      onPressed: () async {
+                        var companyName = _nameController.text;
+                        await databaseReference.collection('Companies').add({
+                          'companyName': companyName,
+                          'description': _descriptionController.text,
+                        });
+                        var batch = databaseReference.batch();
+                        for (var i = 1; i < controllers.length + 1; i++) {
+                          var ref = databaseReference.collection('Roles').doc();
+                          batch.set(ref, {
+                            'companyName': companyName,
+                            'roleName': controllers[i].text
+                          });
+                        }
+                        await batch.commit();
+                        print('Done');
+                        Navigator.pop(context);
+                      },
+                      child: Text('Submit')),
+                )
+              ],
+            ),
           ),
         ),
       ),
