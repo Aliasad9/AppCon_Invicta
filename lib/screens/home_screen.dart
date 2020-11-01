@@ -28,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection("cheers")
-                .where("senderEmail", isEqualTo: this.widget.email)
-                // .where('receiverEmail', isEqualTo: this.widget.email)
+                .orderBy('createdAt', descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -45,38 +44,43 @@ class _HomeScreenState extends State<HomeScreen> {
                           (BuildContext context, int index) {
                             var fetchedJsonData =
                                 snapshot.data.docs[index].data();
-
                             Cheer cheer = Cheer.fromJson(fetchedJsonData);
-                            DateTime dateTimeNow = DateTime.now();
+                            if (cheer.senderEmail == this.widget.email ||
+                                cheer.receiverEmail == this.widget.email) {
+                              DateTime dateTimeNow = DateTime.now();
 
-                            var timeAgo = '';
-                            var day =
-                                dateTimeNow.difference(cheer.createdAt).inDays;
-                            if (day < 1) {
-                              var hrs = dateTimeNow
+                              var timeAgo = '';
+                              var day = dateTimeNow
                                   .difference(cheer.createdAt)
-                                  .inHours;
-                              if (hrs < 1) {
-                                var min = dateTimeNow
+                                  .inDays;
+                              if (day < 1) {
+                                var hrs = dateTimeNow
                                     .difference(cheer.createdAt)
-                                    .inMinutes;
-                                timeAgo = min.toString() + 'min';
+                                    .inHours;
+                                if (hrs < 1) {
+                                  var min = dateTimeNow
+                                      .difference(cheer.createdAt)
+                                      .inMinutes;
+                                  timeAgo = min.toString() + 'min';
+                                } else {
+                                  timeAgo = hrs.toString() + 'hrs';
+                                }
                               } else {
-                                timeAgo = hrs.toString() + 'hrs';
+                                timeAgo = day.toString() + 'days';
                               }
-                            } else {
-                              timeAgo = day.toString() + 'days';
-                            }
 
-                            return HomeFeedCard(
-                                cheer.senderImgData,
-                                cheer.senderName,
-                                cheer.receiverName,
-                                timeAgo,
-                                cheer.senderRole,
-                                cheer.title,
-                                cheer.cheerMsg,
-                                cheer.color);
+                              return HomeFeedCard(
+                                  cheer.senderImgData,
+                                  cheer.senderName,
+                                  cheer.receiverName,
+                                  timeAgo,
+                                  cheer.senderRole,
+                                  cheer.title,
+                                  cheer.cheerMsg,
+                                  cheer.color, cheer.label);
+                            } else {
+                              return Container();
+                            }
                           },
                           childCount: snapshot.data.size,
                         ),
@@ -101,6 +105,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-
-
 }

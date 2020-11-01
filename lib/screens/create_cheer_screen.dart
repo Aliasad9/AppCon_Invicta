@@ -19,6 +19,7 @@ class CreateCheerScreen extends StatefulWidget {
 }
 
 class _CreateCheerScreenState extends State<CreateCheerScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TextEditingController _messageTextController = TextEditingController();
   TextEditingController _titleController = TextEditingController();
@@ -159,27 +160,30 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                   ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0, top: 32),
-              child: TextFormField(
-                controller: _titleController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return ("Field cannot be empty");
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  hintText: 'Title',
-                  contentPadding: EdgeInsets.only(left: 16),
-                  filled: true,
-                  fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+              child: Form(
+                key:_formKey,
+                child: TextFormField(
+                  controller: _titleController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return ("Field cannot be empty");
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Title',
+                    contentPadding: EdgeInsets.only(left: 16),
+                    filled: true,
+                    fillColor: Colors.white,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  //keyboardType: TextInputType.emailAddress,
                 ),
-                //keyboardType: TextInputType.emailAddress,
               ),
             ),
             _buildTextField(this.textFieldColor),
@@ -218,22 +222,31 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   }
 
   _buildTextField(fillColor) {
-    return TextFormField(
-      controller: _messageTextController,
-      maxLines: 4,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: fillColor.withOpacity(0.32),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: fillColor, width: 0),
-        ),
-        hintText: 'Type a Super Nice Message...',
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            color: fillColor,
-            width: 2,
+    return Form(
+      key:_formKey,
+      child: TextFormField(
+        validator: (value) {
+          if (value.isEmpty) {
+            return ("Field cannot be empty");
+          }
+          return null;
+        },
+        controller: _messageTextController,
+        maxLines: 4,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: fillColor.withOpacity(0.32),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: fillColor, width: 0),
+          ),
+          hintText: 'Type a Super Nice Message...',
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: fillColor,
+              width: 2,
+            ),
           ),
         ),
       ),
@@ -448,41 +461,44 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
         color: Colors.red,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onPressed: () async {
-          SharedPreferences prefs = await _prefs;
-          var color;
-          if (this.textFieldColor == Colors.blue) {
-            color = 1;
-          } else if (this.textFieldColor == Colors.teal) {
-            color = 2;
-          } else if (this.textFieldColor == Colors.redAccent) {
-            color = 3;
-          } else if (this.textFieldColor == Colors.orange) {
-            color = 4;
-          } else if (this.textFieldColor == Colors.purple) {
-            color = 5;
-          } else {
-            color = 1;
+          if (_formKey.currentState.validate()){
+            SharedPreferences prefs = await _prefs;
+            var color;
+            if (this.textFieldColor == Colors.blue) {
+              color = 1;
+            } else if (this.textFieldColor == Colors.teal) {
+              color = 2;
+            } else if (this.textFieldColor == Colors.redAccent) {
+              color = 3;
+            } else if (this.textFieldColor == Colors.orange) {
+              color = 4;
+            } else if (this.textFieldColor == Colors.purple) {
+              color = 5;
+            } else {
+              color = 1;
+            }
+            Cheer cheer = Cheer.name(
+              _titleController.text,
+              prefs.getString('email'),
+              prefs.getString('name'),
+              prefs.getString('imgUrl'),
+              this.widget.employee != null
+                  ? this.widget.employee.name
+                  : this._selectedEmployee.name,
+              prefs.getString('role'),
+              this.widget.employee != null
+                  ? this.widget.employee.email
+                  : this._selectedEmployee.email,
+              _messageTextController.text,
+              color,
+              cheerType,
+              _selectedCompany.name,
+              DateTime.now(),
+            );
+            await databaseReference.collection("cheers").add(cheer.toJson());
+            Navigator.pop(context);
           }
-          Cheer cheer = Cheer.name(
-            _titleController.text,
-            prefs.getString('email'),
-            prefs.getString('name'),
-            prefs.getString('imgUrl'),
-            this.widget.employee != null
-                ? this.widget.employee.name
-                : this._selectedEmployee.name,
-            prefs.getString('role'),
-            this.widget.employee != null
-                ? this.widget.employee.email
-                : this._selectedEmployee.email,
-            _messageTextController.text,
-            color,
-            cheerType,
-            _selectedCompany.name,
-            DateTime.now(),
-          );
-          await databaseReference.collection("cheers").add(cheer.toJson());
-          Navigator.pop(context);
+
         },
         child: Container(
           width: 140,

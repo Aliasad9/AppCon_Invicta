@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class TeamMemberCard extends StatelessWidget {
   final user;
   final imgData;
+  final isViewMoreVisible;
 
   TeamMemberCard({
     @required this.user,
     @required this.imgData,
+    @required this.isViewMoreVisible
   });
 
   @override
@@ -95,22 +97,25 @@ class TeamMemberCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => ProfileScreen(false, user: user,)));
-                          },
-                          child: Container(
-                            child: Flexible(
-                              child: Text(
-                                "View Profile",
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'OpenSans',
+                        Visibility(
+                          visible: this.isViewMoreVisible,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ProfileScreen(false, user: user,)));
+                            },
+                            child: Container(
+                              child: Flexible(
+                                child: Text(
+                                  "View Profile",
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'OpenSans',
+                                  ),
                                 ),
                               ),
                             ),

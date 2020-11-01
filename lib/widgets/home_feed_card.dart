@@ -9,13 +9,15 @@ class HomeFeedCard extends StatelessWidget {
   final title;
   final cheerMsg;
   final color;
+  final label;
 
   HomeFeedCard(this.imgData, this.senderName, this.receiverName, this.timeAgo,
-      this.senderRole, this.title, this.cheerMsg, this.color);
+      this.senderRole, this.title, this.cheerMsg, this.color, this.label);
 
   @override
   Widget build(BuildContext context) {
     var _color;
+    var _label;
     if (color == 1) {
       _color = Colors.blue;
     } else if (color == 2) {
@@ -28,6 +30,13 @@ class HomeFeedCard extends StatelessWidget {
       _color = Colors.purple;
     } else {
       _color = Colors.blue;
+    }
+    if (label == 1) {
+      _label = Icons.auto_awesome;
+    } else if (label == 2) {
+      _label = Icons.wine_bar;
+    } else if (label == 3) {
+      _label = Icons.favorite_border;
     }
 
     return Padding(
@@ -53,6 +62,8 @@ class HomeFeedCard extends StatelessWidget {
                         ),
                         Text(
                           '${senderName.split(' ')[0]} Awarded ${receiverName.split(' ')[0]}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.w400,
@@ -101,13 +112,18 @@ class HomeFeedCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 16, left: 16.0, bottom: 8.0),
-                        child: Text(
-                          '$title',
-                          style: TextStyle(
-                            fontFamily: 'OpenSans',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18,
-                            color: _color,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Text(
+                            '$title',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                              color: _color,
+                            ),
                           ),
                         ),
                       ),
@@ -140,7 +156,7 @@ class HomeFeedCard extends StatelessWidget {
                           BoxDecoration(shape: BoxShape.circle, color: _color),
                       child: Center(
                           child: Icon(
-                        Icons.image_sharp, //TODO: Update icon
+                        _label,
                         color: Colors.white,
                         size: 30,
                       )),

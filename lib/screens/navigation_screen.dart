@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/home_screen.dart';
@@ -8,7 +7,6 @@ import 'package:Invicta/widgets/custom_app_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import '../icons/my_flutter_app_icons.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -83,10 +81,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-
-                            icon:
-                                Icon(MyFlutterApp.home_outline, color: Colors.black),
-
+                            icon: Icon(MyFlutterApp.home_outline,
+                                color: Colors.black),
                           ),
                           _currentIndex == 0
                               ? Container(
@@ -112,10 +108,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-
                             icon: Icon(MyFlutterApp.users_outline,
                                 color: Colors.black),
-
                           ),
                           _currentIndex == 1
                               ? Container(
@@ -141,10 +135,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               });
                             },
                             iconSize: 30.0,
-
-                            icon:
-                                Icon(MyFlutterApp.graduation_hat, color: Colors.black),
-
+                            icon: Icon(MyFlutterApp.graduation_hat,
+                                color: Colors.black),
                           ),
                           _currentIndex == 2
                               ? Container(
@@ -180,11 +172,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 .where("companyName", isEqualTo: this.widget.companyName)
                 .get()
                 .then(
-                  (QuerySnapshot snapshot) => snapshot.docs.forEach(
-                    (element) => list.add(
-                      CustomUser.fromJson(element.data()),
-                    ),
-                  ),
+                  (QuerySnapshot snapshot) => snapshot.docs.forEach((element) {
+                    CustomUser user = CustomUser.fromJson(element.data());
+                    if (user.email != this.widget.email) {
+                      list.add(user);
+                    }
+                  }),
                 );
             Navigator.push(
               context,
@@ -208,10 +201,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
                       color: Theme.of(context).primaryColor.withOpacity(0.32),
                       blurRadius: 6)
                 ]),
-            child: Icon(
-              CupertinoIcons.heart,
-              color: Colors.white,
-              size: 40,
+            child: Center(
+              child: Icon(
+                Icons.favorite_border,
+                color: Colors.white,
+                size: 40,
+              ),
             ),
           ),
           backgroundColor: Theme.of(context).primaryColor,

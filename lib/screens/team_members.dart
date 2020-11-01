@@ -46,18 +46,20 @@ class _TeamMembersState extends State<TeamMembers> {
                               snapshot.data.docs[index].data();
 
                           // if (fetchedJsonData['email'] != this.widget.email) {
-                            CustomUser user =
-                                CustomUser.fromJson(fetchedJsonData);
-                            var imgUrl = user.imgUrl;
-                            return TeamMemberCard(
-                              //TODO: show my team card but hide view more btn
-                              user: user,
-                              imgData: NetworkImage(imgUrl != null
-                                  ? imgUrl
-                                  : 'https://firebasestorage.googleapis.com/v0/b/invicta-c7073.appspot.com/o/profile_images%2Fimage_picker3178190758274656164.jpg?alt=media&token=f8462177-42c8-4975-b9b0-76792af7624e'),
-                            );
-
-
+                          CustomUser user =
+                              CustomUser.fromJson(fetchedJsonData);
+                          var imgUrl = user.imgUrl;
+                          var isViewMoreVisible = true;
+                          if (this.widget.email == user.email) {
+                            isViewMoreVisible = false;
+                          }
+                          return TeamMemberCard(
+                            isViewMoreVisible: isViewMoreVisible,
+                            user: user,
+                            imgData: NetworkImage(imgUrl != null
+                                ? imgUrl
+                                : 'https://firebasestorage.googleapis.com/v0/b/invicta-c7073.appspot.com/o/profile_images%2Fimage_picker3178190758274656164.jpg?alt=media&token=f8462177-42c8-4975-b9b0-76792af7624e'),
+                          );
                         },
                         childCount: snapshot.data.size,
                       ),
