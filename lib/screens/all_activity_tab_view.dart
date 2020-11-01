@@ -51,7 +51,8 @@ class _AllActivityState extends State<AllActivity> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return SliverToBoxAdapter(child: CircularProgressIndicator());
+                return SliverToBoxAdapter(
+                    child: Center(child: CircularProgressIndicator()));
               } else if (snapshot.hasData) {
                 return (snapshot.hasData && snapshot.data.size > 0)
                     ? SliverList(

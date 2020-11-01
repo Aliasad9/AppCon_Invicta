@@ -10,9 +10,9 @@ class TeamGridAdmin extends StatelessWidget {
         stream: FirebaseFirestore.instance.collection("Companies").snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
-            // for (var index in snapshot.data.docs.size){
+
 
             return Container(
               child: ListView.builder(

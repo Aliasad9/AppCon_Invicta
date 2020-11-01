@@ -24,7 +24,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var initialProductivityWidth = 0.05;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-
   @override
   void initState() {
     super.initState();
@@ -81,7 +80,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   onPressed: () async {
                                     FirebaseAuth.instance.signOut();
-                                    final SharedPreferences prefs = await _prefs;
+                                    final SharedPreferences prefs =
+                                        await _prefs;
                                     prefs.clear();
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
@@ -93,8 +93,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   onPressed: () {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (_) =>
-                                                CreateCheerScreen(employee:this.widget.user)));
+                                            builder: (_) => CreateCheerScreen(
+                                                employee: this.widget.user)));
                                   },
                                   child: Text(
                                     'Give Cheer',

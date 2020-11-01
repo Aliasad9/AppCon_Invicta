@@ -77,7 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   cheer.senderRole,
                                   cheer.title,
                                   cheer.cheerMsg,
-                                  cheer.color, cheer.label);
+                                  cheer.color,
+                                  cheer.label);
                             } else {
                               return Container();
                             }
@@ -98,9 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
               } else {
                 return SliverToBoxAdapter(child: CircularProgressIndicator());
               }
-              // return SliverList(
-              //   delegate: new SliverChildListDelegate(_buildListItems(10)),
-              // );
             })
       ],
     );

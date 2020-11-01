@@ -1,11 +1,9 @@
-import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/admin_screen.dart';
 import 'package:Invicta/screens/extra_info_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -397,16 +395,6 @@ class _LoginState extends State<SignupPage> {
         content: new Text('${e.message}'),
       ));
     }
-    // if (user != null) {
-    //   setState(() {
-    //     _success = true;
-    //     email = user.email;
-    //   });
-    // } else {
-    //   setState(() {
-    //     _success = true;
-    //   });
-    // }
   }
 
   showAlertDialog(BuildContext context) {

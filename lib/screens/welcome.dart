@@ -59,10 +59,11 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
               Container(
-                  padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
-                  child: SvgPicture.asset(
-                    'assets/images/illust.svg',
-                  )),
+                padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                child: SvgPicture.asset(
+                  'assets/images/illust.svg',
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: SizedBox(

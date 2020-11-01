@@ -16,7 +16,6 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
 
   Map<int, TextEditingController> controllers = {};
 
-  // Map<int, GlobalKey> subtractBtn = {};
   int _fieldsCount = 0;
   var listOfFields;
 
@@ -38,7 +37,8 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
     listOfFields = <Widget>[
       TextFormField(
         controller: _nameController,
-        decoration: InputDecoration(hintText: 'title'),
+        decoration: InputDecoration(
+            hintText: 'title'), //TODO: put empty string validator
       ),
       TextFormField(
         controller: _descriptionController,

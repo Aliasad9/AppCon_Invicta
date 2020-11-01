@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/navigation_screen.dart';
 import 'package:Invicta/widgets/heading.dart';
@@ -9,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
-import 'package:path_provider/path_provider.dart' as syspath;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExtraInfoScreen extends StatefulWidget {
@@ -396,7 +393,6 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
 
     var url = await storageReference.getDownloadURL();
     setState(() {
-
       this.user.imgUrl = url.toString();
     });
 

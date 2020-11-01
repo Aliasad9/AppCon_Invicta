@@ -45,7 +45,6 @@ class _TeamMembersState extends State<TeamMembers> {
                           var fetchedJsonData =
                               snapshot.data.docs[index].data();
 
-                          // if (fetchedJsonData['email'] != this.widget.email) {
                           CustomUser user =
                               CustomUser.fromJson(fetchedJsonData);
                           var imgUrl = user.imgUrl;
