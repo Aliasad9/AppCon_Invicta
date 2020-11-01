@@ -1,6 +1,5 @@
 import 'package:Invicta/data/cheer.dart';
 import 'package:Invicta/data/user.dart';
-import 'package:Invicta/screens/admin_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +160,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0, top: 32),
               child: Form(
-                key:_formKey,
+                key: _formKey,
                 child: TextFormField(
                   controller: _titleController,
                   validator: (value) {
@@ -223,7 +222,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
   _buildTextField(fillColor) {
     return Form(
-      key:_formKey,
+      key: _formKey,
       child: TextFormField(
         validator: (value) {
           if (value.isEmpty) {
@@ -461,7 +460,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
         color: Colors.red,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onPressed: () async {
-          if (_formKey.currentState.validate()){
+          if (_formKey.currentState.validate()) {
             SharedPreferences prefs = await _prefs;
             var color;
             if (this.textFieldColor == Colors.blue) {
@@ -477,6 +476,56 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             } else {
               color = 1;
             }
+            var recvEmail = this.widget.employee != null
+                ? this.widget.employee.email
+                : this._selectedEmployee.email;
+            var pointsToAdd = 0;
+            if (cheerType == 1) {
+              //Cheeer
+              pointsToAdd += 5;
+            } else if (cheerType == 2) {
+              //Bday
+              pointsToAdd += 2;
+            } else if (cheerType == 3) {
+              //Kudos
+              pointsToAdd += 10;
+              //target_points = current_level *50
+
+            }
+
+            var userRef = databaseReference.collection('users');
+            await userRef.where('email', isEqualTo: recvEmail).get()
+                .then((value) => value.docs.forEach((element) {
+                      var userOldData = CustomUser.fromJson(element.data());
+                      var newPoints = userOldData.points + pointsToAdd;
+                      var _currentLevel = userOldData.level;
+                      var targetPoints = _currentLevel * 50;
+                      if (userOldData.points < targetPoints &&
+                          newPoints >= targetPoints) {
+                        _currentLevel += 1;
+                      }
+
+                      userRef.doc(element.id).update({
+                        'points': userOldData.points + pointsToAdd,
+                        'level': _currentLevel,
+                        'category1': _selectedCompany.id == 1
+                            ? userOldData.category1 += 2
+                            : userOldData.category1,
+                        'category2': _selectedCompany.id == 2
+                            ? userOldData.category2 += 2
+                            : userOldData.category2,
+                        'category3': _selectedCompany.id == 3
+                            ? userOldData.category3 += 2
+                            : userOldData.category3,
+                        'category4': _selectedCompany.id == 4
+                            ? userOldData.category4 += 2
+                            : userOldData.category4,
+                        'category5': _selectedCompany.id == 5
+                            ? userOldData.category5 += 2
+                            : userOldData.category5
+                      });
+                    }));
+
             Cheer cheer = Cheer.name(
               _titleController.text,
               prefs.getString('email'),
@@ -496,9 +545,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
               DateTime.now(),
             );
             await databaseReference.collection("cheers").add(cheer.toJson());
+            //TODO: show alert dialog
             Navigator.pop(context);
           }
-
         },
         child: Container(
           width: 140,
