@@ -494,7 +494,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             }
 
             var userRef = databaseReference.collection('users');
-            await userRef.where('email', isEqualTo: recvEmail).get()
+            await userRef
+                .where('email', isEqualTo: recvEmail)
+                .get()
                 .then((value) => value.docs.forEach((element) {
                       var userOldData = CustomUser.fromJson(element.data());
                       var newPoints = userOldData.points + pointsToAdd;
@@ -525,7 +527,8 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                             : userOldData.category5
                       });
                     }));
-
+            //TODO: show alert dialog
+            //TODO: show notifications
             Cheer cheer = Cheer.name(
               _titleController.text,
               prefs.getString('email'),
@@ -545,7 +548,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
               DateTime.now(),
             );
             await databaseReference.collection("cheers").add(cheer.toJson());
-            //TODO: show alert dialog
+
             Navigator.pop(context);
           }
         },

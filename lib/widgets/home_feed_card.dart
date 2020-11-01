@@ -84,7 +84,7 @@ class HomeFeedCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  '$senderRole at Google',
+                  '$senderRole ',
                   style: TextStyle(
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.w400,

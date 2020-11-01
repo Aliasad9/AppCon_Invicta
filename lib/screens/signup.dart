@@ -1,4 +1,5 @@
 import 'package:Invicta/data/user.dart';
+import 'package:Invicta/screens/admin_screen.dart';
 import 'package:Invicta/screens/extra_info_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -269,9 +270,11 @@ class _LoginState extends State<SignupPage> {
                         right: 0,
                         child: InkWell(
                           onTap: () async {
-                            if (_formKey.currentState.validate()) {
-                              _register(context);
-                            }
+                            // if (_formKey.currentState.validate()) {
+                            //   _register(context);
+                            // }
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => AdminProfile()));
                           },
                           child: Container(
                             height: 50,

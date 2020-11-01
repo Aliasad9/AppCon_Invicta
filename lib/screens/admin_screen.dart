@@ -1,4 +1,5 @@
 import 'package:Invicta/screens/all_activity_tab_view.dart';
+import 'package:Invicta/screens/create_new_team.dart';
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:Invicta/widgets/teams_grid_admin.dart';
 import 'package:flutter/cupertino.dart';
@@ -162,8 +163,7 @@ class _AdminProfileState extends State<AdminProfile>
                     controller: _tabController,
                     children: [
                       TeamGridAdmin(),
-                      Container()
-                      // AllActivity(),
+                      AllActivity(),
                     ],
                   ),
                 ),
@@ -182,11 +182,16 @@ class _AdminProfileState extends State<AdminProfile>
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [Colors.redAccent.withOpacity(0.7), Colors.red],
+                          colors: [
+                            Colors.redAccent.withOpacity(0.7),
+                            Colors.red
+                          ],
                         ),
                         boxShadow: [
                           BoxShadow(
-                              color: Theme.of(context).primaryColor.withOpacity(0.32),
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.32),
                               blurRadius: 6)
                         ]),
                     child: Icon(
@@ -195,14 +200,15 @@ class _AdminProfileState extends State<AdminProfile>
                       size: 40,
                     ),
                   ),
-
-                  onPressed: (){},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => CreateNewTeam()));
+                  },
                 ),
               ),
             )
           ]),
         ),
-
       ),
     );
   }
