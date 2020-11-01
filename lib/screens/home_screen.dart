@@ -33,9 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return SliverToBoxAdapter(
-                  child: Text(
-                    'No Cheers Found :(',
-                  ),
+                  child: CircularProgressIndicator(),
                 );
               } else if (snapshot.hasData) {
                 return (snapshot.hasData && snapshot.data.size > 0)
@@ -97,7 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
               } else {
-                return SliverToBoxAdapter(child: CircularProgressIndicator());
+                return SliverToBoxAdapter(
+                  child: Text(
+                    'No Cheers Found :(',
+                  ),
+                );
               }
             })
       ],

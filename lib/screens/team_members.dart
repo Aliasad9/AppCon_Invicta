@@ -32,11 +32,7 @@ class _TeamMembersState extends State<TeamMembers> {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return SliverToBoxAdapter(
-                child: Text(
-                  'No Team Members Found :(',
-                ),
-              );
+              return SliverToBoxAdapter(child: CircularProgressIndicator());
             } else if (snapshot.hasData) {
               return (snapshot.hasData && snapshot.data.size > 0)
                   ? SliverList(
