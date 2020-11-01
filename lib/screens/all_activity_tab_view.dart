@@ -84,7 +84,7 @@ class _AllActivityState extends State<AllActivity> {
                             }
 
                             return HomeFeedCard(
-                              cheer.senderImgData,
+                              NetworkImage(cheer.senderImgData),
                               cheer.senderName,
                               cheer.receiverName,
                               timeAgo,

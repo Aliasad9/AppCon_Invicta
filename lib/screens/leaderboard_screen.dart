@@ -144,15 +144,21 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   ? SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
+
                           var fetchedJsonData =
                               snapshot.data.docs[index].data();
 
                           // if (fetchedJsonData['email'] != this.widget.email) {
                           CustomUser user =
                               CustomUser.fromJson(fetchedJsonData);
+                          if(user.companyName!=null){
+                            return LeaderboardCard(
+                                user: user, position: (index + 1).toString());
+                          }else{
+                            return Container();
+                          }
 
-                          return LeaderboardCard(
-                              user: user, position: (index + 1).toString());
+
                         },
                         childCount: snapshot.data.size,
                       ),

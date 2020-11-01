@@ -117,7 +117,7 @@ class _AdminProfileState extends State<AdminProfile>
                     child: ProfileImage(
                       borderDiameter: 84.0,
                       imgDiameter: 78,
-                      imageData: AssetImage('assets/images/profile.jpg'),
+                      imageData: NetworkImage('${this.widget.user.imgUrl}'),
                     ),
                   ),
                   Text(

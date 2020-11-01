@@ -1,3 +1,4 @@
+import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/welcome.dart';
 import 'package:Invicta/widgets/profile_image.dart';
@@ -30,6 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //Method Called on build complete
     WidgetsBinding.instance
         .addPostFrameCallback((timeStamp) => updateWidth(context));
+    print(this.widget.user.toJson().toString());
   }
 
   @override
@@ -145,52 +147,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(
                               height: 12,
                             ),
-                            // Text(
-                            //   '${this.widget.user.points} Points',
-                            //   style: TextStyle(
-                            //     fontSize: 12,
-                            //     color: Theme.of(context).primaryColor,
-                            //     fontWeight: FontWeight.w600,
-                            //     fontFamily: 'OpenSans',
-                            //   ),
-                            // ),
                             Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(6.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   this.widget.user.level >= 50
-                                      ? Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 56,
-                                                width: 56,
-                                                margin:
-                                                    EdgeInsets.only(bottom: 8),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.yellow,
-                                                    shape: BoxShape.circle),
-                                                child: Icon(
-                                                  Icons.auto_awesome,
-                                                  size: 40,
-                                                  color: Colors.orange,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Gold Badge',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'OpenSans',
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      : Container(),
+                                      ? createBadge(
+                                          Colors.orange, Colors.yellow, 'Gold')
+                                      : this.widget.user.level >= 25
+                                          ? createBadge(
+                                              Colors.blueGrey,
+                                              Colors.grey.withOpacity(0.32),
+                                              'Silver')
+                                          : this.widget.user.level >= 10
+                                              ? createBadge(
+                                                  Colors.brown,
+                                                  Colors.brown.withOpacity(0.32),
+                                                  'Bronze')
+                                              : Container(),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 24.0),
@@ -429,6 +404,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Padding createBadge(darkColor, lightColor, text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: Column(
+        children: [
+          Container(
+            height: 56,
+            width: 56,
+            margin: EdgeInsets.only(bottom: 8),
+            decoration:
+                BoxDecoration(color: lightColor, shape: BoxShape.circle),
+            child: Icon(
+              Icons.auto_awesome,
+              size: 40,
+              color: darkColor,
+            ),
+          ),
+          Text(
+            '$text Badge',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'OpenSans',
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget getProgressBar(labelName, value, color, context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -503,8 +508,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           this.widget.user.category3 +
           this.widget.user.category4 +
           this.widget.user.category5;
-      if (total==0){
-        total=1;
+      if (total == 0) {
+        total = 1;
       }
       initialFriendlinessWidth = this.widget.user.category1 / total;
       initialTeamworkWidth = this.widget.user.category2 / total;

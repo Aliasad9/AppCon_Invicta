@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               count++;
 
                               return HomeFeedCard(
-                                  cheer.senderImgData,
+                                  NetworkImage(cheer.senderImgData),
                                   cheer.senderName,
                                   cheer.receiverName,
                                   timeAgo,

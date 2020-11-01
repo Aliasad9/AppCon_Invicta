@@ -10,6 +10,7 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
@@ -45,7 +46,7 @@ class CustomAppBar extends StatelessWidget {
             InkWell(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => ProfileScreen(true, user)));//TODO: Pass user here
+                    MaterialPageRoute(builder: (_) => ProfileScreen(true, user)));
               },
               child: ProfileImage(
                 imageData: imageData,
