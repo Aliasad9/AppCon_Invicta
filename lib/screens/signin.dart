@@ -31,6 +31,14 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
+  @override
+  void dispose() {
+    _formKey.currentState.dispose();
+    _scaffoldKey.currentState.dispose();
+    _passwordController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
   bool acceptTerms = true;
   String email = '';
   String password = '';

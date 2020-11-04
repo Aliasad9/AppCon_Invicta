@@ -32,7 +32,14 @@ class _LoginState extends State<SignupPage> {
   bool _success;
 
   bool _obscure = true;
-
+  @override
+  void dispose() {
+    _scaffoldKey.currentState.dispose();
+    _formKey.currentState.dispose();
+    _passwordController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
   //bool _acceptTerms = false;
   Widget _buildEmailTextField() {
     return TextFormField(

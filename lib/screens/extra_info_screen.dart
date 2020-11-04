@@ -40,7 +40,13 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
   Role _selectedRole;
 
   File _image;
-
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    _formKey.currentState.dispose();
+    _scaffoldKey.currentState.dispose();
+    super.dispose();
+  }
   @override
   void initState() {
     _companies = this.widget.companiesList;

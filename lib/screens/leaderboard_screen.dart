@@ -13,7 +13,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   ScrollController _scrollController;
   double kExpandedHeight = 250;
   bool _showTitle = false;
-
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
   @override
   void initState() {
     super.initState();
