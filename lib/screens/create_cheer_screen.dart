@@ -1,4 +1,5 @@
 import 'package:Invicta/data/cheer.dart';
+import 'package:Invicta/data/notification.dart';
 import 'package:Invicta/data/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,6 +48,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     _messageTextController.dispose();
     _titleController.dispose();
   }
+
   @override
   void initState() {
     if (this.widget.teamList != null) {
@@ -171,7 +173,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom:16.0),
+                      padding: const EdgeInsets.only(bottom: 16.0),
                       child: TextFormField(
                         controller: _titleController,
                         validator: (value) {
@@ -186,14 +188,17 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                           filled: true,
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid, width: 1)
-                          ),
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                  color: Colors.black,
+                                  style: BorderStyle.solid,
+                                  width: 1)),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid, width: 1)
-
-                          ),
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                  color: Colors.black,
+                                  style: BorderStyle.solid,
+                                  width: 1)),
                         ),
                         //keyboardType: TextInputType.emailAddress,
                       ),
@@ -203,7 +208,6 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                 ),
               ),
             ),
-
             _buildSubHeading('Select Desired Color'),
             Row(
               children: [
@@ -223,7 +227,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                 ? _buildSubHeading('Select a Category')
                 : Container(),
             cheerType == 1 ? _buildDropDownCategory() : Container(),
-            _buildButton(),
+            _buildButton(context),
           ],
         ),
       ),
@@ -468,7 +472,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     );
   }
 
-  _buildButton() {
+  _buildButton(context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, bottom: 16),
       child: FlatButton(
@@ -476,6 +480,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onPressed: () async {
           if (_formKey.currentState.validate()) {
+            showAlertDialog(context);
             SharedPreferences prefs = await _prefs;
             var color;
             if (this.textFieldColor == Colors.blue) {
@@ -542,8 +547,6 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                             : userOldData.category5
                       });
                     }));
-            //TODO: show alert dialog
-            //TODO: show notifications
             Cheer cheer = Cheer.name(
               _titleController.text,
               prefs.getString('email'),
@@ -562,8 +565,30 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
               _selectedCompany.name,
               DateTime.now(),
             );
+            CustomNotificationData notification = CustomNotificationData.name(
+              prefs.getString('companyName'),
+              true,
+              _titleController.text,
+              prefs.getString('email'),
+              prefs.getString('name'),
+              prefs.getString('imgUrl'),
+              this.widget.employee != null
+                  ? this.widget.employee.name
+                  : this._selectedEmployee.name,
+              prefs.getString('role'),
+              this.widget.employee != null
+                  ? this.widget.employee.email
+                  : this._selectedEmployee.email,
+              _messageTextController.text,
+              DateTime.now(),
+            );
             await databaseReference.collection("cheers").add(cheer.toJson());
+            await databaseReference
+                .collection("notifications")
+                .add(notification.toJson());
+            //TODO push notification
 
+            Navigator.pop(context);
             Navigator.pop(context);
           }
         },
@@ -574,7 +599,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Send with Love.",
+                "Send with Love",
                 style: TextStyle(color: Colors.white),
               ),
               Icon(
@@ -597,6 +622,33 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
           _buildScreenUI(context),
         ],
       )),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(
+              margin: EdgeInsets.only(left: 8),
+              child: Text(
+                "Sending...",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              )),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

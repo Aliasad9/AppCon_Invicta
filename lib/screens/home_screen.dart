@@ -46,27 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Cheer cheer = Cheer.fromJson(fetchedJsonData);
                             if (cheer.senderEmail == this.widget.email ||
                                 cheer.receiverEmail == this.widget.email) {
-                              DateTime dateTimeNow = DateTime.now();
-
-                              var timeAgo = '';
-                              var day = dateTimeNow
-                                  .difference(cheer.createdAt)
-                                  .inDays;
-                              if (day < 1) {
-                                var hrs = dateTimeNow
-                                    .difference(cheer.createdAt)
-                                    .inHours;
-                                if (hrs < 1) {
-                                  var min = dateTimeNow
-                                      .difference(cheer.createdAt)
-                                      .inMinutes;
-                                  timeAgo = min.toString() + 'min';
-                                } else {
-                                  timeAgo = hrs.toString() + 'hrs';
-                                }
-                              } else {
-                                timeAgo = day.toString() + 'days';
-                              }
+                              var timeAgo = Cheer.createdAtToDifference(cheer.createdAt);
                               count++;
 
                               return HomeFeedCard(

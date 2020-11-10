@@ -58,4 +58,28 @@ class Cheer {
         label = json['label'],
         category = json['category'],
         createdAt = json['createdAt'].toDate();
+
+  static createdAtToDifference(createdAt){
+    DateTime dateTimeNow = DateTime.now();
+    var timeAgo = '';
+    var day = dateTimeNow
+        .difference(createdAt)
+        .inDays;
+    if (day < 1) {
+      var hrs = dateTimeNow
+          .difference(createdAt)
+          .inHours;
+      if (hrs < 1) {
+        var min = dateTimeNow
+            .difference(createdAt)
+            .inMinutes;
+        timeAgo = min.toString() + 'min';
+      } else {
+        timeAgo = hrs.toString() + 'hrs';
+      }
+    } else {
+      timeAgo = day.toString() + 'days';
+    }
+    return timeAgo;
+  }
 }

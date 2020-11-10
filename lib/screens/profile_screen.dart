@@ -1,4 +1,3 @@
-import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/welcome.dart';
 import 'package:Invicta/widgets/profile_image.dart';
@@ -6,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'notification_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final isMyProfile;
@@ -63,52 +64,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Align(
                       alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                          height: 25,
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: this.widget.isMyProfile
-                              ? FlatButton(
-                                  child: Text(
-                                    'Logout',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 11,
-                                        fontFamily: 'OpenSans'),
+                      child: this.widget.isMyProfile
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.notifications_none_outlined,
+                                    color: Colors.white,
                                   ),
-                                  onPressed: () async {
-                                    FirebaseAuth.instance.signOut();
-                                    final SharedPreferences prefs =
-                                        await _prefs;
-                                    prefs.clear();
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (_) => WelcomePage()),
-                                        (route) => false);
-                                  },
-                                )
-                              : FlatButton(
                                   onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (_) => CreateCheerScreen(
-                                                employee: this.widget.user)));
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>NotificationScreen(this.widget.user.companyName)));
                                   },
-                                  child: Text(
-                                    'Give Cheer',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 11,
-                                        fontFamily: 'OpenSans'),
-                                  ),
                                 ),
-                        ),
-                      ),
+                                Container(
+                                  height: 25,
+                                  margin: EdgeInsets.only(right: 16),
+                                  decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: FlatButton(
+                                    child: Text(
+                                      'Logout',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 11,
+                                          fontFamily: 'OpenSans'),
+                                    ),
+                                    onPressed: () async {
+                                      FirebaseAuth.instance.signOut();
+                                      final SharedPreferences prefs =
+                                          await _prefs;
+                                      prefs.clear();
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (_) => WelcomePage()),
+                                          (route) => false);
+                                    },
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(
+                              height: 25,
+                              margin: EdgeInsets.only(right: 16,top: 16),
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => CreateCheerScreen(
+                                          employee: this.widget.user)));
+                                },
+                                child: Text(
+                                  'Give Cheer',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 11,
+                                      fontFamily: 'OpenSans'),
+                                ),
+                              ),
+                            ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 16, right: 16, top: 64),
@@ -163,7 +182,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           : this.widget.user.level >= 10
                                               ? createBadge(
                                                   Colors.brown,
-                                                  Colors.brown.withOpacity(0.32),
+                                                  Colors.brown
+                                                      .withOpacity(0.32),
                                                   'Bronze')
                                               : Container(),
                                   Padding(
