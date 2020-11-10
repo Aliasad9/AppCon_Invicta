@@ -43,10 +43,11 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
   @override
   void dispose() {
-    super.dispose();
+
     _formKey.currentState.dispose();
     _messageTextController.dispose();
     _titleController.dispose();
+    super.dispose();
   }
 
   @override

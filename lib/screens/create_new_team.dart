@@ -19,6 +19,13 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
   int _fieldsCount = 0;
   var listOfFields;
 
+  @override
+  void dispose() {
+    _formKey.currentState.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
   void addNewField() {
     setState(() {
       _fieldsCount += 1;
