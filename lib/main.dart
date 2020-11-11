@@ -71,28 +71,6 @@ Future<void> main() async {
     email = null;
   }
 
-  // var teamList = [];
-  // await databaseReference
-  //     .collection("users")
-  //     .where("companyName", isEqualTo: companyName)
-  //     .get()
-  //     .then((QuerySnapshot snapshot) {
-  //   snapshot.docs.forEach((f) {
-  //     teamList.add(CustomUser.name(
-  //         f.data()['email'],
-  //         f.data()['name'],
-  //         f.data()['imgUrl'],
-  //         f.data()['role'],
-  //         f.data()['companyName'],
-  //         f.data()['points'],
-  //         f.data()['level'],
-  //         f.data()['category1'],
-  //         f.data()['category2'],
-  //         f.data()['category3'],
-  //         f.data()['category4'],
-  //         f.data()['category5']));
-  //   });
-  // });
   //Fixing Screen Orientation
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -129,8 +107,13 @@ class _MyAppState extends State<MyApp> {
       home: this.widget.email != null
           ? this.widget.isAdmin == true
               ? AdminProfile(this.widget.user)
-              : NavigationScreen(this.widget.imgUrl, this.widget.companyName,
-                  this.widget.name, this.widget.email, this.widget.user)
+              : NavigationScreen(
+                  this.widget.imgUrl,
+                  this.widget.companyName,
+                  this.widget.name,
+                  this.widget.email,
+                  this.widget.user,
+                )
           : WelcomePage(),
     );
   }

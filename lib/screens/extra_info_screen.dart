@@ -347,18 +347,25 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                 await databaseReference.collection("users").add(user.toJson());
 
                 final SharedPreferences prefs = await _prefs;
-                prefs.setString('email', user.email);
+                var list = [];
+                await databaseReference
+                    .collection('users')
+                    .where('email', isEqualTo: user.email)
+                    .get()
+                    .then((value) =>
+                    value.docs.forEach((element) => list.add(element.data())));
+                user = CustomUser.fromJson(list[0]);
                 prefs.setString('name', user.name);
                 prefs.setString('imgUrl', user.imgUrl);
                 prefs.setString('role', user.role);
                 prefs.setString('companyName', user.companyName);
-                prefs.setInt('points', 0);
-                prefs.setInt('level', 1);
-                prefs.setDouble('category1', 0);
-                prefs.setDouble('category2', 0);
-                prefs.setDouble('category3', 0);
-                prefs.setDouble('category4', 0);
-                prefs.setDouble('category5', 0);
+                prefs.setInt('points', user.points);
+                prefs.setInt('level', user.level);
+                prefs.setDouble('category1', user.category1);
+                prefs.setDouble('category2', user.category2);
+                prefs.setDouble('category3', user.category3);
+                prefs.setDouble('category4', user.category4);
+                prefs.setDouble('category5', user.category5);
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
