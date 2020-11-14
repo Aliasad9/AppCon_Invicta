@@ -52,11 +52,7 @@ class _AdminProfileState extends State<AdminProfile>
                       margin: EdgeInsets.only(
                         right: 8,
                       ),
-                      child: Icon(
-                        Icons.favorite,
-                        color: Colors.pink,
-                        size: 30,
-                      ),
+                      child: Image.asset('assets/images/logo.png',width: 40, height: 40,),
                     ),
                     Text(
                       "Invicta",
@@ -70,7 +66,7 @@ class _AdminProfileState extends State<AdminProfile>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(right:16.0, top:24),
               child: Align(
                 alignment: Alignment.topRight,
                 child: Container(

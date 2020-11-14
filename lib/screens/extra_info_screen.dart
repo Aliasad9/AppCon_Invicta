@@ -3,6 +3,7 @@ import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/navigation_screen.dart';
 import 'package:Invicta/widgets/heading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -344,6 +345,11 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                 this.user.name = _textEditingController.text;
                 this.user.companyName = _selectedCompany.name;
                 this.user.role = _selectedRole.name;
+
+                final FirebaseMessaging _fcm = FirebaseMessaging();
+                String fcmToken = await _fcm.getToken();
+                this.user.fcmToken = fcmToken;
+
                 await databaseReference.collection("users").add(user.toJson());
 
                 final SharedPreferences prefs = await _prefs;
@@ -366,6 +372,7 @@ class _ExtraInfoScreenState extends State<ExtraInfoScreen> {
                 prefs.setDouble('category3', user.category3);
                 prefs.setDouble('category4', user.category4);
                 prefs.setDouble('category5', user.category5);
+                prefs.setString('fcmToken', user.fcmToken);
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(

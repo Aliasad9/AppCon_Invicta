@@ -54,6 +54,7 @@ Future<void> main() async {
       prefs.setDouble('category3', user.category3);
       prefs.setDouble('category4', user.category4);
       prefs.setDouble('category5', user.category5);
+      prefs.setString('fcmToken', user.fcmToken);
       imgUrl = user.imgUrl;
       name = user.name;
       companyName = user.companyName;
@@ -62,7 +63,7 @@ Future<void> main() async {
     imgUrl = '';
     name = '';
     companyName = '';
-    user = CustomUser.name('', '', '', '', '', 0, 1, 0.0, 0.0, 0.0, 0.0, 0.0);
+    user = CustomUser.name('', '', '', '', '', 0, 1, 0.0, 0.0, 0.0, 0.0, 0.0,'');
   }
   if (user == null) {
     imgUrl = null;

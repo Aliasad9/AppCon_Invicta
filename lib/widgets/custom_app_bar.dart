@@ -27,11 +27,7 @@ class CustomAppBar extends StatelessWidget {
                     margin: EdgeInsets.only(
                       right: 8,
                     ),
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.pink,
-                      size: 30,
-                    ),
+                    child: Image.asset('assets/images/logo.png',width: 60, height: 60,),
                   ),
                   Text(
                     "Invicta",
@@ -48,10 +44,13 @@ class CustomAppBar extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => ProfileScreen(true, user)));
               },
-              child: ProfileImage(
-                imageData: imageData,
-                imgDiameter: 40.0,
-                borderDiameter: 48.0,
+              child: Hero(
+                tag:'myProfile',
+                child: ProfileImage(
+                  imageData: imageData,
+                  imgDiameter: 40.0,
+                  borderDiameter: 48.0,
+                ),
               ),
             )
           ],

@@ -1,11 +1,15 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:Invicta/data/cheer.dart';
 import 'package:Invicta/data/notification.dart';
 import 'package:Invicta/data/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 import '../widgets/heading.dart';
 
 class CreateCheerScreen extends StatefulWidget {
@@ -43,7 +47,6 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
   @override
   void dispose() {
-
     _formKey.currentState.dispose();
     _messageTextController.dispose();
     _titleController.dispose();
@@ -587,7 +590,23 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             await databaseReference
                 .collection("notifications")
                 .add(notification.toJson());
-            //TODO push notification
+            String notifTitle = '';
+            if (cheerType == 1) {
+              notifTitle = 'Cheers';
+            } else if (cheerType == 2) {
+              notifTitle = 'Birthday Wish';
+            } else {
+              notifTitle = 'Kudos';
+            }
+            sendNotification(
+                this.widget.employee != null
+                    ? this.widget.employee.fcmToken
+                    : this._selectedEmployee.fcmToken,
+                prefs.getString('name'),
+                this.widget.employee != null
+                    ? this.widget.employee.name
+                    : this._selectedEmployee.name,
+                notifTitle);
 
             Navigator.pop(context);
             Navigator.pop(context);
@@ -651,6 +670,46 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
         return alert;
       },
     );
+  }
+
+  sendNotification(
+      String registrationToken, senderName, receiverName, title) async {
+    final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+    final String serverToken =
+        'AAAAPBqZUsQ:APA91bEyq7Cw0PFXG96ruMJpw3hUa18z96TVs8GRKX3ZsgTsalXfLP0U2JW41Z5byOCym_wSqDMydEqmaY_uuVys2jMUJIH0Va7LtvYmtUBu0eHmIA4RONRCsLuc7xsC7xlp8I4rtJeV';
+
+    await http.post(
+      'https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': 'Hey $receiverName! $senderName sent you a cheer',
+            'title': '$title Received'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          'to': registrationToken,
+        },
+      ),
+    );
+    final Completer<Map<String, dynamic>> completer =
+    Completer<Map<String, dynamic>>();
+
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        completer.complete(message);
+      },
+    );
+
+    return completer.future;
   }
 }
 

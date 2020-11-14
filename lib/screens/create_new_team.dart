@@ -128,10 +128,13 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: listOfFields,
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: listOfFields,
+                    ),
                   ),
                 ),
                 Row(
@@ -142,7 +145,7 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
                           const EdgeInsets.only(top: 8.0),
                       child: ClipOval(
                         child: Material(
-                          color: Colors.blue,
+                          color: Colors.white,
                           child: InkWell(
                               splashColor: Colors.red,
                               child: SizedBox(
@@ -169,7 +172,7 @@ class _CreateNewTeamState extends State<CreateNewTeam> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: ClipOval(
                         child: Material(
-                          color: Colors.blue,
+                          color: Colors.transparent,
                           child: InkWell(
                               splashColor: Colors.green,
                               child: SizedBox(

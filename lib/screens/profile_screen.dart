@@ -32,7 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //Method Called on build complete
     WidgetsBinding.instance
         .addPostFrameCallback((timeStamp) => updateWidth(context));
-    print(this.widget.user.toJson().toString());
   }
 
   @override
@@ -140,10 +139,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: Column(
                           children: [
-                            ProfileImage(
-                              imageData: NetworkImage(this.widget.user.imgUrl),
-                              imgDiameter: 72.0,
-                              borderDiameter: 80.0,
+                            Hero(
+                              tag:'myProfile',
+                              child: ProfileImage(
+                                imageData: NetworkImage(this.widget.user.imgUrl),
+                                imgDiameter: 72.0,
+                                borderDiameter: 80.0,
+                              ),
                             ),
                             Text(
                               '${this.widget.user.name}',

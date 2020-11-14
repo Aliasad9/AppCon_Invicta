@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/home_screen.dart';
@@ -5,6 +7,7 @@ import 'package:Invicta/screens/leaderboard_screen.dart';
 import 'package:Invicta/screens/team_members.dart';
 import 'package:Invicta/widgets/custom_app_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../icons/my_flutter_app_icons.dart';
@@ -27,6 +30,44 @@ class _NavigationScreenState extends State<NavigationScreen> {
   int _currentIndex = 0;
 
   final databaseReference = FirebaseFirestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body']),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        // TODO optional
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        // TODO optional
+      },
+     // onBackgroundMessage: myBackgroundMessageHandler//Platform.isIOS ? null :myBackgroundMessageHandler
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -214,4 +255,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
       ),
     );
   }
+}
+
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
+  debugPrint('On background message $message');
+  return Future<void>.value();
 }

@@ -11,6 +11,7 @@ class CustomUser {
   double category3;
   double category4;
   double category5;
+  String fcmToken;
 
   CustomUser();
 
@@ -26,7 +27,8 @@ class CustomUser {
       this.category2,
       this.category3,
       this.category4,
-      this.category5);
+      this.category5,
+      this.fcmToken);
 
   CustomUser.fromJson(Map<String, dynamic> json)
       : name = json['name'],
@@ -40,7 +42,8 @@ class CustomUser {
         category2 = (json['category2']).toDouble(),
         category3 = (json['category3']).toDouble(),
         category4 = (json['category4']).toDouble(),
-        category5 = (json['category5']).toDouble();
+        category5 = (json['category5']).toDouble(),
+        fcmToken = (json['fcmToken']);
 
   Map<String, dynamic> toJson() => {
         'name': this.name,
@@ -55,5 +58,6 @@ class CustomUser {
         'category3': 0,
         'category4': 0,
         'category5': 0,
+        'fcmToken': this.fcmToken
       };
 }
