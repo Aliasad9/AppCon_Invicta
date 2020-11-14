@@ -52,14 +52,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.only(left: 8, right: 8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                                color: Colors.black38,
-                                width: 1,
-                                style: BorderStyle.solid),
-                          ),
-                        ),
+                        color: Colors.grey,
+
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -69,7 +63,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
-                                      '${snapshot.data.docs[index].data()['senderName']} sent cheer to ${snapshot.data.docs[index].data()['receiverName']}'),
+                                      '${snapshot.data.docs[index].data()['senderName'].split(' ')[0]} cheered ${snapshot.data.docs[index].data()['receiverName'].split(' ')[0]}'),
                                 ),
                                 Text('${Cheer.createdAtToDifference(snapshot.data.docs[index].data()['createdAt'].toDate())} ago'),
                               ],

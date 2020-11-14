@@ -1,4 +1,4 @@
-import 'dart:io';
+
 
 import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/create_cheer_screen.dart';
@@ -32,14 +32,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final databaseReference = FirebaseFirestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
 
+
   @override
   void initState() {
     super.initState();
-
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -49,7 +48,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Ok'),
+                child: Text('DISMISS'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -58,13 +57,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        // TODO optional
+
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        // TODO optional
+
       },
-     // onBackgroundMessage: myBackgroundMessageHandler//Platform.isIOS ? null :myBackgroundMessageHandler
+      onBackgroundMessage: myBackgroundMessageHandler//Platform.isIOS ? null :myBackgroundMessageHandler
     );
   }
 

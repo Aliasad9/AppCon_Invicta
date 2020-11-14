@@ -42,7 +42,7 @@ class HomeFeedCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 32.0, left: 16, right: 16),
       child: Container(
-        height: 224,
+        height: 232,
         child: Column(
           children: [
             Column(

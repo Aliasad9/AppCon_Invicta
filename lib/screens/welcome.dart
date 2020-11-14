@@ -9,23 +9,19 @@ class WelcomePage extends StatelessWidget {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 100,
+                width: 140,
+                height: 70,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Row(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                          right: 8,
-                        ),
-                        child: Icon(
-                          Icons.favorite,
-                          color: Colors.pink,
-                          size: 30,
-                        ),
+
+                        child: Image.asset('assets/images/logo.png',width: 40, height: 40,),
                       ),
                       Text(
                         "Invicta",

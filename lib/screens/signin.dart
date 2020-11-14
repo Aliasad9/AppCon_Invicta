@@ -131,18 +131,13 @@ class _SignInState extends State<SignIn> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 16.0),
                       child: Container(
-                        width: 100,
+                        width: 140,
+
                         child: Row(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(
-                                right: 8,
-                              ),
-                              child: Icon(
-                                Icons.favorite,
-                                color: Colors.pink,
-                                size: 30,
-                              ),
+
+                              child: Image.asset('assets/images/logo.png',width: 40, height: 40,),
                             ),
                             Text(
                               "Invicta",
@@ -324,6 +319,8 @@ class _SignInState extends State<SignIn> {
       prefs.setDouble('category3', customUser.category3);
       prefs.setDouble('category4', customUser.category4);
       prefs.setDouble('category5', customUser.category5);
+      prefs.setString('fcmToken', customUser.fcmToken);
+      print(customUser.fcmToken);
       print(isAdmin);
       Navigator.pop(context);
       if (isAdmin==true) {

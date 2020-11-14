@@ -675,6 +675,8 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   sendNotification(
       String registrationToken, senderName, receiverName, title) async {
     final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+    String fcmToken = await firebaseMessaging.getToken();
+    print(fcmToken);
     final String serverToken =
         'AAAAPBqZUsQ:APA91bEyq7Cw0PFXG96ruMJpw3hUa18z96TVs8GRKX3ZsgTsalXfLP0U2JW41Z5byOCym_wSqDMydEqmaY_uuVys2jMUJIH0Va7LtvYmtUBu0eHmIA4RONRCsLuc7xsC7xlp8I4rtJeV';
 
@@ -687,8 +689,8 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       body: jsonEncode(
         <String, dynamic>{
           'notification': <String, dynamic>{
-            'body': 'Hey $receiverName! $senderName sent you a cheer',
-            'title': '$title Received'
+            'body': '${_messageTextController.text}',
+            'title': '$title Received from $senderName'
           },
           'priority': 'high',
           'data': <String, dynamic>{
@@ -721,11 +723,11 @@ class Category {
 
   static List<Category> getCategory() {
     return <Category>[
+      Category(4, 'Friendliness'),
       Category(1, 'Hardwork'),
       Category(2, 'Dedication'),
       Category(3, 'Teamwork'),
-      Category(4, 'Friendliness'),
-      Category(5, 'Management'),
+      Category(5, 'Productivity'),
     ];
   }
 }

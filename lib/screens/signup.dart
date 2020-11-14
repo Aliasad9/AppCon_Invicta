@@ -152,20 +152,14 @@ class _LoginState extends State<SignupPage> {
                                   Align(
                                     alignment: Alignment.topCenter,
                                     child: Container(
-                                      width: 100,
+                                      width: 140,
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 16),
                                         child: Row(
                                           children: [
                                             Container(
-                                              margin: EdgeInsets.only(
-                                                right: 8,
-                                              ),
-                                              child: Icon(
-                                                Icons.favorite,
-                                                color: Colors.pink,
-                                                size: 30,
-                                              ),
+
+                                              child: Image.asset('assets/images/logo.png',width: 40, height: 40,),
                                             ),
                                             Text(
                                               "Invicta",

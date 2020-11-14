@@ -63,7 +63,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 ? null
                 : Container(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection("users")
