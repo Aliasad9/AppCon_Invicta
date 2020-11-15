@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:Invicta/data/cheer.dart';
 import 'package:Invicta/data/notification.dart';
 import 'package:Invicta/data/user.dart';
@@ -9,7 +9,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+
+import 'dart:math';
+import 'package:intl/intl.dart';
 import '../widgets/heading.dart';
 
 class CreateCheerScreen extends StatefulWidget {
@@ -44,6 +46,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   bool _isPurpleChecked = false;
   Color textFieldColor = Colors.blue;
   int cheerType = 1;
+  var imageUrl;
+  var senderEmail;
+  var receiverEmail;
 
   @override
   void dispose() {
@@ -64,6 +69,119 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     _selectedCompany = _dropdownMenuItemsCategory[0].value;
 
     super.initState();
+  }
+
+  String placeToCheer() {
+    var list = [
+      'McDonalds',
+      'Howdy',
+      'Hardees',
+      'PizzaHut',
+      'Dominos',
+      'Monal',
+      'KFC',
+      'OPTP',
+      'BurgerKing'
+    ];
+    final _random = new Random();
+    var place = list[_random.nextInt(list.length)];
+    return place;
+  }
+
+  final _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+
+  String _getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  var now = new DateTime.now();
+
+  String _getDate() {
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    return formattedDate;
+  }
+
+  String _getTime() {
+    var formatter = new DateFormat("H:m:s");
+    String formattedTime = formatter.format(now);
+    return formattedTime;
+  }
+
+  String _getExpiredDate() {
+    String expiryDate = DateTime.now().add(Duration(days: 11)).toString();
+    return expiryDate.split(" ")[0];
+  }
+
+  String _getExpiredTime() {
+    String expiryDate = DateTime.now().add(Duration(days: 11)).toString();
+    return expiryDate.split(" ")[1];
+  }
+
+  Future<void> fetchGiftUp(String senderName, String receiverName,
+      String senEmail, String recEmail) async {
+    final msg = jsonEncode({
+      "orderDate": _getDate() + "T" + _getTime() + ".000Z",
+      "disableAllEmails": false,
+      "purchaserEmail": senEmail,
+      "purchaserName": senderName,
+      "itemDetails": [
+        {
+          "quantity": 1,
+          "name": "A Gift Card! Hurrah...",
+          "description": "For use at " + placeToCheer(),
+          "code": _getRandomString(5),
+          "backingType": "Currency",
+          "price": 100,
+          "value": 120,
+          "units": null,
+          "equivalentValuePerUnit": null,
+          "expiresOn": _getExpiredDate() + "T" + _getExpiredTime() + "Z",
+          "expiresInMonths": 0,
+          "overrideExpiry": true,
+          "sku": "MY-SKU",
+        }
+      ],
+      "recipientDetails": {
+        "recipientName": receiverName,
+        "recipientEmail": recEmail,
+        "message": "Happy Gift ! Cheers...",
+        "scheduledFor": _getDate() + "T" + _getTime() + ".000Z",
+      }
+    });
+    String token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYmY0ZGExNC01NGJiLTQ1MTctYjRiZC04YzNhZjYyMzRhYmQiLCJzdWIiOiJhbGlhc2FkNjUyMUBnbWFpbC5jb20iLCJleHAiOjE5MjA0MzcwNzIsImlzcyI6Imh0dHBzOi8vZ2lmdHVwLmFwcC8iLCJhdWQiOiJodHRwczovL2dpZnR1cC5hcHAvIn0.N-17aBufwWK5biyuqskuOqxUhKj6GwJdUwI08_A1F34";
+    http.Response response = await http.post(
+      "https://api.giftup.app/orders/",
+      headers: {
+        'Authorization': "Bearer $token",
+        'Accepts': 'application/json',
+        'x-giftup-testmode': 'true',
+        'Content-Type': 'application/json',
+      },
+      body: msg,
+    );
+
+    if (response.statusCode == 201) {
+      var dataDecoded = jsonDecode(response.body);
+      setState(() {
+        imageUrl = dataDecoded["giftCards"][0]['downloadLinks']['imageUrl'];
+        senderEmail = senEmail;
+        receiverEmail = recEmail;
+      });
+
+      databaseReference.collection("rewards").add({
+        'imageUrl': imageUrl,
+        'senderEmail': senEmail,
+        "receiverEmail": recEmail,
+        'receiverName': receiverName,
+        'senderName': senderName,
+      });
+    } else {
+      print(jsonDecode(response.body));
+      print("hi");
+      throw Exception('Failed to load gift card');
+    }
   }
 
   List<DropdownMenuItem<Category>> buildDropdownMenuItemsCategory(
@@ -518,39 +636,47 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
             }
 
             var userRef = databaseReference.collection('users');
-            await userRef
-                .where('email', isEqualTo: recvEmail)
-                .get()
-                .then((value) => value.docs.forEach((element) {
-                      var userOldData = CustomUser.fromJson(element.data());
-                      var newPoints = userOldData.points + pointsToAdd;
-                      var _currentLevel = userOldData.level;
-                      var targetPoints = _currentLevel * 50;
-                      if (userOldData.points < targetPoints &&
-                          newPoints >= targetPoints) {
-                        _currentLevel += 1;
-                      }
+            await userRef.where('email', isEqualTo: recvEmail).get().then(
+                  (value) => value.docs.forEach((element) {
+                    var userOldData = CustomUser.fromJson(element.data());
+                    var newPoints = userOldData.points + pointsToAdd;
+                    var _currentLevel = userOldData.level;
+                    var targetPoints = _currentLevel * 50;
+                    if (userOldData.points < targetPoints &&
+                        newPoints >= targetPoints) {
+                      _currentLevel += 1;
+                      fetchGiftUp(
+                          prefs.getString('name'),
+                          this.widget.employee != null
+                              ? this.widget.employee.name
+                              : this._selectedEmployee.name,
+                          prefs.getString('email'),
+                          this.widget.employee != null
+                              ? this.widget.employee.email
+                              : this._selectedEmployee.email);
+                    }
 
-                      userRef.doc(element.id).update({
-                        'points': userOldData.points + pointsToAdd,
-                        'level': _currentLevel,
-                        'category1': _selectedCompany.id == 1
-                            ? userOldData.category1 += 2
-                            : userOldData.category1,
-                        'category2': _selectedCompany.id == 2
-                            ? userOldData.category2 += 2
-                            : userOldData.category2,
-                        'category3': _selectedCompany.id == 3
-                            ? userOldData.category3 += 2
-                            : userOldData.category3,
-                        'category4': _selectedCompany.id == 4
-                            ? userOldData.category4 += 2
-                            : userOldData.category4,
-                        'category5': _selectedCompany.id == 5
-                            ? userOldData.category5 += 2
-                            : userOldData.category5
-                      });
-                    }));
+                    userRef.doc(element.id).update({
+                      'points': userOldData.points + pointsToAdd,
+                      'level': _currentLevel,
+                      'category1': _selectedCompany.id == 1
+                          ? userOldData.category1 += 2
+                          : userOldData.category1,
+                      'category2': _selectedCompany.id == 2
+                          ? userOldData.category2 += 2
+                          : userOldData.category2,
+                      'category3': _selectedCompany.id == 3
+                          ? userOldData.category3 += 2
+                          : userOldData.category3,
+                      'category4': _selectedCompany.id == 4
+                          ? userOldData.category4 += 2
+                          : userOldData.category4,
+                      'category5': _selectedCompany.id == 5
+                          ? userOldData.category5 += 2
+                          : userOldData.category5
+                    });
+                  }),
+                );
             Cheer cheer = Cheer.name(
               _titleController.text,
               prefs.getString('email'),
@@ -703,7 +829,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       ),
     );
     final Completer<Map<String, dynamic>> completer =
-    Completer<Map<String, dynamic>>();
+        Completer<Map<String, dynamic>>();
 
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
