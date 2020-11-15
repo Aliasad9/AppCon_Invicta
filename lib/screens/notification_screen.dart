@@ -20,9 +20,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           titleSpacing: 0,
-          leading: Icon(
-            CupertinoIcons.back,
-            color: Colors.black,
+          leading: IconButton(
+            icon: Icon(
+              CupertinoIcons.back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
           title: Row(
             children: [
@@ -48,12 +53,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     itemCount: snapshot.data.size,
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.only(left: 8, right: 8),
-                        color: Colors.grey,
-
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                                color: Colors.black38,
+                                width: 1,
+                                style: BorderStyle.solid),
+                          ),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -65,7 +77,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   child: Text(
                                       '${snapshot.data.docs[index].data()['senderName'].split(' ')[0]} cheered ${snapshot.data.docs[index].data()['receiverName'].split(' ')[0]}'),
                                 ),
-                                Text('${Cheer.createdAtToDifference(snapshot.data.docs[index].data()['createdAt'].toDate())} ago'),
+                                Text(
+                                    '${Cheer.createdAtToDifference(snapshot.data.docs[index].data()['createdAt'].toDate())} ago'),
                               ],
                             ),
                             ListTile(
