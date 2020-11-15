@@ -75,10 +75,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
-                                      '${snapshot.data.docs[index].data()['senderName'].split(' ')[0]} cheered ${snapshot.data.docs[index].data()['receiverName'].split(' ')[0]}'),
+                                    '${snapshot.data.docs[index].data()['senderName'].split(' ')[0]} cheered ${snapshot.data.docs[index].data()['receiverName'].split(' ')[0]}',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontFamily: 'OpenSans',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
                                 Text(
-                                    '${Cheer.createdAtToDifference(snapshot.data.docs[index].data()['createdAt'].toDate())} ago'),
+                                  '${Cheer.createdAtToDifference(snapshot.data.docs[index].data()['createdAt'].toDate())} ago',
+                                  style: TextStyle(
+                                    color: Colors.black45,
+                                    fontSize: 11,
+                                    fontFamily: 'OpenSans',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
                               ],
                             ),
                             ListTile(
@@ -87,9 +100,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       .data.docs[index]
                                       .data()['senderImgUrl'])),
                               title: Text(
-                                  '${snapshot.data.docs[index].data()['title']}'),
+                                '${snapshot.data.docs[index].data()['title']}',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'OpenSans',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                               subtitle: Text(
-                                  '${snapshot.data.docs[index].data()['cheerMsg']}'),
+                                '${snapshot.data.docs[index].data()['cheerMsg']}',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontFamily: 'OpenSans',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                             ),
                           ],
                         ),

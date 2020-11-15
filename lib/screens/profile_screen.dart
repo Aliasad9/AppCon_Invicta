@@ -1,4 +1,5 @@
 import 'package:Invicta/screens/create_cheer_screen.dart';
+import 'package:Invicta/screens/rewards_screen.dart';
 import 'package:Invicta/screens/welcome.dart';
 import 'package:Invicta/widgets/profile_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -67,6 +68,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.monetization_on_outlined,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>RewardsScreen(this.widget.user.email)));
+                                  },
+                                ),
                                 IconButton(
                                   icon: Icon(
                                     Icons.notifications_none_outlined,
