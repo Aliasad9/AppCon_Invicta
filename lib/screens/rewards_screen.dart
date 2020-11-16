@@ -19,20 +19,21 @@ class RewardsScreen extends StatefulWidget {
 }
 
 class _RewardsScreenState extends State<RewardsScreen> {
-
   File fileFromDocsDir(String filename) {
     String pathName = p.join(_appDocsDir.path, filename);
     return File(pathName);
   }
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((timeStamp) => getDirectory());
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => getDirectory());
   }
-  getDirectory() async{
+
+  getDirectory() async {
     _appDocsDir = await getApplicationDocumentsDirectory();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,101 +72,106 @@ class _RewardsScreenState extends State<RewardsScreen> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-
                   return ListView.builder(
                     physics: BouncingScrollPhysics(),
                     itemCount: snapshot.data.size,
                     itemBuilder: (context, index) {
 
-                      return InkWell(
-                        onTap: (){
-                          AlertDialog alert = AlertDialog(
+                        return snapshot.data.docs[index].data()['imageUrl'] !=
+                                null
+                            ? InkWell(
+                                onTap: () {
+                                  AlertDialog alert = AlertDialog(
+                                    content: Image(
+                                      width: MediaQuery.of(context).size.width -
+                                          32,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              32,
+                                      image: NetworkToFileImage(
+                                        url: snapshot.data.docs[index]
+                                            .data()['imageUrl'],
+                                        file: fileFromDocsDir(
+                                            "${snapshot.data.docs[index].data()['imageUrl'].split('/')[snapshot.data.docs[index].data()['imageUrl'].split('/').length - 1]}.png"),
+                                      ),
+                                    ),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('OK'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  );
 
-                            content: Image(
-                              width:MediaQuery.of(context).size.width-32,
-                              height: MediaQuery.of(context).size.height-32,
-                              image: NetworkToFileImage(
-                                url: snapshot.data.docs[index]
-                                    .data()['imageUrl'],
-                                file: fileFromDocsDir(
-                                    "${snapshot.data.docs[index].data()['imageUrl'].split('/')[snapshot.data.docs[index].data()['imageUrl'].split('/').length-1]}.png"),
-
-                              ),
-                            ),
-                            actions: [
-                              FlatButton(
-                                child: Text('OK'),
-                                onPressed: (){
-                                  Navigator.pop(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return alert;
+                                    },
+                                  );
                                 },
-                              )
-                            ],
-                          );
-
-                          // show the dialog
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return alert;
-                            },
-                          );
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 8, right: 8),
-
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image(
-                                width:100,
-                                height: 150,
-                                image: NetworkToFileImage(
-                                  url: snapshot.data.docs[index]
-                                      .data()['imageUrl'],
-                                  file: fileFromDocsDir(
-                                      "${snapshot.data.docs[index].data()['imageUrl'].split('/')[snapshot.data.docs[index].data()['imageUrl'].split('/').length-1]}.png"),
-
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 8, right: 8),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image(
+                                        width: 100,
+                                        height: 150,
+                                        image: NetworkToFileImage(
+                                          url: snapshot.data.docs[index]
+                                              .data()['imageUrl'],
+                                          file: fileFromDocsDir(
+                                              "${snapshot.data.docs[index].data()['imageUrl'].split('/')[snapshot.data.docs[index].data()['imageUrl'].split('/').length - 1]}.png"),
+                                        ),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(
+                                              '${snapshot.data.docs[index].data()['senderName'].split(' ')[0]} sent a gift ${snapshot.data.docs[index].data()['receiverName'].split(' ')[0]}',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontFamily: 'OpenSans',
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(
+                                              'Gift card worth \$100',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontFamily: 'OpenSans',
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              )
+                            :CircularProgressIndicator();
 
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      '${snapshot.data.docs[index].data()['senderName'].split(' ')[0]} sent a gift ${snapshot.data.docs[index].data()['receiverName'].split(' ')[0]}',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'OpenSans',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text('Gift card worth \$100',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'OpenSans',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
                     },
                   );
-                }
-                return Center(
-                  child: Text('No rewards found'),
-                );
+                }else if(snapshot.connectionState == ConnectionState.waiting){
+                  return Center(child: CircularProgressIndicator());
+                }else
+                return Center(child: Text('No rewards found'));
               }),
         ),
       ),

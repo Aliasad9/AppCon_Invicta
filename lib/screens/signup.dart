@@ -1,4 +1,4 @@
-import 'package:Invicta/screens/admin_screen.dart';
+
 import 'package:Invicta/screens/extra_info_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +29,7 @@ class _LoginState extends State<SignupPage> {
   bool acceptTerms = true;
   String email = '';
   String password = '';
-  bool _success;
+
 
   bool _obscure = true;
   @override

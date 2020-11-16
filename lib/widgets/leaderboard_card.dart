@@ -128,11 +128,11 @@ class LeaderboardCard extends StatelessWidget {
 
   getColor(position) {
     if (position == '2') {
-      return Color(0xFFFFD400);
+      return Color(0xFFC0C0C0);
     } else if (position == '3') {
       return Colors.brown;
     } else {
-      return Color(0xFFE0E0E0);
+      return Color(0xFAE0E0E0);
     }
   }
 }

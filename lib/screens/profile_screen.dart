@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>NotificationScreen(this.widget.user.companyName)));
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>NotificationScreen(this.widget.user.email)));
                                   },
                                 ),
                                 Container(
@@ -230,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 24.0),
+                                        horizontal: 17.0),
                                     child: Column(
                                       children: [
                                         Container(

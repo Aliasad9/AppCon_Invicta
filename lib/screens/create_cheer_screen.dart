@@ -145,7 +145,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       "recipientDetails": {
         "recipientName": receiverName,
         "recipientEmail": recEmail,
-        "message": "Happy Gift ! Cheers...",
+        "message": "Enjoy your gift card! Cheers...",
         "scheduledFor": _getDate() + "T" + _getTime() + ".000Z",
       }
     });

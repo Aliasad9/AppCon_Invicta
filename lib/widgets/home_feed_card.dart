@@ -73,7 +73,7 @@ class HomeFeedCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${timeAgo} ago',
+                      '$timeAgo ago',
                       style: TextStyle(
                         fontFamily: 'OpenSans',
                         fontWeight: FontWeight.w400,
