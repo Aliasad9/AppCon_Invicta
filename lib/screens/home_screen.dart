@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   final String name;
-  final String email;
+  final String companyName;
 
-  HomeScreen(this.name, this.email);
+  HomeScreen(this.name, this.companyName);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -44,8 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             var fetchedJsonData =
                                 snapshot.data.docs[index].data();
                             Cheer cheer = Cheer.fromJson(fetchedJsonData);
-                            if (cheer.senderEmail == this.widget.email ||
-                                cheer.receiverEmail == this.widget.email) {
+                            if (cheer.companyName == this.widget.companyName ) {
                               var timeAgo = Cheer.createdAtToDifference(cheer.createdAt);
                               count++;
 

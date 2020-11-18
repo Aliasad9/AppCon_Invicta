@@ -242,7 +242,6 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   onChangeDropdownItemCategory(Category selectedCompany) {
     setState(() {
       _selectedCompany = selectedCompany;
-
     });
   }
 
@@ -400,7 +399,6 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       child: Row(
         children: [
           InkWell(
-
             onTap: () {
               FocusScope.of(context).unfocus();
               setState(() {
@@ -700,6 +698,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
               cheerType,
               _selectedCompany.name,
               DateTime.now(),
+                prefs.getString('companyName')
             );
             CustomNotificationData notification = CustomNotificationData.name(
               prefs.getString('companyName'),

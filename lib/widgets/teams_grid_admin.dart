@@ -20,10 +20,11 @@ class TeamGridAdmin extends StatelessWidget {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int index) {
                   var name = snapshot.data.docs[index].data()['companyName'];
+                  var description = snapshot.data.docs[index].data()['description'];
 
                   return ListTile(
                     title: Text(name),
-                    subtitle: Text('Mob App Dev'),
+                    subtitle: Text(description),
                   );
                 },
               ),
