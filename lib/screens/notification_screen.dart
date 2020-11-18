@@ -130,7 +130,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     },
                   );
                 }
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               }),
         ),
       ),

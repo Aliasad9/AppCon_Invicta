@@ -20,11 +20,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var initialFriendlinessWidth = 0.05;
-  var initialTeamworkWidth = 0.05;
-  var initialDedicationWidth = 0.05;
-  var initialHardworkWidth = 0.05;
-  var initialProductivityWidth = 0.05;
+  var initialFriendlinessWidth = 0.0;
+  var initialTeamworkWidth = 0.0;
+  var initialDedicationWidth = 0.0;
+  var initialHardworkWidth = 0.0;
+  var initialProductivityWidth = 0.0;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
@@ -74,7 +74,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>RewardsScreen(this.widget.user.email)));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) => RewardsScreen(
+                                                this.widget.user.email)));
                                   },
                                 ),
                                 IconButton(
@@ -83,7 +86,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>NotificationScreen(this.widget.user.email)));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) => NotificationScreen(
+                                                this.widget.user.email)));
                                   },
                                 ),
                                 Container(
@@ -117,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )
                           : Container(
                               height: 25,
-                              margin: EdgeInsets.only(right: 16,top: 16),
+                              margin: EdgeInsets.only(right: 16, top: 16),
                               decoration: BoxDecoration(
                                   color: Colors.red,
                                   borderRadius: BorderRadius.circular(8)),
@@ -150,9 +156,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           children: [
                             Hero(
-                              tag:'myProfile',
+                              tag: 'profile',
                               child: ProfileImage(
-                                imageData: NetworkImage(this.widget.user.imgUrl),
+                                imageData:
+                                    NetworkImage(this.widget.user.imgUrl),
                                 imgDiameter: 72.0,
                                 borderDiameter: 80.0,
                               ),
@@ -279,15 +286,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         getLabelName('Statistics'),
                         getProgressBar('Friendliness', initialFriendlinessWidth,
-                            Theme.of(context).primaryColor, context),
+                            Theme.of(context).primaryColor, context, 1),
                         getProgressBar('Hardwork', initialHardworkWidth,
-                            Colors.green, context),
+                            Colors.green, context, 2),
                         getProgressBar('Dedication', initialDedicationWidth,
-                            Colors.yellow, context),
+                            Colors.yellow, context, 3),
                         getProgressBar('Team Work', initialTeamworkWidth,
-                            Colors.deepPurpleAccent, context),
+                            Colors.deepPurpleAccent, context, 4),
                         getProgressBar('Productivity', initialProductivityWidth,
-                            Colors.red, context),
+                            Colors.red, context, 5),
                         SizedBox(
                           height: 50,
                         )
@@ -333,7 +340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget getProgressBar(labelName, value, color, context) {
+  Widget getProgressBar(labelName, value, color, context, duration) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -355,7 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   AnimatedContainer(
                     height: 36,
                     width: (MediaQuery.of(context).size.width - 32) * value,
-                    duration: Duration(seconds: 5),
+                    duration: Duration(seconds: duration),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
                       color: color,

@@ -45,7 +45,7 @@ class CustomAppBar extends StatelessWidget {
                     MaterialPageRoute(builder: (_) => ProfileScreen(true, user)));
               },
               child: Hero(
-                tag:'myProfile',
+                tag:'profile',
                 child: ProfileImage(
                   imageData: imageData,
                   imgDiameter: 40.0,

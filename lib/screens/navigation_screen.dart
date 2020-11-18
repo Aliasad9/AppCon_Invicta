@@ -1,5 +1,3 @@
-
-
 import 'package:Invicta/data/user.dart';
 import 'package:Invicta/screens/create_cheer_screen.dart';
 import 'package:Invicta/screens/home_screen.dart';

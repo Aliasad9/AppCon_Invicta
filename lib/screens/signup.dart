@@ -157,9 +157,12 @@ class _LoginState extends State<SignupPage> {
                                         padding: const EdgeInsets.only(top: 16),
                                         child: Row(
                                           children: [
-                                            Container(
+                                            Padding(
+                                              padding: const EdgeInsets.only(right:8.0),
+                                              child: Container(
 
-                                              child: Image.asset('assets/images/logo.png',width: 40, height: 40,),
+                                                child: Image.asset('assets/images/logo.png',width: 30, height: 30,),
+                                              ),
                                             ),
                                             Text(
                                               "Invicta",

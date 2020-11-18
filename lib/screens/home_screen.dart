@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
               var count = 0;
               if (!snapshot.hasData) {
                 return SliverToBoxAdapter(
-                  child: CircularProgressIndicator(),
+                  child: Center(child: CircularProgressIndicator()),
                 );
               } else if (snapshot.hasData) {
                 return (snapshot.hasData && snapshot.data.size > 0)

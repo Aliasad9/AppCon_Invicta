@@ -242,6 +242,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   onChangeDropdownItemCategory(Category selectedCompany) {
     setState(() {
       _selectedCompany = selectedCompany;
+
     });
   }
 
@@ -399,7 +400,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       child: Row(
         children: [
           InkWell(
+
             onTap: () {
+              FocusScope.of(context).unfocus();
               setState(() {
                 this.cheerType = 1;
               });
@@ -432,6 +435,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
           ),
           InkWell(
             onTap: () {
+              FocusScope.of(context).unfocus();
               setState(() {
                 this.cheerType = 2;
               });
@@ -460,6 +464,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
           ),
           InkWell(
             onTap: () {
+              FocusScope.of(context).unfocus();
               setState(() {
                 this.cheerType = 3;
               });
@@ -499,6 +504,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
       padding: const EdgeInsets.all(16),
       child: InkWell(
         onTap: () {
+          FocusScope.of(context).unfocus();
           setState(() {
             if (color == Colors.redAccent) {
               _isRedChecked = true;
