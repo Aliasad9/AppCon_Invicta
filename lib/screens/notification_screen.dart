@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:flutter/services.dart';
 class NotificationScreen extends StatefulWidget {
   final email;
 
@@ -16,7 +17,7 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
 
-  @override
+
 
 
   @override
@@ -57,12 +58,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+
                   return ListView.builder(
                     physics: BouncingScrollPhysics(),
                     itemCount: snapshot.data.size,
                     itemBuilder: (context, index) {
                       if (snapshot.data.docs[index].data()['receiverEmail'] ==
                           this.widget.email) {
+
+
+
+
+
 
                         return Container(
                           margin: EdgeInsets.only(left: 8, right: 8),

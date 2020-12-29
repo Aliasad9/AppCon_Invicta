@@ -9,6 +9,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../icons/my_flutter_app_icons.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:flutter/services.dart';
 
 class NavigationScreen extends StatefulWidget {
   final String imgUrl;
@@ -29,14 +31,49 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final databaseReference = FirebaseFirestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
+  void _addBadge() {
+
+    setState(() {
+      FlutterAppBadger.updateBadgeCount(1);
+    });
+
+
+  }
+
+  String _appBadgeSupported = "nothing";
+  initPlatformState() async {
+    String appBadgeSupported;
+    try {
+      bool res = await FlutterAppBadger.isAppBadgeSupported();
+      if (res) {
+        appBadgeSupported = 'Supported';
+        print("supported");
+      } else {
+        appBadgeSupported = 'Not supported';
+        print("not supported");
+      }
+    } on PlatformException {
+      appBadgeSupported = 'Failed to get badge support.';
+      print("failed");
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _appBadgeSupported = appBadgeSupported;
+    });
+  }
+
 
 
   @override
   void initState() {
     super.initState();
+    initPlatformState();
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+        _addBadge();
+
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -54,11 +91,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
         );
       },
       onLaunch: (Map<String, dynamic> message) async {
+
         print("onLaunch: $message");
+        _addBadge();
+
 
       },
       onResume: (Map<String, dynamic> message) async {
+
         print("onResume: $message");
+        _addBadge();
 
       },
       onBackgroundMessage: myBackgroundMessageHandler//Platform.isIOS ? null :myBackgroundMessageHandler

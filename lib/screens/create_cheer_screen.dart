@@ -9,8 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
-import 'package:flutter/services.dart';
+
 
 import 'dart:math';
 import 'package:intl/intl.dart';
@@ -53,34 +52,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
   var receiverEmail;
 
 
-  void _addBadge() {
 
-      FlutterAppBadger.updateBadgeCount(1);
-
-
-  }
-  String _appBadgeSupported = "nothing";
-  initPlatformState() async {
-    String appBadgeSupported;
-    try {
-      bool res = await FlutterAppBadger.isAppBadgeSupported();
-      if (res) {
-        appBadgeSupported = 'Supported';
-        print("supported");
-      } else {
-        appBadgeSupported = 'Not supported';
-        print("not supported");
-      }
-    } on PlatformException {
-      appBadgeSupported = 'Failed to get badge support.';
-      print("failed");
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _appBadgeSupported = appBadgeSupported;
-    });
-  }
   @override
   void dispose() {
     _formKey.currentState.dispose();
@@ -98,7 +70,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
     }
     _dropdownMenuItemsCategory = buildDropdownMenuItemsCategory(_companies);
     _selectedCompany = _dropdownMenuItemsCategory[0].value;
-    initPlatformState();
+
 
     super.initState();
   }
@@ -770,7 +742,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
                     ? this.widget.employee.name
                     : this._selectedEmployee.name,
                 notifTitle);
-            _addBadge();
+
 
             Navigator.pop(context);
             Navigator.pop(context);
@@ -871,9 +843,7 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        setState(() {
-          _addBadge();
-        });
+
         completer.complete(message);
       },
     );
