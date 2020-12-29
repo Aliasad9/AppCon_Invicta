@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 import 'notification_screen.dart';
 
@@ -25,16 +27,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var initialDedicationWidth = 0.0;
   var initialHardworkWidth = 0.0;
   var initialProductivityWidth = 0.0;
+  String _appBadgeSupported = "nothing";
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
+
   void initState() {
-    super.initState();
+    super
+
+        .initState();
+    initPlatformState();
     //Method Called on build complete
     WidgetsBinding.instance
         .addPostFrameCallback((timeStamp) => updateWidth(context));
   }
+  void _removeBadge() {
 
+      FlutterAppBadger.removeBadge();
+
+
+
+  }
+  initPlatformState() async {
+    String appBadgeSupported;
+    try {
+      bool res = await FlutterAppBadger.isAppBadgeSupported();
+      if (res) {
+        appBadgeSupported = 'Supported';
+      } else {
+        appBadgeSupported = 'Not supported';
+      }
+    } on PlatformException {
+      appBadgeSupported = 'Failed to get badge support.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _appBadgeSupported = appBadgeSupported;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -86,6 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
+                                    _removeBadge();
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (_) => NotificationScreen(

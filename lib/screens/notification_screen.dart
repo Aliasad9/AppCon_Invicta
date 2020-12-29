@@ -2,6 +2,8 @@ import 'package:Invicta/data/cheer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:flutter/services.dart';
 
 class NotificationScreen extends StatefulWidget {
   final email;
@@ -13,6 +15,10 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+
+  @override
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -57,6 +63,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     itemBuilder: (context, index) {
                       if (snapshot.data.docs[index].data()['receiverEmail'] ==
                           this.widget.email) {
+
                         return Container(
                           margin: EdgeInsets.only(left: 8, right: 8),
                           decoration: BoxDecoration(
