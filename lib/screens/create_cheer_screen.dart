@@ -871,9 +871,9 @@ class _CreateCheerScreenState extends State<CreateCheerScreen> {
 
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        setState()({
-        _addBadge();
-        })
+        setState(() {
+          _addBadge();
+        });
         completer.complete(message);
       },
     );
